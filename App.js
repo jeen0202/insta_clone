@@ -1,15 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {StackNavigator} from 'react-navigation'
+import MainScreen from './components/MainScreen'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+  return (    
+      <AppStackNavigator/> 
   );
 }
+
+const AppStackNavigator = StackNavigator({
+  Main:{
+    screen: MainScreen
+  }
+})
 
 const styles = StyleSheet.create({
   container: {
