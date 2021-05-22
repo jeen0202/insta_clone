@@ -4,7 +4,8 @@ import 'react-native-gesture-handler'
 import {NavigationContainer } from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
 import LandingScreen from './components/auth/Landing'
-import RegisterScreen from './components/auth/Register';
+import RegisterScreen from './components/auth/Register'
+import LoginScreen from './components/auth/Login'
 
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen name="Landing" component={LandingScreen}         
         options={{headerShow : false}}/>
         <Stack.Screen name="Register" component={RegisterScreen}/>
+        <Stack.Screen name="Login" component={LoginScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
