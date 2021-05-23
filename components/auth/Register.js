@@ -14,10 +14,17 @@ export class Register extends Component {
         this.onSignUp = this.onSignUp.bind(this)
     }
     //firebase를 사용한 register 기능
+    //firestore에 firebase 인증기능을 통해 생성된 uid로 구분되는 document 생성
     onSignUp(){
         const {email, password, name} = this.state;
         firebase.auth().createUserWithEmailAndPassword(email,password)
         .then((result) => {
+            firebase.firestore().collection('users')
+            .doc(firebase.auth().currentUser.uid)
+            .set({
+                name,
+                email,
+            })
             console.log(result)
         })
         .catch((error) => {
