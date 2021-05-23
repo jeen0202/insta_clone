@@ -3,15 +3,21 @@ import React, {Component} from 'react';
 import 'react-native-gesture-handler'
 import {NavigationContainer } from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
+
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
+import MainScreen from './components/Main'
 
 import {View, Text } from 'react-native'
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
-import react from 'react';
-import { RecyclerViewBackedScrollView } from 'react-native';
+//redux 사용
+import {Provider} from 'react-redux'
+import {createStore, applyMiddleware} from 'redux'
+import rootReducer from './redux/reducers'
+import thunk from 'redux-thunk'
+const store = createStore(rootReducer, applyMiddleware(thunk))
 //firbase console에서 config 복붙
 const firebaseConfig = {
   apiKey: "AIzaSyDdJmkm74EDyksSyfKuGdvCkhebsLEmm90",
@@ -73,9 +79,9 @@ export class App extends Component {
       );
     }
     return(
-      <View style={{flex : 1, justifyContent : 'center'}}>
-        <Text>User is Logged In</Text>
-      </View>
+      <Provider store = {store}>
+        <MainScreen/>
+      </Provider>
     )
   }
 }
