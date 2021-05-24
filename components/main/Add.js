@@ -31,6 +31,21 @@ export default function App() {
             setImage(data.uri)            
         }
     }
+    //갤러리에서 사진을 가져오기위한 함수
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          setImage(result.uri);
+        }
+      };
 
     if (hasCameraPermission === null||hasGalleryPermission === null) {
     return <View />;
@@ -58,6 +73,7 @@ export default function App() {
             }}>            
         </Button>
         <Button title = "Take Picture" onPress={() => takePicture()}/>
+        <Button title = "Pick Image From Gallery" onPress={()=> pickImage()}/>
         {image && <Image source = {{uri: image}} style={{flex:1}}/>}        
     </View>
   );
