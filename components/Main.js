@@ -6,6 +6,9 @@ import {bindActionCreators} from 'redux'
 import {fetchUser} from '../redux/actions/index'
 
 import FeedScreen from './main/Feed'
+import AddScreen from './main/Add'
+import ProfileScreen from './main/Profile'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
@@ -24,7 +27,24 @@ export class Main extends Component {
         // }
         return (
             <Tab.Navigator>
-                <Tab.Screen name="Feed" component={FeedScreen} />                
+                <Tab.Screen name="Feed" component={FeedScreen}
+                options={{
+                    tabBarIcon : ({color, size}) => (
+                        <MaterialCommunityIcons name ="home" color = {color} size = {26}/>
+                    ),                    
+                }} />
+                <Tab.Screen name="Add" component={AddScreen}
+                options={{
+                    tabBarIcon : ({color, size}) => (
+                        <MaterialCommunityIcons name ="plus-box" color = {color} size = {26}/>
+                    ),                    
+                }} />
+                <Tab.Screen name="Profile" component={ProfileScreen}
+                options={{
+                    tabBarIcon : ({color, size}) => (
+                        <MaterialCommunityIcons name ="account-circle" color = {color} size = {26}/>
+                    ),                    
+                }} />                
           </Tab.Navigator>
             // <View style={{flex : 1, justifyContent : 'center'}}>
             //     <Text>{currentUser.name} is Logged In</Text>
