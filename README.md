@@ -5,9 +5,7 @@
 npm install @react-navagation/native
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 npm install @react-natvigation/stack @react-navigation/bottom-tabs 
-react-native-vector-icons : icon 사용
-@react-navigation/material-bottom-tabs : bottom tab custom
-react-native-paper : bottom tab custom
+
 ## Firebase config
 1. 새 프로젝트 생성
 2. Authentication 설정
@@ -27,3 +25,12 @@ react-native-paper : bottom tab custom
 UserData를 저장하기 위해 Cloud Firestore 사용
 1. Firebase console에서 Firestore 생성
 2. users Collection 생성및 임시 데이터 추가
+
+## Navigation tab customize
+react-native-vector-icons : icon 사용
+@react-navigation/material-bottom-tabs : bottom tab customize
+react-native-paper : bottom tab customize
+
+## Using Camera
+expo install expo-camera : 카메라 사용을 위한 Package
+expo install expo-image-picker : 앨범접근을 위한 Package
