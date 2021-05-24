@@ -6,13 +6,14 @@ import {bindActionCreators} from 'redux'
 import {fetchUser} from '../redux/actions/index'
 
 import FeedScreen from './main/Feed'
-import AddScreen from './main/Add'
 import ProfileScreen from './main/Profile'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
-
+const EmptyScreen = () => {
+    return(null)
+}
 export class Main extends Component {
     componentDidMount(){
         this.props.fetchUser();
@@ -33,7 +34,13 @@ export class Main extends Component {
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>
                     ),                    
                 }} />
-                <Tab.Screen name="Add" component={AddScreen}
+                <Tab.Screen name="AddContainer" component={EmptyScreen}
+                listeners= {({ navigation}) => ({
+                    tabPress: event => {
+                        event.preventDefault();
+                        navigation.navigate("Add")
+                    }
+                })}
                 options={{
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="plus-box" color = {color} size = {26}/>

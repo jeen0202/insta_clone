@@ -8,7 +8,7 @@ import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
-
+import AddScreen from './components/main/Add'
 import {View, Text } from 'react-native'
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
@@ -82,8 +82,8 @@ export class App extends Component {
       <Provider store = {store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main">
-              <Stack.Screen name="Main" component={MainScreen}         
-              options={{headerShow : false}}/>
+              <Stack.Screen name="Main" component={MainScreen} options={{headerShown : false}}/>
+              <Stack.Screen name="Add" component={AddScreen} options={{headerShown : true}}/>
         </Stack.Navigator>
       </NavigationContainer>
       </Provider>
