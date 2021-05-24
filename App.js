@@ -3,13 +3,15 @@ import React, {Component} from 'react';
 import 'react-native-gesture-handler'
 import {NavigationContainer } from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
+import {View, Text } from 'react-native'
 
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
-import {View, Text } from 'react-native'
+import SaveScreen from './components/main/Save'
+
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
 //redux 사용
@@ -83,7 +85,8 @@ export class App extends Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main">
               <Stack.Screen name="Main" component={MainScreen} options={{headerShown : false}}/>
-              <Stack.Screen name="Add" component={AddScreen} options={{headerShown : true}}/>
+              <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}/>
+              <Stack.Screen name="Save" component={SaveScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       </Provider>
