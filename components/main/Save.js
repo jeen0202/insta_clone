@@ -12,7 +12,7 @@ export default function Save(props) {
     
     const uploadImage= async () =>{
         const uri = props.route.params.image;
-        const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random.toString(36)}`
+        const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`
         console.log(childPath)
 
         const response = await fetch(uri)
