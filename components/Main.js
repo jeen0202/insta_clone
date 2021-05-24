@@ -9,8 +9,8 @@ import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-const Tab = createBottomTabNavigator();
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+const Tab = createMaterialBottomTabNavigator();
 const EmptyScreen = () => {
     return(null)
 }
@@ -27,7 +27,7 @@ export class Main extends Component {
         //     )
         // }
         return (
-            <Tab.Navigator>
+            <Tab.Navigator initialRouteName="Feed" labeled={false}>
                 <Tab.Screen name="Feed" component={FeedScreen}
                 options={{
                     tabBarIcon : ({color, size}) => (

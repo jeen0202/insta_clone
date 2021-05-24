@@ -6,7 +6,8 @@ npm install @react-navagation/native
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 npm install @react-natvigation/stack @react-navigation/bottom-tabs 
 react-native-vector-icons : icon 사용
-
+@react-navigation/material-bottom-tabs : bottom tab custom
+react-native-paper : bottom tab custom
 ## Firebase config
 1. 새 프로젝트 생성
 2. Authentication 설정
