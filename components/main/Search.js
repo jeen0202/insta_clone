@@ -1,9 +1,9 @@
 import React, {useState}from 'react'
-import {View, Text, TextInput, FlatList} from 'react-native'
+import {View, Text, TextInput, FlatList, TouchableOpacity} from 'react-native'
 
 import firebase from 'firebase'
 require('firebase/firestore')
-export default function Search() {
+export default function Search(props) {
     const [users, setUsers] = useState([])
 
     const fetchUsers = (search) => {
@@ -31,7 +31,11 @@ export default function Search() {
                 horizontal={false}
                 data={users}
                 renderItem={({item}) => (
-                    <Text>{item.name}</Text>
+                    <TouchableOpacity
+                        onPress={() => props.navigation.navigate("Profile",{uid: item.id})}>
+                        <Text>{item.name}</Text>
+                    </TouchableOpacity>
+                    
                 )}
             />
         </View>
