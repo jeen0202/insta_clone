@@ -6,6 +6,7 @@ import {fetchUser, fetchUserPosts} from '../redux/actions/index'
 
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
+import SearchScreen from './main/Search'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -32,6 +33,12 @@ export class Main extends Component {
                 options={{
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>
+                    ),                    
+                }} />
+                <Tab.Screen name="Search" component={SearchScreen}
+                options={{
+                    tabBarIcon : ({color, size}) => (
+                        <MaterialCommunityIcons name ="magnify" color = {color} size = {26}/>
                     ),                    
                 }} />
                 <Tab.Screen name="AddContainer" component={EmptyScreen}

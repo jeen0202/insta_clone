@@ -21,8 +21,19 @@ export default function Search() {
         })
     }
     return (
-        <View>
-            <Text>Feed</Text>
+        <View> 
+            <TextInput 
+                placeholder="Type Here..."
+                onChangeText={(search)=>fetchUsers(search)}/>
+
+            <FlatList
+                numColumns={1}
+                horizontal={false}
+                data={users}
+                renderItem={({item}) => (
+                    <Text>{item.name}</Text>
+                )}
+            />
         </View>
     )
 }
