@@ -14,7 +14,7 @@ export default function Search(props) {
         .then((snapshot)=>{
             let users = snapshot.docs.map(doc => {
                 const data = doc.data();
-                const id = doc.id;
+                const id = doc.id;                
                 return{id, ...data}
             })
             setUsers(users); 
