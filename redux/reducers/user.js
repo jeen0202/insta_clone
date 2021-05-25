@@ -17,6 +17,8 @@ export const user = (state = initState, action) => {
                 ...state,
                 posts : action.posts
             }
+        default:
+            return state;
     }
     
 }
