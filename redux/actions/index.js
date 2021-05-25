@@ -29,14 +29,8 @@ export function fetchUserPosts(){
                     const data = doc.data();
                     const id = doc.id;
                     return{id, ...data}
-                })
-                console.log(posts)
+                })                
                 dispatch({type: USER_POST_STATE_CHANGE, posts})
-                // if(snapshot.exists){                    
-                //     dispatch({type : USER_STATE_CHANGE, currentUser : snapshot.data()})
-                // }else{
-                //     console.log('does not exist')
-                // }
             })
     })
 }
