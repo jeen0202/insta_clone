@@ -41,7 +41,8 @@ import {connect} from 'react-redux'
                 setUserPosts(posts)
             })                        
         }
-    })
+    },[props.route.params.uid])
+    //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
     if(user === null){
         return <View/>
     }

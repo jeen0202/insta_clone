@@ -27,9 +27,10 @@ export default function Search(props) {
                 onChangeText={(search)=>fetchUsers(search)}/>
 
             <FlatList
+                style={{marginLeft:10}}
                 numColumns={1}
                 horizontal={false}
-                data={users}
+                data={users}                
                 renderItem={({item}) => (
                     <TouchableOpacity
                         onPress={() => props.navigation.navigate("Profile",{uid: item.id})}>
