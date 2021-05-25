@@ -42,9 +42,15 @@ import {connect} from 'react-redux'
                 setUserPosts(posts)
             })                        
         }
-    },[props.route.params.uid])
+        //선택된 사용자를 follow했는지 확인
+        if(props.following.indexOf(props.route.params.uid) >-1){
+            setFollowing(true)
+        }else{
+            setFollowing(false)
+        }
+    },[props.route.params.uid, props.following])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
-    
+
     const onFollow = () => {
         firebase.firestore()
         .collection("following")
@@ -126,7 +132,8 @@ const styles = StyleSheet.create({
 
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
-    posts: store.userState.posts
+    posts: store.userState.posts,
+    following: store.userState.following
 })
 
 export default connect(mapStatetoProps,null)(Profile);
