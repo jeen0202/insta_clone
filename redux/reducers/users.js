@@ -1,9 +1,9 @@
 import {USERS_DATA_STATE_CHANGE,USERS_POSTS_STATE_CHANGE  } from "../constants"
-import { user } from "./user"
+
 
 const initState = {
     users : [],
-    userLoaded : 0,
+    usersLoaded : 0,
 }
 
 export const users = (state = initState, action) => {
@@ -16,7 +16,7 @@ export const users = (state = initState, action) => {
         case USERS_POSTS_STATE_CHANGE:
             return {
                 ...state,
-                userLoaded : state.userLoaded +1,
+                usersLoaded : state.usersLoaded +1,
                 users : state.users.map(user => user.uid === action.uid ? 
                     {...user,posts:action.posts} :
                     user)
