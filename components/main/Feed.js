@@ -9,7 +9,7 @@ import {connect} from 'react-redux'
 
     useEffect(()=>{
         let posts = [];
-        if(props.usersLoaded == props.following.length){
+        if(props.usersFollowingLoaded == props.following.length){
             for(let i =0 ; i<props.following.length;i++){
                 const user = props.users.find(el => el.uid === props.following[i])
                 if(user != undefined){
@@ -21,7 +21,7 @@ import {connect} from 'react-redux'
             return x.creation - y.creation;
         })
         setPosts(posts);
-    },[props.usersLoaded])
+    },[props.usersFollowingLoaded])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
 
@@ -73,7 +73,7 @@ const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     following: store.userState.following,
     users : store.usersState.users,
-    usersLoaded : store.usersState.usersLoaded
+    usersFollowingLoaded : store.usersState.usersFollowingLoaded,
 })
 
 export default connect(mapStatetoProps,null)(Feed);
