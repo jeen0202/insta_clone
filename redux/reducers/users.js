@@ -1,4 +1,4 @@
-import {USERS_DATA_STATE_CHANGE,USERS_POSTS_STATE_CHANGE  } from "../constants"
+import {CLEAR_DATA, USERS_DATA_STATE_CHANGE,USERS_POSTS_STATE_CHANGE  } from "../constants"
 
 
 const initState = {
@@ -21,6 +21,8 @@ export const users = (state = initState, action) => {
                     {...user,posts:action.posts} :
                     user)
             } 
+            case CLEAR_DATA:
+                return initState         
         default:
             return state;
     }
