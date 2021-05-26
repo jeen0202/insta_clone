@@ -10,7 +10,7 @@ import {connect} from 'react-redux'
      const [following, setFollowing] = useState(false)
     useEffect(()=>{
         const { currentUser, posts} = props;
-        console.log({ currentUser, posts})
+        //console.log({ currentUser, posts})
 
         if(props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)

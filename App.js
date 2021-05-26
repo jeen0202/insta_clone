@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import 'react-native-gesture-handler'
 import {NavigationContainer } from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
-import {View, Text } from 'react-native'
+import {View, Text} from 'react-native'
 
 import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
@@ -11,6 +11,8 @@ import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
+//header 변역ㅇ
+import Feather from 'react-native-vector-icons/Feather'
 
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
@@ -35,6 +37,16 @@ if(firebase.apps.length === 0){
   firebase.initializeApp(firebaseConfig)
 }
 const Stack = createStackNavigator(); 
+
+function Title() {
+  return(
+    <View style={{flex:1, alignItems:"center",flexDirection:'row',justifyContent:"space-between"}}>
+      <Feather name ="camera" style={{fontSize:20}}/>
+      <Text style={{fontSize:20,fontWeight:'bold'}}>Instagram</Text>
+      <Feather name ="send"  style={{fontSize:20}} />
+    </View>
+  )
+}
 
 export class App extends Component {
   constructor(props){
@@ -72,10 +84,9 @@ export class App extends Component {
       return (
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Landing">
-            <Stack.Screen name="Landing" component={LandingScreen}         
-            options={{headerShow : false}}/>
-            <Stack.Screen name="Register" component={RegisterScreen}/>
-            <Stack.Screen name="Login" component={LoginScreen}/>
+            <Stack.Screen name="Landing" component={LandingScreen} options={{headerTitle:"Instagram",headerTitleStyle:{fontWeight:"bold"}}}/>
+            <Stack.Screen name="Register" component={RegisterScreen} options={{headerTitle:"Instagram",headerTitleStyle:{fontWeight:"bold"}}}/>
+            <Stack.Screen name="Login" component={LoginScreen} options={{headerTitle:"Instagram",headerTitleStyle:{fontWeight:"bold"}}}/>
           </Stack.Navigator>
         </NavigationContainer>
       );
@@ -84,7 +95,8 @@ export class App extends Component {
       <Provider store = {store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main">
-              <Stack.Screen name="Main" component={MainScreen} />
+              <Stack.Screen name="Main" component={MainScreen} 
+              options={{headerTitle: props => <Title {...props} />}}/>
               <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation}/>
         </Stack.Navigator>
