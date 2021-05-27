@@ -40,7 +40,7 @@ export default function App({navigation}) {
           quality: 1,
         });
     
-        console.log(result);
+       // console.log(result);
     
         if (!result.cancelled) {
           setImage(result.uri);

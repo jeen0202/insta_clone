@@ -7,23 +7,37 @@ import {connect} from 'react-redux'
  function Feed(props) {
     const [posts, setPosts] = useState([]);
 
-    useEffect(()=>{
-        let posts = [];
-        if(props.usersFollowingLoaded == props.following.length){
-            for(let i =0 ; i<props.following.length;i++){
-                const user = props.users.find(el => el.uid === props.following[i])
-                if(user != undefined){
-                    posts = [...posts, ...user.posts]
-                }
-            }
-        }
-        posts.sort(function(x,y) {
-            return x.creation - y.creation;
-        })
-        setPosts(posts);
-    },[props.usersFollowingLoaded])
+    useEffect(()=>{       
+        if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
+            props.feed.sort(function(x,y) {
+                return x.creation - y.creation;
+            })
+            setPosts(props.feed); 
+        }       
+        console.log(posts)
+    },[props.usersFollowingLoaded, props.feed])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
+    const onLikePress = (uid,postId) => {
+        firebase.firestore()
+            .collection("posts")
+            .doc(uid)
+            .collection("userPosts")
+            .doc(postId)
+            .collection("likes")    
+            .doc(firebase.auth().currentUser.uid)
+            .set({})
+    }
+    const onDisLikePress = (uid, postId) => {
+        firebase.firestore()
+            .collection("posts")
+            .doc(uid)
+            .collection("userPosts")
+            .doc(postId)
+            .collection("likes")    
+            .doc(firebase.auth().currentUser.uid)
+            .delete()
+    }
 
     return (
         <View style={styles.container}>
@@ -36,8 +50,21 @@ import {connect} from 'react-redux'
                         <View style={styles.containerImage}>
                             <Text style={styles.container}>{item.user.name}</Text>
                         <Image style={styles.image}
+                            
                             source={{uri : item.downloadURL}}
                         />
+                        {item.currentUserLike ? 
+                        (
+                            <Button
+                            title="Dislike"
+                            onPress={() => onDisLikePress(item.user.uid,item.id)}/>
+                        ):
+                        (
+                            <Button
+                            title="Like"
+                            onPress={() => onLikePress(item.user.uid,item.id)}/>
+                        )    
+                    }
                         <Text
                             onPress={()=>
                                 props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid})
@@ -72,7 +99,7 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     following: store.userState.following,
-    users : store.usersState.users,
+    feed : store.usersState.feed,
     usersFollowingLoaded : store.usersState.usersFollowingLoaded,
 })
 
