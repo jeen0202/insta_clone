@@ -14,7 +14,7 @@ import {connect} from 'react-redux'
             })
             setPosts(props.feed); 
         }       
-        console.log(posts)
+        //console.log(posts)
     },[props.usersFollowingLoaded, props.feed])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
