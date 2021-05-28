@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { View, Button,Text, TextInput, StyleSheet } from 'react-native'
 import firebase from 'firebase'
-import { BottomTabBar } from '@react-navigation/bottom-tabs';
 
 export class Register extends Component {
     constructor(props){
@@ -43,7 +42,7 @@ export class Register extends Component {
                 <Text
                 style={{
                     marginTop: 5,
-                    marginBottom:'10%',
+                    marginBottom:10,
                     fontSize:20,
                     textAlign:'center',
                     color: 'lightgrey',
@@ -81,21 +80,23 @@ export class Register extends Component {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex : 4/5,        
+    container:{       
+        marginBottom:44,        
+        minHeight: 900,        
         justifyContent: 'center',
         alignItems : 'center',                
     },
     buttonBox :{
         flex : 1/2,
-        paddingHorizontal:10,
-        maxWidth:300,                     
+       
+        maxWidth:300,
+        padding: 10,                     
         backgroundColor: 'white',
-        justifyContent: 'center',        
-        borderStyle:'solid',
-        alignItems : 'stretch',
+        justifyContent: 'space-evenly',
+        alignItems : 'stretch',        
+        marginBottom : 10,
         borderColor: '#dbdbdb',
-        borderWidth: '1px',
+        borderWidth: 1,
         borderStyle: 'solid'
         //border: 1px solid #dbdbdb;        
     },
@@ -110,19 +111,19 @@ const styles = StyleSheet.create({
         flexDirection:'row',        
         paddingHorizontal:10,
         borderColor: '#dbdbdb',
-        borderWidth: '1px',
+        borderWidth: 1,
         borderStyle: 'solid',
-        marginBottom: '10px',
+        marginBottom: 10,
     },
     inputText :{
-        flex:1,
+        flex:1/8,
         fontSize:15,
-        paddingLeft:"8px",
-        paddingTop: "9px",
-        paddingBottom: '7px',        
-        marginVertical : '5px',
+        paddingLeft:8,
+        paddingTop: 9,
+        paddingBottom: 7,        
+        marginVertical : 5,
         borderColor: '#dbdbdb',
-        borderWidth: '1px',
+        borderWidth: 1,
         borderStyle: 'solid'
                     
     }    
