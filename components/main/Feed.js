@@ -54,22 +54,25 @@ import {connect} from 'react-redux'
                             
                             source={{uri : item.downloadURL}}
                         />
-                        {item.currentUserLike ? 
-                        (
-                            <Button
-                            title="Dislike"
-                            onPress={() => onDisLikePress(item.user.uid,item.id)}/>
-                        ):
-                        (
-                            <Button
-                            title="Like"
-                            onPress={() => onLikePress(item.user.uid,item.id)}/>
-                        )    
-                    }
-                        <Text
-                            onPress={()=>
+                        <View style={styles.imagefooter}>
+                            <Text
+                                onPress={()=>
                                 props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid})
                                 }>View Comments...</Text>
+                            {item.currentUserLike ? 
+                            (
+                                <Button
+                                title="Dislike"
+                                onPress={() => onDisLikePress(item.user.uid,item.id)}/>
+                            ):
+                            (
+                                <Button
+                                title="Like"
+                                onPress={() => onLikePress(item.user.uid,item.id)}/>
+                            )    
+                        }
+
+                            </View>
                         </View>
                     )}
                 />
@@ -98,6 +101,10 @@ const styles = StyleSheet.create({
     imageheader: {
         flex : 1,                
         fontWeight:'bold',       
+    },
+    imagefooter : {
+        flexDirection: 'row',
+        justifyContent:'space-between'
     }
 })
 
