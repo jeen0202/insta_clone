@@ -14,7 +14,7 @@ import {connect} from 'react-redux'
             })
             setPosts(props.feed); 
         }       
-        //console.log(posts)
+        console.log(posts)
     },[props.usersFollowingLoaded, props.feed])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
@@ -48,7 +48,8 @@ import {connect} from 'react-redux'
                     data={posts}
                     renderItem={({item})=>(
                         <View style={styles.containerImage}>
-                            <Text style={styles.container}>{item.user.name}</Text>
+                            <Text style={styles.imageheader}>{item.user.name}</Text>       
+                            <Text style={{paddingBottom:10,}}>{`${item.creation.toDate()}`}</Text>                     
                         <Image style={styles.image}
                             
                             source={{uri : item.downloadURL}}
@@ -88,11 +89,15 @@ const styles = StyleSheet.create({
         flex:1
     },
     containerImage: {
-        flex: 1/3
+        flex: 1/3,        
     },
     image: {
         flex: 1,
         aspectRatio: 1/1
+    },
+    imageheader: {
+        flex : 1,                
+        fontWeight:'bold',       
     }
 })
 
