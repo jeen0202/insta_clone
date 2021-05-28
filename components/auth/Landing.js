@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         flexDirection:'row'
     },
     inputText :{
-        flex:1,
+        flex:'80%',
         fontSize:26,               
     } 
 })

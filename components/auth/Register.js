@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Button, TextInput, StyleSheet } from 'react-native'
+import { View, Button,Text, TextInput, StyleSheet } from 'react-native'
 import firebase from 'firebase'
+import { BottomTabBar } from '@react-navigation/bottom-tabs';
 
 export class Register extends Component {
     constructor(props){
@@ -34,42 +35,105 @@ export class Register extends Component {
     render() {
         return (            
             <View style={styles.container}>
+            <View style = {styles.buttonBox}>
+                <Text
+                style={
+                    {fontSize:30,fontWeight:'bold',textAlign:'center'}}
+                    >Instagram</Text>
+                <Text
+                style={{
+                    marginTop: 5,
+                    marginBottom:'10%',
+                    fontSize:20,
+                    textAlign:'center',
+                    color: 'lightgrey',
+                    fontWeight:'bold',
+                }}
+                >친구들의 사진과 동영상을 보려면 가입하세요</Text>
                 <TextInput style={styles.inputText}
-                    placeholder="name"
-                    onChangeText={(name) => this.setState({ name })}
-                />
-                <TextInput style={styles.inputText}
-                    placeholder="email"
-                    onChangeText={(email) => this.setState({ email })}
-                />
-                <TextInput style={styles.inputText}
-                    placeholder="password"
-                    secureTextEntry={true} //보안기능
-                    onChangeText={(password) => this.setState({ password })}
-                />
+                        placeholder="사용자이름"
+                        onChangeText={(name) => this.setState({ name })}
+                    />
+                    <TextInput style={styles.inputText}
+                        placeholder="이메일 주소"
+                        onChangeText={(email) => this.setState({ email })}
+                    />
+                    <TextInput style={styles.inputText}
+                        placeholder="비밀번호"
+                        secureTextEntry={true} //보안기능
+                        onChangeText={(password) => this.setState({ password })}
+                    />
                 <Button
                     onPress={() => this.onSignUp()}
                     title = "Sign Up"
                 />
             </View>
-            
+            <View style={styles.loginBox}>
+                <Text>이미 계정이 있으신가요?</Text>
+                <Text
+                style={{color:'#6495ED'}}
+                onPress={() => this.props.navigation.navigate("Login")}
+                >  Login</Text>
+            </View>  
+        </View>            
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container : {
-        flex:1,        
-        justifyContent:'center',
-        alignSelf:'center',       
-        
-              
+    container:{
+        flex : 4/5,        
+        justifyContent: 'center',
+        alignItems : 'center',                
+    },
+    buttonBox :{
+        flex : 1/2,
+        paddingHorizontal:10,
+        maxWidth:300,                     
+        backgroundColor: 'white',
+        justifyContent: 'center',        
+        borderStyle:'solid',
+        alignItems : 'stretch',
+        borderColor: '#dbdbdb',
+        borderWidth: '1px',
+        borderStyle: 'solid'
+        //border: 1px solid #dbdbdb;        
+    },
+    loginBox :{
+        marginTop: 10,
+        paddingVertical: 10,   
+        alignItems : 'stretch',            
+        width: 300,
+        justifyContent: 'center',
+        alignItems : 'stretch',
+        backgroundColor: 'white',
+        flexDirection:'row',        
+        paddingHorizontal:10,
+        borderColor: '#dbdbdb',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        marginBottom: '10px',
     },
     inputText :{
-        flex:1/10,
-        fontSize:26,
-               
+        flex:1,
+        fontSize:15,
+        paddingLeft:"8px",
+        paddingTop: "9px",
+        paddingBottom: '7px',        
+        marginVertical : '5px',
+        borderColor: '#dbdbdb',
+        borderWidth: '1px',
+        borderStyle: 'solid'
+                    
     }    
 })
 
 export default Register
+//alignItems : 'stretch',            
+//maxWidth:300,
+//justifyContent: 'center',
+//alignItems : 'stretch',
+//backgroundColor: 'white',
+//flexDirection:'row',
+//maxWidth : 300,
+//paddingHorizontal:10,

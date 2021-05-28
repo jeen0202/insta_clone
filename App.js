@@ -84,8 +84,8 @@ export class App extends Component {
     if(!loggedIn){
       return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Landing">
-            <Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}/>
+          <Stack.Navigator initialRouteName="Register">
+            {/* {}<Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}/> */}
             <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown:false}}/>
             <Stack.Screen name="Login" component={LoginScreen} options={{headerTitle:"Instagram",headerTitleStyle:{fontWeight:"bold"}}}/>
           </Stack.Navigator>
