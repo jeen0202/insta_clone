@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet,View,  Image, FlatList, } from 'react-native'
+import moment from 'moment'
 
 import { Container,Card, CardItem, Text,Thumbnail, Body, Left, Right, Icon,Button } from 'native-base';
 
@@ -56,7 +57,7 @@ import {connect} from 'react-redux'
                                     <Thumbnail source={{uri: 'image URL'}}/>
                                     <Body>                                                                                               
                                         <Text>{item.user.name}</Text>       
-                                        <Text note >{`${item.creation.toDate()}`}</Text> 
+                                        <Text note >{`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`}</Text> 
                                     </Body>                                                               
                                 </Left>
                                 <Right>
