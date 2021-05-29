@@ -63,9 +63,7 @@ export class Main extends Component {
                     ),                    
                 }} />                
           </Tab.Navigator>
-            // <View style={{flex : 1, justifyContent : 'center'}}>
-            //     <Text>{currentUser.name} is Logged In</Text>
-            // </View>
+
         )
     }
 }

@@ -102,7 +102,8 @@ export class App extends Component {
         <Stack.Navigator initialRouteName="Main">
               <Stack.Screen name="Main" component={MainScreen} navigtaion={this.props.navigation} 
               options={{headerTitle:"Instagram",headerTitleAlign:'center',headerTitleStyle:{fontWeight:'bold'}}}/>
-              <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}/>
+              <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}
+              options={{headerShown:false}}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation}/>
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation}/>
         </Stack.Navigator>
