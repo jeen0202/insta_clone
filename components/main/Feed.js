@@ -54,7 +54,8 @@ import {connect} from 'react-redux'
                         <Card style={styles.containerImage}>
                             <CardItem>
                                 <Left>
-                                    <Thumbnail source={{uri: 'image URL'}}/>
+                                    {/* <Thumbnail source={{uri: 'image URL'}}/> */}
+                                    <Icon name='person-circle-outline'/>
                                     <Body>                                                                                               
                                         <Text>{item.user.name}</Text>       
                                         <Text note >{`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`}</Text> 
