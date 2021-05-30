@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import {Text, View, Button, TextInput,StyleSheet } from 'react-native'
+import {View, TextInput,StyleSheet, ToastAndroid } from 'react-native'
+import {Text, Content, Button} from 'native-base'
 import firebase from 'firebase'
 
 export class Login extends Component {
@@ -17,15 +18,16 @@ export class Login extends Component {
         const {email, password} = this.state;
         firebase.auth().signInWithEmailAndPassword(email,password)
         .then((result) => {
-            console.log(result)
+            //console.log(result)
         })
         .catch((error) => {
-            console.log(error)
+            alert(error)
+            //console.log(error)
         })
     }
     render() {
         return (
-            <View style={styles.container}>
+            <Content contentContainerStyle={styles.container}>
                 <View style={styles.loginForm}>
                     <Text
                     style={
@@ -43,10 +45,12 @@ export class Login extends Component {
                         onChangeText={(password) => this.setState({ password })}
                     />
 
-                    <Button
-                        onPress={() => this.onSignUp()}
-                        title = "Sign in"
-                    />
+                    <Button full info
+                        onPress={() => this.onSignUp()}>
+                            <Text>Sign Up</Text>
+                        </Button>
+                        
+                    
                 </View>
                 <View style={styles.registerBox}>
                 <Text>계정이 없으신가요?</Text>
@@ -55,22 +59,23 @@ export class Login extends Component {
                 onPress={() => this.props.navigation.navigate("Register")}
                 > 가입하기</Text>
             </View>
-            </View>
+            </Content>
         )
     }
 }
 
 const styles = StyleSheet.create({
     container:{ 
+        flex:1,
         marginBottom: 44, 
-        minHeight: 600,       
+        minHeight: 700,       
         justifyContent: "center",
         alignItems: "center",
              
         
     },
     loginForm:{
-        flex : 3/5,        
+        flex : 2/5,        
         width : 300,                
         paddingHorizontal: 10,
         justifyContent: 'space-evenly',
