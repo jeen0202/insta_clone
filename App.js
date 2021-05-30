@@ -14,7 +14,7 @@ import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 //header 변역ㅇ
 import Feather from 'react-native-vector-icons/Feather'
-
+import {Root} from 'native-base'
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
 //redux 사용
@@ -87,6 +87,7 @@ export class App extends Component {
     }
     if(!loggedIn){
       return (
+        <Root>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Register">
             {/* {}<Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}/> */}
@@ -94,6 +95,7 @@ export class App extends Component {
             <Stack.Screen name="Login" component={LoginScreen} options={{headerShown:false}}/>
           </Stack.Navigator>
         </NavigationContainer>
+        </Root>
       );
     }
     return(

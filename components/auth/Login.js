@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {View, TextInput,StyleSheet, ToastAndroid } from 'react-native'
-import {Text, Content, Button} from 'native-base'
+import {View, TextInput,StyleSheet, Button, } from 'react-native'
+import {Text, Content,Toast} from 'native-base'
 import firebase from 'firebase'
 
 export class Login extends Component {
@@ -21,7 +21,10 @@ export class Login extends Component {
             //console.log(result)
         })
         .catch((error) => {
-            alert(error)
+            Toast.show({
+                text: error,
+                buttonText: 'Okay',
+            })
             //console.log(error)
         })
     }
@@ -44,11 +47,11 @@ export class Login extends Component {
                         secureTextEntry={true} //보안기능
                         onChangeText={(password) => this.setState({ password })}
                     />
-
-                    <Button full info
-                        onPress={() => this.onSignUp()}>
-                            <Text>Sign Up</Text>
-                        </Button>
+                    <Button
+                        onPress={() => this.onSignUp()}
+                        title = "Sign Up"/>
+                         
+                   
                         
                     
                 </View>
