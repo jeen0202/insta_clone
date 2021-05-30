@@ -63,7 +63,7 @@ import {connect} from 'react-redux'
                                 </Left>
                                 <Right>
                                     <Button transparent>
-                                        <Icon name="ellipsis-horizontal-outline"/>
+                                        <Icon name="ellipsis-horizontal-outline" style={{color:'black'}}/>
                                     </Button>
                                 </Right>
                             </CardItem>
@@ -81,13 +81,13 @@ import {connect} from 'react-redux'
                                     (
                                         <Button transparent                                
                                         onPress={() => onDisLikePress(item.user.uid,item.id)}>
-                                            <Icon name='heart'/>
+                                            <Icon name='heart' style={{color:'black'}}/>
                                         </Button>
                                     ):
                                     (
                                         <Button transparent
                                         onPress={() => onLikePress(item.user.uid,item.id)}>
-                                            <Icon name='heart-outline'/>                                    
+                                            <Icon name='heart-outline' style={{color:'black'}}/>                                    
                                         </Button>
                                         // <Button
                                         // title="Like"
@@ -98,7 +98,10 @@ import {connect} from 'react-redux'
                                 onPress={()=>
                                     props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid})
                                     }>
-                                    <Icon name ='chatbubble-outline'/>
+                                    <Icon name ='chatbubble-ellipses-outline' style={{color:'black'}}/>
+                                </Button>
+                                <Button transparent>
+                                    <Icon name = 'paper-plane-outline' style={{color:'black'}}/>
                                 </Button>
                             </CardItem>
                         </Card>
