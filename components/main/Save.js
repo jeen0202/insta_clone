@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
-import {View, TextInput, Image,Button} from 'react-native'
-
+import {View, TextInput, Text,Image} from 'react-native'
+import {Container,Content,Button,Header} from 'native-base'
 import firebase from 'firebase/app'
 require("firebase/firestore")
 require("firebase/firebase-storage")
@@ -9,12 +9,12 @@ export default function Save(props, {navigation}) {
     // console.log(props.route.params.image)
     //text 입력을 위한 hook 사용
     const [caption, setCaption] = useState("")
-    
+    const [buttonState, setButtonState] = useState(true)
     const uploadImage= async () =>{
         const uri = props.route.params.image;
         const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`
-        console.log(childPath)
-
+        //console.log(childPath)
+        setButtonState(false);
         const response = await fetch(uri)
         const blob = await response.blob();
         //firebase-storage에 random한 id로 data 저장
@@ -47,13 +47,32 @@ export default function Save(props, {navigation}) {
         }))
     }
     return (
-        <View style={{flex:1}}>
-            <Image source={{uri:props.route.params.image}}/>
-            <TextInput
+        <Container>            
+            <Content contentContainerStyle={{justifyContent:'center'}}>
+                <Image source={{uri:props.route.params.image}}/>
+                <TextInput
                 placeholder="Write a Caption . . ."
                 onChangeText={(caption) => setCaption(caption)}
-            />
-            <Button title="Save" onPress={()=> uploadImage()}/>
-        </View>
+                />
+                {buttonState ?
+                <Button full info
+                onPress={()=> {
+                    uploadImage();
+                    }}>
+                <Text>Save</Text>
+                </Button> : 
+                <Button disabled full>
+                    <Text>Save</Text></Button>}
+                
+            </Content>
+        </Container>
+        // <View style={{flex:1}}>
+        //     <Image source={{uri:props.route.params.image}}/>
+        //     <TextInput
+        //         placeholder="Write a Caption . . ."
+        //         onChangeText={(caption) => setCaption(caption)}
+        //     />
+        //     <Button title="Save" onPress={()=> uploadImage()}/>
+        // </View>
     )
 }

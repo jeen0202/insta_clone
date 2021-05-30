@@ -87,8 +87,7 @@ const styles = StyleSheet.create({
         alignItems : 'center',                
     },
     buttonBox :{
-        flex : 1/2,
-       
+        flex : 1/2,       
         maxWidth:300,
         padding: 10,                     
         backgroundColor: 'white',
