@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Button,Text, TextInput, StyleSheet } from 'react-native'
+import { View, Button, TextInput, StyleSheet } from 'react-native'
+import {Text,Content,Toast} from 'native-base'
 import firebase from 'firebase'
 
 export class Register extends Component {
@@ -25,15 +26,18 @@ export class Register extends Component {
                 name,
                 email,
             })
-            console.log(result)
+            //console.log(result)
         })
         .catch((error) => {
-            console.log(error)
+            Toast.show({
+                text: error.toString(),
+                buttonText: 'Okay',
+            })
         })
     }
     render() {
         return (            
-            <View style={styles.container}>
+            <Content contentContainerStyle={styles.container}>
             <View style = {styles.buttonBox}>
                 <Text
                 style={
@@ -64,7 +68,7 @@ export class Register extends Component {
                     />
                 <Button
                     onPress={() => this.onSignUp()}
-                    title = "Sign Up"
+                    title = "회원가입"
                 />
             </View>
             <View style={styles.loginBox}>
@@ -74,13 +78,14 @@ export class Register extends Component {
                 onPress={() => this.props.navigation.navigate("Login")}
                 >  Login</Text>
             </View>  
-        </View>            
+        </Content>            
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container:{       
+    container:{    
+        flex:1,   
         marginBottom:44,        
         minHeight: 900,        
         justifyContent: 'center',

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {View, TextInput,StyleSheet, Button, } from 'react-native'
 import {Text, Content,Toast} from 'native-base'
-import {Font} from 'expo';
 import firebase from 'firebase'
 
 export class Login extends Component {
@@ -39,18 +38,18 @@ export class Login extends Component {
                         >Instagram</Text>
                     <TextInput
                         style={styles.inputText}
-                        placeholder="email"
+                        placeholder="이메일 주소"
                         onChangeText={(email) => this.setState({ email })}
                     />
                     <TextInput
                     style={styles.inputText}
-                        placeholder="password"
+                        placeholder="비밀번호"
                         secureTextEntry={true} //보안기능
                         onChangeText={(password) => this.setState({ password })}
                     />
                     <Button
                         onPress={() => this.onSignUp()}
-                        title = "Sign Up"/>
+                        title = "로그인"/>
                          
                    
                         
