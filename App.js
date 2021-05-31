@@ -14,7 +14,9 @@ import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 //header 변역ㅇ
 import Feather from 'react-native-vector-icons/Feather'
-import {Root} from 'native-base'
+import { Root } from "native-base";
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 //firebase 사용
 import firebase from 'firebase/app'; //기존 firebase => firbase/app
 //redux 사용
@@ -61,7 +63,12 @@ export class App extends Component {
 
     }
   }
-  componentDidMount(){
+  async componentDidMount(){
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
     firebase.auth().onAuthStateChanged(((user)=> {
       if(!user){
         this.setState({
@@ -75,6 +82,7 @@ export class App extends Component {
         })
       }
     }))
+
   }
   render() {
     const { loggedIn, loaded } = this.state
