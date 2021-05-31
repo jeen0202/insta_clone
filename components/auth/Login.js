@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {View, TextInput,StyleSheet, Button, } from 'react-native'
 import {Text, Content,Toast} from 'native-base'
+import {Font} from 'expo';
 import firebase from 'firebase'
 
 export class Login extends Component {
@@ -22,7 +23,7 @@ export class Login extends Component {
         })
         .catch((error) => {
             Toast.show({
-                text: error,
+                text: error.toString(),
                 buttonText: 'Okay',
             })
             //console.log(error)
