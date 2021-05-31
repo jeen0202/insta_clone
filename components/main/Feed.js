@@ -95,9 +95,9 @@ import {connect} from 'react-redux'
                                     )
                                 }
                                 <Button transparent
-                                onPress={()=>
-                                    props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid})
-                                    }>
+                                onPress={()=>{                                    
+                                    props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid, downloadURL: item.downloadURL})
+                                }}>
                                     <Icon name ='chatbubble-ellipses-outline' style={{color:'black'}}/>
                                 </Button>
                                 <Button transparent>
