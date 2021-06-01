@@ -26,7 +26,7 @@ export class Main extends Component {
 
         return (
             <Tab.Navigator initialRouteName="Feed" labeled={false}>
-                <Tab.Screen name="Feed" component={FeedScreen}                
+                <Tab.Screen name="Feed" component={FeedScreen} navigation={this.props.navigation}                
                 options={{                    
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>

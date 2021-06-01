@@ -10,12 +10,12 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {fetchUsersData} from '../../redux/actions/index'
 
-function Comment(props, {navigation}) {
+function Comment(props) {
     const [comments, setComments ] = useState([])
     const [postId, setPostId] = useState("")
     const [text, setText] = useState("")
     const [downloadURL,setDownloadURL] =useState(props.route.params.downloadURL) 
-    useEffect( () => {        
+    useEffect( () => {
         function matchUserToComment(comments){
             for(let i=0;i<comments.length;i++){
                 if(comments[i].hasOwnProperty ('user')){
@@ -30,7 +30,6 @@ function Comment(props, {navigation}) {
             }
             setComments(comments)                      
         }
-
         if(props.route.params.postId !== postId){
             firebase.firestore()
             .collection("posts")
@@ -48,8 +47,10 @@ function Comment(props, {navigation}) {
                 matchUserToComment(comments);               
             })
             setPostId(props.route.params.postId)
-        }
-            matchUserToComment(comments);       
+        }else{
+            matchUserToComment(comments);
+        }   
+    
 
     },[props.route.params.postId, props.users,text])
     const onCommentSend = () => {
@@ -62,7 +63,9 @@ function Comment(props, {navigation}) {
         .add({
             creator : firebase.auth().currentUser.uid,
             text,
-        })        
+        })
+        props.navigation.push('Comment',{postId: props.route.params.postId, uid:props.route.params.uid, downloadURL: props.route.params.downloadURL})
+               
     }     
     return (
         <Container>            
