@@ -9,14 +9,14 @@ require('firebase/firestore')
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {fetchUsersData} from '../../redux/actions/index'
+import { set } from 'react-native-reanimated'
 
 function Comment(props) {
     const [comments, setComments ] = useState([])
     const [postId, setPostId] = useState("")
     const [text, setText] = useState("")
-    const [downloadURL,setDownloadURL] =useState(props.route.params.downloadURL)
-    const [onAdd, setonAdd] = useState(false)
-
+    const [downloadURL,setDownloadURL] =useState(props.route.params.downloadURL)    
+    const [onAdd, setOnAdd] = useState(false)
     useEffect( () => {        
         function matchUserToComment(comments){
             for(let i=0;i<comments.length;i++){
@@ -30,7 +30,7 @@ function Comment(props) {
                     comments[i].user = user;
                 }
             }
-            setComments(comments)            
+            setComments(comments)                      
         }
 
         if(props.route.params.postId !== postId){
@@ -50,10 +50,10 @@ function Comment(props) {
                 matchUserToComment(comments);               
             })
             setPostId(props.route.params.postId)
-        }else{
-            matchUserToComment(comments);
         }
-    },[props.route.params.postId, props.users])
+            matchUserToComment(comments);
+        
+    },[props.route.params.postId, props.users,text, onAdd])
     const onCommentSend = () => {
         firebase.firestore()
         .collection("posts")
@@ -65,8 +65,8 @@ function Comment(props) {
             creator : firebase.auth().currentUser.uid,
             text,
         })
-    }
-
+        .then(setOnAdd(true))
+    }     
     return (
         <Container>            
             <Image
@@ -74,6 +74,7 @@ function Comment(props) {
                         aspectRatio: 1/1}}
                     source={{uri:downloadURL}}/>            
                 <FlatList
+                    extraData ={onAdd}
                     numColumns = {1}
                     horizontal= {false}
                     data={comments}
