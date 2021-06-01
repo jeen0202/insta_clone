@@ -15,9 +15,9 @@ function Comment(props) {
     const [postId, setPostId] = useState("")
     const [text, setText] = useState("")
     const [downloadURL,setDownloadURL] =useState(props.route.params.downloadURL)
+    const [onAdd, setonAdd] = useState(false)
 
-    useEffect( () => {
-        // console.log(props.route.params.downloadURL)
+    useEffect( () => {        
         function matchUserToComment(comments){
             for(let i=0;i<comments.length;i++){
                 if(comments[i].hasOwnProperty ('user')){
@@ -68,29 +68,26 @@ function Comment(props) {
     }
 
     return (
-        <Container>
-            <Content>
-            <Card>                
-                <Image
+        <Container>            
+            <Image
                     style={{
                         aspectRatio: 1/1}}
-                    source={{uri:downloadURL}}/>                             
-            <FlatList
-                numColumns = {1}
-                horizontal= {false}
-                data={comments}
-                renderItem={({item}) => (
-                    <CardItem style={{flex:1/3,}}>
-                        {item.user !== undefined ? 
-                        <Text style={{fontWeight:"bold",}}>
-                            {item.user.name}
-                        </Text>
-                        :null}
-                        <Text>    {item.text}</Text>
-                    </CardItem>
-                )}
-            />
-                      
+                    source={{uri:downloadURL}}/>            
+                <FlatList
+                    numColumns = {1}
+                    horizontal= {false}
+                    data={comments}
+                    renderItem={({item}) => (
+                        <CardItem style={{flex:1/3,}}>
+                            {item.user !== undefined ? 
+                            <Text style={{fontWeight:"bold",}}>
+                                {item.user.name}
+                            </Text>
+                            :null}
+                            <Text>    {item.text}</Text>
+                        </CardItem>
+                    )}
+                />                 
             <View>
                 <TextInput
                     placeholder='comment...'
@@ -98,9 +95,7 @@ function Comment(props) {
                 <Button
                     onPress={() => onCommentSend()}
                     title = "Send"/>                    
-            </View>
-            </Card>
-            </Content>
+            </View>                           
         </Container>
     )
 }
