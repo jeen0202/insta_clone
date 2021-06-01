@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet,View,  Image, FlatList, } from 'react-native'
 import moment from 'moment'
-
-import { Container,Card, CardItem, Text,Thumbnail, Body, Left, Right, Icon,Button } from 'native-base';
+import insta_logo from '../../assets/insta_logo.png'
+import { Container,Header,Card, CardItem, Text,Thumbnail, Body, Left, Right, Icon,Button } from 'native-base';
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -45,6 +45,11 @@ import {connect} from 'react-redux'
 
     return (
         <Container style={styles.container}>
+            <Header style={styles.header}>
+            <Image
+            source={insta_logo}
+            />
+            </Header>
             <View style={styles.containerGallery}>
                 <FlatList
                     numColumns={1}
@@ -115,6 +120,11 @@ import {connect} from 'react-redux'
 const styles = StyleSheet.create({
     container : {
         flex : 1,                
+    },
+    header:{
+        alignItems:'center',
+        justifyContent:'flex-start',        
+        backgroundColor:'white'
     },
     containerInfo:{
         margin :20,
