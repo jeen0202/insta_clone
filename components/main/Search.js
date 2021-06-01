@@ -7,9 +7,11 @@ export default function Search(props) {
     const [users, setUsers] = useState([])
 
     const fetchUsers = (search) => {
+        const offset = search+"\uF7FF";
         firebase.firestore()
         .collection('users')
         .where('name','>=',search)
+        .where('name', '<=',offset )
         .get()
         .then((snapshot)=>{
             let users = snapshot.docs.map(doc => {
