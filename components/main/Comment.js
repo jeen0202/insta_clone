@@ -29,29 +29,30 @@ function Comment(props) {
                 }
             }
             setComments(comments)                      
-        }
-        if(props.route.params.postId !== postId){
-            firebase.firestore()
-            .collection("posts")
-            .doc(props.route.params.uid)
-            .collection("userPosts")
-            .doc(props.route.params.postId)
-            .collection('comments')
-            .get()
-            .then((snapshot)=> {
-                let comments = snapshot.docs.map(doc => {
-                    const data = doc.data()
-                    const id = doc.id
-                    return {id, ...data}
+        }        
+            if(props.route.params.postId !== postId){
+                firebase.firestore()
+                .collection("posts")
+                .doc(props.route.params.uid)
+                .collection("userPosts")
+                .doc(props.route.params.postId)
+                .collection('comments')
+                .get()
+                .then((snapshot)=> {
+                    let comments = snapshot.docs.map(doc => {
+                        const data = doc.data()
+                        const id = doc.id
+                        return {id, ...data}
+                    })
+                    matchUserToComment(comments);               
                 })
-                matchUserToComment(comments);               
-            })
-            setPostId(props.route.params.postId)
-        }else{
-            matchUserToComment(comments);
-        }   
-    
+                setPostId(props.route.params.postId)
+            }else{
+                matchUserToComment(comments);
+            }
 
+          
+          
     },[props.route.params.postId, props.users,text])
     const onCommentSend = () => {
         firebase.firestore()
@@ -64,7 +65,8 @@ function Comment(props) {
             creator : firebase.auth().currentUser.uid,
             text,
         })
-        props.navigation.push('Comment',{postId: props.route.params.postId, uid:props.route.params.uid, downloadURL: props.route.params.downloadURL})
+        setText('');        
+        props.navigation.replace('Comment',{postId: props.route.params.postId, uid:props.route.params.uid, downloadURL: props.route.params.downloadURL})
                
     }     
     return (
@@ -92,9 +94,13 @@ function Comment(props) {
                 <TextInput
                     placeholder='comment...'
                     onChangeText={(text) => setText(text)}/>
-                <Button
+                {text!==''? 
+                    <Button
                     onPress={() => onCommentSend()}
-                    title = "Send"/>                    
+                    title = "Send"/>:
+                    <Button disabled
+                    onPress={() => onCommentSend()}
+                    title = "Send"/>}                    
             </View>                           
         </Container>
     )
