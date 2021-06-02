@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {StyleSheet,View,  Image, FlatList, } from 'react-native'
 import moment from 'moment'
 import insta_logo from '../../assets/insta_logo.png'
-import { Container,Header,Card, CardItem, Text,Thumbnail, Body, Left, Right, Icon,Button } from 'native-base';
+import { Container,Header,Card, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -46,9 +46,25 @@ import {connect} from 'react-redux'
     return (
         <Container style={styles.container}>
             <Header style={styles.header}>
+            <Left>
             <Image
             source={insta_logo}
             />
+            </Left>
+            <Right>
+                <Button transparent
+                    onPress={()=>{                                    
+                    props.navigation.navigate('Search')
+                }}>
+                <Icon name='search' style={{color:'black'}}/>
+                </Button>
+                <Button transparent>
+                <Icon name='heart' style={{color:'black'}}/>
+                </Button>
+                <Button transparent>
+                <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
+                </Button>
+          </Right>
             </Header>
             <View style={styles.containerGallery}>
                 <FlatList
@@ -122,8 +138,6 @@ const styles = StyleSheet.create({
         flex : 1,                
     },
     header:{
-        alignItems:'center',
-        justifyContent:'flex-start',        
         backgroundColor:'white'
     },
     containerInfo:{
