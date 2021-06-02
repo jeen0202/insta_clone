@@ -13,6 +13,7 @@ export default function App({navigation}) {
     //카메라 접근
     const [camera,setCamera] = useState(null);
     const [image,setImage] = useState(null);
+    const [isShooted,setIsShooted] = useState(false)
 
     useEffect(() => {
     (async () => {
@@ -29,7 +30,8 @@ export default function App({navigation}) {
     const takePicture = async () => {
         if(camera){
             const data = await camera.takePictureAsync(null);
-            setImage(data.uri)            
+            setImage(data.uri)
+            setIsShooted(true)            
         }
     }
     //갤러리에서 사진을 가져오기위한 함수
@@ -56,27 +58,38 @@ export default function App({navigation}) {
     }
   return (
     <Content contentContainerStyle={styles.container}>
+        {isShooted?
+        <View style={styles.CameraContainer}>
+        {image && <Image source = {{uri: image}} style={{flex:1}}/>}
+        </View> 
+        :
         <View style={styles.CameraContainer}>
         <Camera
         ref={ref => setCamera(ref)} 
         style={styles.fixedRatio} 
         type={type} 
-        ratio={'1:1'}/>
-        </View>        
+        ratio={'16:9'}/>
+        </View> }
+        {isShooted ?
+        <View>
+          <Button title = "다시촬영하기" onPress={()=> setIsShooted(false)}/>
+          <Button title = "사진첩에서 불러오기" onPress={()=> pickImage()}/>
+          <Button title = "저장하기" onPress={() => navigation.navigate('Save',{image})}/>
+        </View> :
+        <View>
+        <Button title = "촬영" onPress={() => takePicture()}/>  
         <Button                     
-            title= "Flip Image"
-            onPress={() => {
-                setType(
-                type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-            }}>            
-        </Button>
-        <Button title = "Take Picture" onPress={() => takePicture()}/>
-        <Button title = "Pick Image From Gallery" onPress={()=> pickImage()}/>
-        <Button title = "Save" onPress={() => navigation.navigate('Save',{image})}/>
-        {image && <Image source = {{uri: image}} style={{flex:1}}/>}        
+        title= "카메라 전환"
+        onPress={() => {
+            setType(
+            type === Camera.Constants.Type.back
+                ? Camera.Constants.Type.front
+                : Camera.Constants.Type.back
+            );
+        }}>            
+    </Button>    
+    <Button title = "사진첩에서 불러오기" onPress={()=> pickImage()}/>
+    </View> }  
     </Content>
   );
 }
@@ -88,7 +101,7 @@ const styles = StyleSheet.create({
     },
     fixedRatio : {
         flex : 1,
-        aspectRatio : 1
+        //aspectRatio : 1
     },
   container: {
     flex: 1,
