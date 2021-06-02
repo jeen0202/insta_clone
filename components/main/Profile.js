@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Text, Image, FlatList, Button } from 'react-native'
-import {Container,Header} from 'native-base'
+import {StyleSheet,View, Image, FlatList, } from 'react-native'
+import {Container,Header,Left,Right,Text, Icon,Button} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
@@ -78,34 +78,50 @@ import insta_logo from '../../assets/insta_logo.png'
      const {currentUser, posts} = props
     // console.log({currentUser, posts})
     return (
-        <Container style={styles.container}>
+        <Container style={styles.container}>            
             <Header style={styles.header}>
+            <Left>
             <Image
             source={insta_logo}
             />
-            </Header>     
+            </Left>
+            <Right>
+                <Button transparent
+                    onPress={()=>{                                    
+                    props.navigation.navigate('Search')
+                }}>
+                <Icon name='search' style={{color:'black'}}/>
+                </Button>
+                <Button transparent>
+                <Icon name='heart' style={{color:'black'}}/>
+                </Button>
+                <Button transparent>
+                <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
+                </Button>
+          </Right>
+            </Header>
             <View style = {styles.containerInfo}>           
                 <Text>{user.name}</Text>
                 <Text>{user.email}</Text>
                 {props.route.params.uid !== firebase.auth().currentUser.uid ?(
                     <View>
                         {following? (
-                            <Button
-                                title="Following"
-                                onPress={()=> onUnfollow()}
-                            />
+                            <Button Info full
+                                onPress={()=> onUnfollow()}>
+                            <Text>Following</Text>
+                            </Button>
                         ):(
-                            <Button
-                                title="Follow"
-                                onPress={()=> onFollow()}
-                            />                            
+                            <Button full info                                
+                                onPress={()=> onFollow()}>
+                                <Text>Follow</Text>
+                            </Button>                           
                         )}
                     </View>
                     ) : 
-                    <Button
-                        title="Logout"
-                        onPress={()=> onLogout()}
-                        />}
+                    <Button full info                       
+                        onPress={()=> onLogout()}>
+                        <Text>Logout</Text>
+                        </Button>}
             </View>
             <View style={styles.containerGallery}>
                 <FlatList
@@ -146,7 +162,8 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         aspectRatio: 1/1
-    }
+    },
+
 })
 
 const mapStatetoProps = (store) => ({
