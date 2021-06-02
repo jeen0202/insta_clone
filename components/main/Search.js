@@ -1,6 +1,7 @@
 import React, {useState}from 'react'
-import {View, Text, TextInput, FlatList, TouchableOpacity} from 'react-native'
-
+import { Image, Text, TextInput, FlatList, TouchableOpacity,StyleSheet} from 'react-native'
+import {Container,Header} from 'native-base'
+import insta_logo from '../../assets/insta_logo.png'
 import firebase from 'firebase'
 require('firebase/firestore')
 export default function Search(props) {
@@ -23,7 +24,12 @@ export default function Search(props) {
         })
     }
     return (
-        <View> 
+        <Container>
+            <Header style={styles.header}>
+            <Image
+            source={insta_logo}
+            />
+            </Header> 
             <TextInput 
                 placeholder="Type Here..."
                 onChangeText={(search)=>fetchUsers(search)}/>
@@ -41,6 +47,16 @@ export default function Search(props) {
                     
                 )}
             />
-        </View>
+        </Container>
     )
 }
+const styles = StyleSheet.create({
+    container : {
+        flex : 1,                
+    },
+    header:{
+        alignItems:'center',
+        justifyContent:'flex-start',        
+        backgroundColor:'white'
+    }
+});

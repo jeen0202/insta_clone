@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Image} from 'react-native';
+import {Content} from 'native-base'
 import { Camera } from 'expo-camera';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
@@ -54,7 +55,7 @@ export default function App({navigation}) {
     return <Text>No access to camera</Text>;
     }
   return (
-    <View style={styles.container}>
+    <Content contentContainerStyle={styles.container}>
         <View style={styles.CameraContainer}>
         <Camera
         ref={ref => setCamera(ref)} 
@@ -76,7 +77,7 @@ export default function App({navigation}) {
         <Button title = "Pick Image From Gallery" onPress={()=> pickImage()}/>
         <Button title = "Save" onPress={() => navigation.navigate('Save',{image})}/>
         {image && <Image source = {{uri: image}} style={{flex:1}}/>}        
-    </View>
+    </Content>
   );
 }
 

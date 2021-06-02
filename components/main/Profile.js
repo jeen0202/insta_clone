@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet,View, Text, Image, FlatList, Button } from 'react-native'
-
+import {Container,Header} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
+import insta_logo from '../../assets/insta_logo.png'
+
  function Profile(props) {
      const [userPosts, setUserPosts] = useState([])
      const [user, setUser] = useState(null);
@@ -76,7 +78,12 @@ import {connect} from 'react-redux'
      const {currentUser, posts} = props
     // console.log({currentUser, posts})
     return (
-        <View style={styles.container}>
+        <Container style={styles.container}>
+            <Header style={styles.header}>
+            <Image
+            source={insta_logo}
+            />
+            </Header>     
             <View style = {styles.containerInfo}>           
                 <Text>{user.name}</Text>
                 <Text>{user.email}</Text>
@@ -114,13 +121,18 @@ import {connect} from 'react-redux'
                     )}
                 />
             </View>
-        </View>
+        </Container>
     )
 }
 
 const styles = StyleSheet.create({
     container : {
         flex : 1,                
+    },
+    header:{
+        alignItems:'center',
+        justifyContent:'flex-start',        
+        backgroundColor:'white'
     },
     containerInfo:{
         margin :20,
