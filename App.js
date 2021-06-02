@@ -41,20 +41,6 @@ if(firebase.apps.length === 0){
 }
 const Stack = createStackNavigator(); 
 
-/*
-function Title() {
-  return(
-    <View style={{flex:1, alignItems:"center",flexDirection:'row',justifyContent:"space-between"}}>
-      <Feather name ="camera" style={{fontSize:20}}
-      onPress={()=>{
-        this.props.navigation.navigate("Add")
-      }}/>
-      <Text style={{fontSize:20,fontWeight:'bold'}}>Instagram</Text>
-      <Feather name ="send"  style={{fontSize:20}} />
-    </View>
-  )
-}
-*/
 export class App extends Component {
   constructor(props){
     super(props);
@@ -110,12 +96,8 @@ export class App extends Component {
       <Provider store = {store}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Main">
-              <Stack.Screen name="Main" component={MainScreen} navigtaion={this.props.navigation} 
-              options={{headerShown:false}}
-              // options={{headerTitle:"Instagram",headerTitleAlign:'center',headerTitleStyle:{fontWeight:'bold'}}}
-              />
-              <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation}
-              options={{headerShown:false}}/>
+              <Stack.Screen name="Main" component={MainScreen} navigtaion={this.props.navigation} options={{headerShown:false}}/>
+              <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
         </Stack.Navigator>

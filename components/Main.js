@@ -50,7 +50,7 @@ export class Main extends Component {
                         <MaterialCommunityIcons name ="plus-box" color = {color} size = {26}/>
                     ),                    
                 }} />
-                <Tab.Screen name="Profile" component={ProfileScreen}
+                <Tab.Screen name="Profile" component={ProfileScreen} navigation={this.props.navigation}
                 listeners= {({ navigation}) => ({
                     tabPress: event => {
                         event.preventDefault();
