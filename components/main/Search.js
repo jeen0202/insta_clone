@@ -1,6 +1,6 @@
 import React, {useState}from 'react'
 import { Image, Text, TextInput, FlatList, TouchableOpacity,StyleSheet} from 'react-native'
-import {Container,Header} from 'native-base'
+import {Container,Header,Left,Right,Icon,Button} from 'native-base'
 import insta_logo from '../../assets/insta_logo.png'
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -26,9 +26,25 @@ export default function Search(props) {
     return (
         <Container>
             <Header style={styles.header}>
+            <Left>
             <Image
             source={insta_logo}
             />
+            </Left>
+            <Right>
+                <Button transparent
+                    onPress={()=>{                                    
+                    props.navigation.navigate('Search')
+                }}>
+                <Icon name='search' style={{color:'black'}}/>
+                </Button>
+                <Button transparent>
+                <Icon name='heart' style={{color:'black'}}/>
+                </Button>
+                <Button transparent>
+                <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
+                </Button>
+          </Right>
             </Header> 
             <TextInput 
                 placeholder="Type Here..."
