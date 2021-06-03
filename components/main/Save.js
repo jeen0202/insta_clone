@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
-import {View, TextInput, Text,Image} from 'react-native'
-import {Container,Content,Button,Header} from 'native-base'
+import {TextInput, Text,Image} from 'react-native'
+import {Container,Content,Button} from 'native-base'
 import firebase from 'firebase/app'
 require("firebase/firestore")
 require("firebase/firebase-storage")

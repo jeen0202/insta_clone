@@ -106,7 +106,7 @@ import insta_logo from '../../assets/insta_logo.png'
                 {props.route.params.uid !== firebase.auth().currentUser.uid ?(
                     <View>
                         {following? (
-                            <Button Info full
+                            <Button full info 
                                 onPress={()=> onUnfollow()}>
                             <Text>Following</Text>
                             </Button>
