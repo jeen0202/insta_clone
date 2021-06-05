@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
-import {View, Text, Image,StyleSheet} from 'react-native'
-import {Container,Header,Content,Left,Right,Body,List,ListItem,Icon, Button, Thumbnail} from 'native-base'
+import {View,StyleSheet} from 'react-native'
+import {Container,Text,Header,Footer,Content,Item,Right,List,ListItem,Icon, Button, Input} from 'native-base'
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -45,16 +45,22 @@ function Message(props){
             </Header>
             <Content>
                 <List>
-                    <ListItem avatar>
-                        <Left>
+                    <ListItem noBorder>                        
                             <Icon name='person-outline'/>
-                        </Left>
-                        <Body>
-                            <Text style={{fontWeight:'bold'}}>hello</Text>
-                        </Body>
+                            <Text style={styles.messageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>                        
+                    </ListItem>
+                    <ListItem noBorder style={{justifyContent:'flex-end'}}>
+                            <Text style={styles.messageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+                            <Icon name='person-outline'/>
                     </ListItem>
                 </List>
-            </Content>
+            </Content>            
+                <Item rounded>
+                <Input placeholder="Rounded Text"/>
+                <Button transparent>
+                    <Text>Send</Text>
+                </Button>
+                </Item>            
         </Container>
     )
 }
@@ -65,9 +71,17 @@ const styles = StyleSheet.create({
     },
     header:{
         alignItems:'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         backgroundColor: 'white',
     },
+    messageBox:{
+        margin:5,
+        paddingLeft:20,
+        maxWidth:250,
+        borderWidth:1,
+        borderColor:'lightgrey',
+        borderRadius:40,
+    }
 })
 
 export default connect()(Message);
