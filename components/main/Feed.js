@@ -121,7 +121,10 @@ import {connect} from 'react-redux'
                                 }}>
                                     <Icon name ='chatbubble-ellipses-outline' style={{color:'black'}}/>
                                 </Button>
-                                <Button transparent>
+                                <Button transparent
+                                onPress={()=>{
+                                    console.log(item.user.uid)
+                                }}>
                                     <Icon name = 'paper-plane-outline' style={{color:'black'}}/>
                                 </Button>
                             </CardItem>
