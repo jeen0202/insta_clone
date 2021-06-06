@@ -45,8 +45,13 @@ function Message(props){
                 return{id, ...data}
             })            
             setSendMes(sendMes);            
-        })        
-    },[props.route.params.selectedUid,text])
+        })                
+        let newMessages = [...sendMes,...resMes]
+        if(newMessages.length!==0){
+        setMessages(newMessages)
+        console.log(messages)        
+        }
+    },[props.route.params.selectedUid,text])    
     const sendMessage = ()=>{       
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         firebase.firestore()
@@ -72,7 +77,8 @@ function Message(props){
             props.navigation.pop(1)
         )
     }
-    return (
+    
+    return (        
         <Container>
             <Header style={styles.header}>
                 <Button transparent
