@@ -12,21 +12,41 @@ import {fetchUsersData} from '../../redux/actions/index'
 
 function Message(props){
     const [messages, setMessages] = useState([])    
-    const [text, setText] = useState("")   
-    
+    const [text, setText] = useState("")
+    const [user, setUser] = useState(props.currentUser);   
+    useEffect(()=>{
 
-    const sendMessage = ()=>{
         firebase.firestore()
         .collection("users")
         .doc(props.route.params.selectedUid)
+        .collection("messages")
+        .orderBy("creation","asc") //data 정렬
         .get()
-        .then((snapshot)=>{
-            if(snapshot.exists){
-                console.log(snapshot)
-            }else{
-                console.log('error!')
-            }
+        .then((snapshot) => {
+            let messages = snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                return{id, ...data}
+            })
+            setMessages(messages)
         })
+        
+    })
+
+    const sendMessage = ()=>{
+        //console.log(firebase.auth().currentUser.uid)
+        firebase.firestore()
+        .collection('users')
+        .doc(props.route.params.selectedUid)
+        .collection('messages')
+        .add({
+            id: firebase.auth().currentUser.uid,
+            message : text,
+            creation : firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(
+            props.navigation.pop(1)
+        )
     }
     return (
         <Container>
@@ -71,7 +91,7 @@ function Message(props){
                 </List>
             </Content>            
                 <Item rounded>
-                <Input placeholder="메시지를 입력하세요"/>
+                <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>
                 <Button transparent
                     onPress={()=> sendMessage()}>
                     <Text>Send</Text>
@@ -109,4 +129,7 @@ const styles = StyleSheet.create({
     },
 })
 
-export default connect()(Message);
+const mapStatetoProps = (store) => ({
+    currentUser : store.userState.currentUser,
+})
+export default connect(mapStatetoProps.null)(Message);
