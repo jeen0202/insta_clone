@@ -8,13 +8,26 @@ require('firebase/firestore')
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {fetchUsersData} from '../../redux/actions/index'
-import insta_logo from '../../assets/insta_logo.png'
 
 
 function Message(props){
     const [messages, setMessages] = useState([])    
     const [text, setText] = useState("")   
     
+
+    const sendMessage = ()=>{
+        firebase.firestore()
+        .collection("users")
+        .doc(props.route.params.selectedUid)
+        .get()
+        .then((snapshot)=>{
+            if(snapshot.exists){
+                console.log(snapshot)
+            }else{
+                console.log('error!')
+            }
+        })
+    }
     return (
         <Container>
             <Header style={styles.header}>
@@ -48,16 +61,19 @@ function Message(props){
                     <ListItem noBorder>                        
                             <Icon name='person-outline'/>
                             <Text style={styles.messageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>                        
+                            <Text note>13:15</Text>
                     </ListItem>
                     <ListItem noBorder style={{justifyContent:'flex-end'}}>
-                            <Text style={styles.messageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
+                            <Text note>13:16</Text>
+                            <Text style={styles.myMessageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
                             <Icon name='person-outline'/>
                     </ListItem>
                 </List>
             </Content>            
                 <Item rounded>
-                <Input placeholder="Rounded Text"/>
-                <Button transparent>
+                <Input placeholder="메시지를 입력하세요"/>
+                <Button transparent
+                    onPress={()=> sendMessage()}>
                     <Text>Send</Text>
                 </Button>
                 </Item>            
@@ -81,7 +97,16 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:'lightgrey',
         borderRadius:40,
-    }
+    },
+    myMessageBox:{
+        margin:5,
+        paddingLeft:20,
+        maxWidth:250,
+        borderWidth:1,
+        borderColor:'lightgrey',
+        borderRadius:40,
+        backgroundColor:'whitesmoke',               
+    },
 })
 
 export default connect()(Message);

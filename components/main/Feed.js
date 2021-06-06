@@ -123,8 +123,8 @@ import {connect} from 'react-redux'
                                 </Button>
                                 <Button transparent
                                 onPress={()=>{
-                                    console.log(item.user.name)
-                                    props.navigation.navigate('Message',{selectedUser: item.user.name})                                    
+                                    console.log(item.user.uid)
+                                    props.navigation.navigate('Message',{selectedUser: item.user.name, selectedUid: item.user.uid})                                    
                                 }}>
                                     <Icon name = 'paper-plane-outline' style={{color:'black'}}/>
                                 </Button>
