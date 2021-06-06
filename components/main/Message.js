@@ -11,38 +11,62 @@ import {fetchUsersData} from '../../redux/actions/index'
 
 
 function Message(props){
-    const [messages, setMessages] = useState([])    
+    const [messages, setMessages] = useState([])
+    const [sendMes, setSendMes] = useState([])
+    const [resMes, setResMes] = useState([])    
     const [text, setText] = useState("")
-    const [user, setUser] = useState(props.currentUser);   
+    const [user, setUser] = useState(null);   
     useEffect(()=>{
-
         firebase.firestore()
         .collection("users")
         .doc(props.route.params.selectedUid)
-        .collection("messages")
-        .orderBy("creation","asc") //data 정렬
+        .collection("resMessages")
+        .where('id','==',firebase.auth().currentUser.uid)        
         .get()
         .then((snapshot) => {
-            let messages = snapshot.docs.map(doc => {
+            let resMes = snapshot.docs.map(doc => {
                 const data = doc.data();
                 const id = doc.id;
                 return{id, ...data}
-            })
-            setMessages(messages)
+            })            
+            setResMes(resMes);            
         })
-        
-    })
 
-    const sendMessage = ()=>{
-        //console.log(firebase.auth().currentUser.uid)
+        firebase.firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("sendMessages")
+        .where('id','==',props.route.params.selectedUid)        
+        .get()
+        .then((snapshot) => {
+            let sendMes = snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                return{id, ...data}
+            })            
+            setSendMes(sendMes);            
+        })        
+    },[props.route.params.selectedUid,text])
+    const sendMessage = ()=>{       
+        const creation = firebase.firestore.FieldValue.serverTimestamp()
+        firebase.firestore()
+        .collection('users')
+        .doc(firebase.auth().currentUser.uid)
+        .collection('sendMessages')
+        .add({
+            id : props.route.params.selectedUid,
+            message : text,
+            creation : creation
+        })
+
         firebase.firestore()
         .collection('users')
         .doc(props.route.params.selectedUid)
-        .collection('messages')
+        .collection('resMessages')
         .add({
             id: firebase.auth().currentUser.uid,
             message : text,
-            creation : firebase.firestore.FieldValue.serverTimestamp()
+            creation : creation
         })
         .then(
             props.navigation.pop(1)
