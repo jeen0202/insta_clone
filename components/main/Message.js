@@ -47,6 +47,7 @@ function Message(props){
             setSendMes(sendMes);            
         })                
         let newMessages = [...sendMes,...resMes]
+        newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
         if(newMessages.length!==0){
         setMessages(newMessages)
         console.log(messages)        
