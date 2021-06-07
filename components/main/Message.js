@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react'
 import {View,StyleSheet} from 'react-native'
 import {Container,Text,Header,Footer,Content,Item,Right,List,ListItem,Icon, Button, Input} from 'native-base'
-
 import firebase from 'firebase'
 require('firebase/firestore')
 
+import {fetchUserMessages} from '../../redux/actions/index.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
@@ -14,47 +14,53 @@ function Message(props){
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
     const [text, setText] = useState("")
-    const [isLoaded,setIsLoaded] = useState(false)
-    
+    const [isLoaded,setIsLoaded] = useState(false)    
     useEffect(()=>{
-        const getMessages = async () =>{
-            await firebase.firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("resMessages")
-            .where('id','==',props.route.params.selectedUid)        
-            .get()
-            .then((snapshot) => {
-                let resMes = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return{id, ...data}
-                })                        
-                setResMes(resMes);                   
-            })
-            await firebase.firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("sendMessages")
-            .where('id','==',props.route.params.selectedUid)        
-            .get()
-            .then((snapshot) => {
-                let sendMes = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return{id, ...data}
-                })            
-                setSendMes(sendMes);                          
-            })
-            let newMessages = [...sendMes,...resMes]
-            newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
-            if(newMessages.length!==0){            
-            setMessages(newMessages)                                          
-            }              
+        props.fetchUserMessages(props.route.params.selectedUid)
+        console.log("Effect")
+        if(props.messages!== undefined){
+            setMessages(props.messages)
+            console.log("Messages",messages)
         }
-        getMessages();          
-                         
-    },[props.route.params.selectedUid,text,isLoaded]) 
+    
+    },[props.route.params.selectedUid,messages])     
+    const getMessages = async () =>{
+        await firebase.firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("resMessages")
+        .where('id','==',props.route.params.selectedUid)        
+        .get()
+        .then((snapshot) => {
+            let resMes = snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                return{id, ...data}
+            })                                       
+            setResMes(resMes);                   
+        })
+        await firebase.firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("sendMessages")
+        .where('id','==',props.route.params.selectedUid)        
+        .get()
+        .then((snapshot) => {
+            let sendMes = snapshot.docs.map(doc => {
+                const data = doc.data();
+                const id = doc.id;
+                return{id, ...data}
+            })            
+            setSendMes(sendMes);                          
+        })
+        let newMessages = [...sendMes,...resMes]
+        newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
+        if(newMessages.length!==0){            
+        setMessages(newMessages)
+        setIsLoaded(true)                                          
+        }                      
+    }
+     
     const sendMessage = ()=>{       
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         firebase.firestore()
@@ -80,8 +86,7 @@ function Message(props){
             getMessages()
         )
     }
-    const checkMessage= () => {  
-        reload(messages)
+    const checkMessage= () => {          
         console.log(isLoaded)      
         console.log(messages)
     }
@@ -169,5 +174,7 @@ const styles = StyleSheet.create({
 
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
+    messages : store.userState.messages
 })
-export default connect(mapStatetoProps.null)(Message);
+const mapDispatchtoProps = (dispatch) => bindActionCreators({fetchUserMessages},dispatch)
+export default connect(mapStatetoProps,mapDispatchtoProps)(Message);

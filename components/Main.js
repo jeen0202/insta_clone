@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import firebase from "firebase"
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {fetchUser, fetchUserPosts,fetchUserFollowing, clearData} from '../redux/actions/index'
+import {fetchUser, fetchUserPosts,fetchUserFollowing,clearData} from '../redux/actions/index'
 
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
@@ -20,7 +20,8 @@ export class Main extends Component {
         this.props.clearData();
         this.props.fetchUser();
         this.props.fetchUserPosts();
-        this.props.fetchUserFollowing();        
+        this.props.fetchUserFollowing();
+             
     }
     render() {
 
