@@ -3,6 +3,7 @@ import {View,StyleSheet,FlatList} from 'react-native'
 import {Container,Text,Header,Footer,Content,Item,Right,List,ListItem,Icon, Button, Input} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
+import moment from 'moment'
 
 import {fetchUserMessages} from '../../redux/actions/index.js'
 import {connect} from 'react-redux'
@@ -144,11 +145,11 @@ function Message(props){
                     <ListItem noBorder key={index}>                        
                         <Icon name='person-outline'/>
                         <Text style={styles.messageBox}>{item.message}</Text>                        
-                        <Text note>13:15</Text>
+                        <Text note>{`${moment(item.creation.toDate()).format('MM/DD [\n] HH:mm')}`}</Text>
                     </ListItem>
                     :
                     <ListItem noBorder style={{justifyContent:'flex-end'}}>
-                            <Text note>13:16</Text>
+                            <Text note>{`${moment(item.creation.toDate()).format('MM/DD [\n] HH:mm')}`}</Text>
                             <Text style={styles.myMessageBox}>{item.message}</Text>
                             <Icon name='person-outline'/>
                     </ListItem>                    
