@@ -76,10 +76,10 @@ export function fetchUserMessages(uid){
                     const id = doc.id;
                     return{id, ...data}
                 })            
-                messages= [...sendMes||[], ...resMes||[]]            
-                messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
-                //console.log("messages",messages)            
-                dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                                          
+                //messages= [...sendMes||[], ...resMes||[]]            
+                //messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
+                //console.log("sendmessages",messages)            
+                //dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                                          
         })
         firebase.firestore()
         .collection("users")
@@ -93,15 +93,18 @@ export function fetchUserMessages(uid){
                 const id = doc.id;
                 return{id, ...data}                
             })
+            if(sendMes!== [] && resMes !== []){
             messages= [...sendMes||[], ...resMes||[]]            
-            messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
-            //console.log("messages",messages)            
-            dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                   
+            messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
+            }            
+            console.log("resmessages",messages)            
+            dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                  
+                     
         })        
-            // messages= [...sendMes||[], ...resMes||[]]            
-            // messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
-            // console.log("messages",messages)            
-            // dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})
+        //    messages= [...sendMes||[], ...resMes||[]]            
+        //    messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
+        //    console.log("messages",messages)            
+        //    dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})
             
         
     })

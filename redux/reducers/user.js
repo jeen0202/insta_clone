@@ -4,7 +4,7 @@ const initState = {
     currentUser : null,
     posts : [],
     following : [],
-    messages : [],
+    messages : undefined,    
 }
 
 export const user = (state = initState, action) => {
@@ -26,7 +26,7 @@ export const user = (state = initState, action) => {
             }
         case USER_MESSAGES_STATE_CHANGE:
             return {
-                ...state,
+                ...state,                
                 messages : action.messages
             }
         case CLEAR_DATA:

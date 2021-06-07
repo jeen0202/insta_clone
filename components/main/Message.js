@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import {View,StyleSheet} from 'react-native'
+import {View,StyleSheet,FlatList} from 'react-native'
 import {Container,Text,Header,Footer,Content,Item,Right,List,ListItem,Icon, Button, Input} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -15,15 +15,13 @@ function Message(props){
     const [resMes, setResMes] = useState([])    
     const [text, setText] = useState("")
     const [isLoaded,setIsLoaded] = useState(false)    
-    useEffect(()=>{
+    useEffect(()=>{        
         props.fetchUserMessages(props.route.params.selectedUid)
         console.log("Effect")
-        if(props.messages!== undefined){
-            setMessages(props.messages)
-            console.log("Messages",messages)
-        }
-    
-    },[props.route.params.selectedUid,messages])     
+        setMessages(props.messages)
+        console.log("Messages",messages)
+    },[props.route.params.selectedUid,messages]) 
+
     const getMessages = async () =>{
         await firebase.firestore()
         .collection("users")
@@ -121,6 +119,28 @@ function Message(props){
             </Header>
             <Content>
                 <List>
+                    <View>
+                <FlatList
+                    numColumns={1}
+                    data={messages}
+                    renderItem={({item})=>(
+                    item.id===props.route.params.selectedUid ? 
+                    <ListItem noBorder>                        
+                        <Icon name='person-outline'/>
+                        <Text style={styles.messageBox}>{item.message}</Text>                        
+                        <Text note>13:15</Text>
+                    </ListItem>
+                    :
+                    <ListItem noBorder style={{justifyContent:'flex-end'}}>
+                            <Text note>13:16</Text>
+                            <Text style={styles.myMessageBox}>{item.message}</Text>
+                            <Icon name='person-outline'/>
+                    </ListItem>                    
+                    )}
+                />
+                </View>
+                </List>
+                {/*<List>
                     <ListItem noBorder>                        
                             <Icon name='person-outline'/>
                             <Text style={styles.messageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>                        
@@ -131,7 +151,7 @@ function Message(props){
                             <Text style={styles.myMessageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
                             <Icon name='person-outline'/>
                     </ListItem>
-                </List>
+                </List>*/}
             </Content>            
                 <Item rounded>
                 <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>
@@ -154,16 +174,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     messageBox:{
-        margin:5,
-        paddingLeft:20,
+        padding:10,
+        margin:5,        
         maxWidth:250,
         borderWidth:1,
         borderColor:'lightgrey',
         borderRadius:40,
     },
     myMessageBox:{
-        margin:5,
-        paddingLeft:20,
+        padding:10,
+        margin:5,        
         maxWidth:250,
         borderWidth:1,
         borderColor:'lightgrey',
