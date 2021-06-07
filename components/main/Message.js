@@ -7,7 +7,6 @@ require('firebase/firestore')
 
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {fetchUsersData} from '../../redux/actions/index'
 
 
 function Message(props){
@@ -15,44 +14,47 @@ function Message(props){
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
     const [text, setText] = useState("")
-    const [user, setUser] = useState(null);   
+    const [isLoaded,setIsLoaded] = useState(false)
+    
     useEffect(()=>{
-        firebase.firestore()
-        .collection("users")
-        .doc(props.route.params.selectedUid)
-        .collection("resMessages")
-        .where('id','==',firebase.auth().currentUser.uid)        
-        .get()
-        .then((snapshot) => {
-            let resMes = snapshot.docs.map(doc => {
-                const data = doc.data();
-                const id = doc.id;
-                return{id, ...data}
-            })            
-            setResMes(resMes);            
-        })
-
-        firebase.firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("sendMessages")
-        .where('id','==',props.route.params.selectedUid)        
-        .get()
-        .then((snapshot) => {
-            let sendMes = snapshot.docs.map(doc => {
-                const data = doc.data();
-                const id = doc.id;
-                return{id, ...data}
-            })            
-            setSendMes(sendMes);            
-        })                
-        let newMessages = [...sendMes,...resMes]
-        newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
-        if(newMessages.length!==0){
-        setMessages(newMessages)
-        console.log(messages)        
+        const getMessages = async () =>{
+            await firebase.firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("resMessages")
+            .where('id','==',props.route.params.selectedUid)        
+            .get()
+            .then((snapshot) => {
+                let resMes = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return{id, ...data}
+                })                        
+                setResMes(resMes);                   
+            })
+            await firebase.firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("sendMessages")
+            .where('id','==',props.route.params.selectedUid)        
+            .get()
+            .then((snapshot) => {
+                let sendMes = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return{id, ...data}
+                })            
+                setSendMes(sendMes);                          
+            })
+            let newMessages = [...sendMes,...resMes]
+            newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
+            if(newMessages.length!==0){            
+            setMessages(newMessages)                                          
+            }              
         }
-    },[props.route.params.selectedUid,text])    
+        getMessages();          
+                         
+    },[props.route.params.selectedUid,text,isLoaded]) 
     const sendMessage = ()=>{       
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         firebase.firestore()
@@ -75,8 +77,13 @@ function Message(props){
             creation : creation
         })
         .then(
-            props.navigation.pop(1)
+            getMessages()
         )
+    }
+    const checkMessage= () => {  
+        reload(messages)
+        console.log(isLoaded)      
+        console.log(messages)
     }
     
     return (        
@@ -124,7 +131,7 @@ function Message(props){
                 <Item rounded>
                 <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>
                 <Button transparent
-                    onPress={()=> sendMessage()}>
+                    onPress={()=> checkMessage()}>
                     <Text>Send</Text>
                 </Button>
                 </Item>            
