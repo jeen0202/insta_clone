@@ -15,49 +15,64 @@ function Message(props){
     const [resMes, setResMes] = useState([])    
     const [text, setText] = useState("")
     const [isLoaded,setIsLoaded] = useState(false)    
-    useEffect(()=>{        
-        props.fetchUserMessages(props.route.params.selectedUid)
+    useEffect(()=>{
         console.log("Effect")
-        setMessages(props.messages)
+        const getResMessages = async () =>{
+            try{
+                await firebase.firestore()
+                .collection("users")
+                .doc(props.route.params.selectedUid)
+                .collection("sendMessages")
+                .where('id','==',firebase.auth().currentUser.uid)        
+                .get()
+                .then((snapshot) => {
+                    let resMes = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return{id, ...data}
+                    })                                       
+                    setResMes(resMes);                   
+                })                
+                
+            }catch(err){
+                console.err("resErr",err)
+            }           
+            }
+        getResMessages();
+        //getSendMessages();                  
         console.log("Messages",messages)
-    },[props.route.params.selectedUid,messages]) 
-
-    const getMessages = async () =>{
-        await firebase.firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("resMessages")
-        .where('id','==',props.route.params.selectedUid)        
-        .get()
-        .then((snapshot) => {
-            let resMes = snapshot.docs.map(doc => {
-                const data = doc.data();
-                const id = doc.id;
-                return{id, ...data}
-            })                                       
-            setResMes(resMes);                   
-        })
-        await firebase.firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("sendMessages")
-        .where('id','==',props.route.params.selectedUid)        
-        .get()
-        .then((snapshot) => {
-            let sendMes = snapshot.docs.map(doc => {
-                const data = doc.data();
-                const id = doc.id;
-                return{id, ...data}
-            })            
-            setSendMes(sendMes);                          
-        })
+    },[props.route.params.selectedUid]) 
+    useEffect(()=>{
+        const getSendMessages = async ()=> {
+            try{
+                await firebase.firestore() 
+                .collection("users")
+                .doc(firebase.auth().currentUser.uid)
+                .collection("sendMessages")
+                .where('id','==',props.route.params.selectedUid)        
+                .get()
+                .then((snapshot) => {
+                    let sendMes = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return{id, ...data}
+                    })            
+                    setSendMes(sendMes);                         
+                })               
+            }catch(err){
+                console.err("sendErr",err)
+            }
+            }
+            getSendMessages()        
+    },[])
+    useEffect(()=>{
         let newMessages = [...sendMes,...resMes]
         newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
         if(newMessages.length!==0){            
-        setMessages(newMessages)
-        setIsLoaded(true)                                          
-        }                      
-    }
+        setMessages(newMessages)                                                             
+        }
+    },[resMes,sendMes])
+
      
     const sendMessage = ()=>{       
         const creation = firebase.firestore.FieldValue.serverTimestamp()
@@ -116,16 +131,17 @@ function Message(props){
                     <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
                     </Button>
                 </Right>
-            </Header>
-            <Content>
-                <List>
-                    <View>
+            </Header>            
+                <List style={{flex:1}}>                    
                 <FlatList
                     numColumns={1}
                     data={messages}
-                    renderItem={({item})=>(
+                    keyExtractor={(item, index) => {
+                        return index.toString();
+                      }}
+                    renderItem={({item, index})=>(
                     item.id===props.route.params.selectedUid ? 
-                    <ListItem noBorder>                        
+                    <ListItem noBorder key={index}>                        
                         <Icon name='person-outline'/>
                         <Text style={styles.messageBox}>{item.message}</Text>                        
                         <Text note>13:15</Text>
@@ -137,8 +153,7 @@ function Message(props){
                             <Icon name='person-outline'/>
                     </ListItem>                    
                     )}
-                />
-                </View>
+                />                
                 </List>
                 {/*<List>
                     <ListItem noBorder>                        
@@ -152,7 +167,7 @@ function Message(props){
                             <Icon name='person-outline'/>
                     </ListItem>
                 </List>*/}
-            </Content>            
+                        
                 <Item rounded>
                 <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>
                 <Button transparent
