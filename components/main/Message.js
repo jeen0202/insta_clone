@@ -14,16 +14,16 @@ function Message(props){
     const [messages, setMessages] = useState([])
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
-    const [text, setText] = useState("")
-    const [isLoaded,setIsLoaded] = useState(false)    
+    const [text, setText] = useState("")   
+
     useEffect(()=>{
-        console.log("Effect")
+        //console.log("Effect")
         const getResMessages = async () =>{
             try{
                 await firebase.firestore()
                 .collection("users")
                 .doc(props.route.params.selectedUid)
-                .collection("sendMessages")
+                .collection("resMessages")
                 .where('id','==',firebase.auth().currentUser.uid)        
                 .get()
                 .then((snapshot) => {
@@ -41,15 +41,16 @@ function Message(props){
             }
         getResMessages();
         //getSendMessages();                  
-        console.log("Messages",messages)
+        //console.log("Messages",messages)
     },[props.route.params.selectedUid]) 
+
     useEffect(()=>{
         const getSendMessages = async ()=> {
             try{
                 await firebase.firestore() 
                 .collection("users")
                 .doc(firebase.auth().currentUser.uid)
-                .collection("sendMessages")
+                .collection("resMessages")
                 .where('id','==',props.route.params.selectedUid)        
                 .get()
                 .then((snapshot) => {
@@ -66,6 +67,7 @@ function Message(props){
             }
             getSendMessages()        
     },[])
+
     useEffect(()=>{
         let newMessages = [...sendMes,...resMes]
         newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
@@ -95,14 +97,7 @@ function Message(props){
             id: firebase.auth().currentUser.uid,
             message : text,
             creation : creation
-        })
-        .then(
-            getMessages()
-        )
-    }
-    const checkMessage= () => {          
-        console.log(isLoaded)      
-        console.log(messages)
+        })        
     }
     
     return (        
@@ -172,7 +167,7 @@ function Message(props){
                 <Item rounded>
                 <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>
                 <Button transparent
-                    onPress={()=> checkMessage()}>
+                    onPress={()=> sendMessage()}>
                     <Text>Send</Text>
                 </Button>
                 </Item>            
