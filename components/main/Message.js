@@ -15,8 +15,8 @@ function Message(props){
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
     const [text, setText] = useState("")
-    const [loaded, setLoaded] =useState(false)    
-
+      
+    
     useEffect(()=>{
         //console.log("Effect")
         const getResMessages = async () =>{
@@ -24,7 +24,7 @@ function Message(props){
                 await firebase.firestore()
                 .collection("users")
                 .doc(props.route.params.selectedUid)
-                .collection("resMessages")
+                .collection("sendMessages")
                 .where('id','==',firebase.auth().currentUser.uid)        
                 .get()
                 .then((snapshot) => {
@@ -33,8 +33,9 @@ function Message(props){
                         const id = doc.id;
                         return{id, ...data}
                     })
-                    if(resMes.length>0)                                       
-                    setResMes(resMes);                   
+                    if(!snapshot.metadata.hasPendingWrites){                                                           
+                    setResMes(resMes); 
+                    }                  
                 })                
                 
             }catch(err){
@@ -52,7 +53,7 @@ function Message(props){
                 await firebase.firestore() 
                 .collection("users")
                 .doc(firebase.auth().currentUser.uid)
-                .collection("resMessages")
+                .collection("sendMessages")
                 .where('id','==',props.route.params.selectedUid)        
                 .get()
                 .then((snapshot) => {
@@ -61,8 +62,9 @@ function Message(props){
                         const id = doc.id;
                         return{id, ...data}
                     })
-                    if(sendMes.length>0)            
-                    setSendMes(sendMes);                         
+                    if(!snapshot.metadata.hasPendingWrites){                                    
+                        setSendMes(sendMes); 
+                    }
                 })               
             }catch(err){
                 console.error("sendErr",err)
@@ -72,11 +74,11 @@ function Message(props){
     },[])
 
     useEffect(()=>{
-        let newMessages = [...sendMes,...resMes]
-        if(newMessages.length>0){
+        let newMessages = [...sendMes,...resMes]        
+        //if(newMessages.length>0){
             newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
-        }                    
-        setMessages(newMessages)                                                                
+            setMessages(newMessages)
+        //}                                                             
         
     },[resMes,sendMes])
 
@@ -90,7 +92,9 @@ function Message(props){
             id : props.route.params.selectedUid,
             message : text,
             creation : creation
-        })
+        }).then(
+            console.log("make send complete")
+        )
     }
     const makeResMessage = async (creation) => {
         await firebase.firestore()
@@ -101,20 +105,30 @@ function Message(props){
             id: firebase.auth().currentUser.uid,
             message : text,
             creation : creation
-        })
+        }).then(
+            console.log('make res complete')
+        )
     }
-    const sendMessage = ()=>{ 
+    const sendMessage = ()=>{
+        
         if(text!==""){      
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         makeSendMassage(creation)
-        makeResMessage(creation)
+        makeResMessage(creation)        
         props.navigation.replace('Message',{            
             selectedUser:props.route.params.selectedUser,
             selectedUid:props.route.params.selectedUid
         })
-    }                     
+        
+    }                    
     }
-    
+   /* if(!Loaded.send || !Loaded.res){
+        return (
+            <Container style={{flex : 1, justifyContent : 'center',alignItems:'center'}}>
+                <Text>Loading...</Text>
+            </Container>
+        )
+    }else{*/
     return (        
         <Container>
             <Header style={styles.header}>
@@ -143,23 +157,20 @@ function Message(props){
                     </Button>
                 </Right>
             </Header>            
-                <List style={{flex:1}}>
-                    {messages.length===0 ? 
-                    <Text note  style={
-                        {flex:1,
-                        textAlign:'center',
-                        textAlignVertical:'center',
-                        fontSize:20,}}
-                        >No Messages</Text>
-                    :                                       
+                <List style={{flex:1}}>                                            
                 <FlatList
                     numColumns={1}
                     data={messages}
-                    keyExtractor={(item,index) => {
+                    extraData={messages}                    
+                    keyExtractor={(item, index) => {
                         return index.toString();
-                      }}
+                    }}
+                    ListEmptyComponent={                                           
+                        <Text note style={{flex:1,fontSize:20,textAlign:'center', marginTop:'80%'}}
+                            >No Messages</Text>
+                    }                
                     renderItem={({item, index})=>(
-                    item.id===props.route.params.selectedUid ? 
+                    item.id!==props.route.params.selectedUid ? 
                     <ListItem noBorder key={index}>                        
                         <Icon name='person-outline'/>
                         <Text style={styles.messageBox}>{item.message}</Text>                        
@@ -172,7 +183,7 @@ function Message(props){
                             <Icon name='person-outline'/>
                     </ListItem>                    
                     )}
-                />}                 
+                />                 
                 </List>
                 {/*<List>
                     <ListItem noBorder>                        
@@ -196,7 +207,7 @@ function Message(props){
                 </Item>            
                 
         </Container>
-    )
+    )    
 }
 
 const styles = StyleSheet.create({
