@@ -14,7 +14,8 @@ function Message(props){
     const [messages, setMessages] = useState([])
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
-    const [text, setText] = useState("")   
+    const [text, setText] = useState("")
+    const [change, setChange] = useState(false)   
 
     useEffect(()=>{
         //console.log("Effect")
@@ -38,11 +39,11 @@ function Message(props){
             }catch(err){
                 console.err("resErr",err)
             }           
-            }
+            }        
         getResMessages();
         //getSendMessages();                  
         //console.log("Messages",messages)
-    },[props.route.params.selectedUid]) 
+    },[change]) 
 
     useEffect(()=>{
         const getSendMessages = async ()=> {
@@ -64,15 +65,16 @@ function Message(props){
             }catch(err){
                 console.err("sendErr",err)
             }
-            }
+            }            
             getSendMessages()        
-    },[])
+    },[change])
 
     useEffect(()=>{
         let newMessages = [...sendMes,...resMes]
         newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
         if(newMessages.length!==0){            
-        setMessages(newMessages)                                                             
+        setMessages(newMessages)
+        setChange(false)                                                             
         }
     },[resMes,sendMes])
 
@@ -97,7 +99,8 @@ function Message(props){
             id: firebase.auth().currentUser.uid,
             message : text,
             creation : creation
-        })        
+        })
+        setChange(true)        
     }
     
     return (        
