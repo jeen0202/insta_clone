@@ -32,7 +32,8 @@ function Message(props){
                         const data = doc.data();
                         const id = doc.id;
                         return{id, ...data}
-                    })                                       
+                    })
+                    if(resMes.length>0)                                       
                     setResMes(resMes);                   
                 })                
                 
@@ -59,7 +60,8 @@ function Message(props){
                         const data = doc.data();
                         const id = doc.id;
                         return{id, ...data}
-                    })            
+                    })
+                    if(sendMes.length>0)            
                     setSendMes(sendMes);                         
                 })               
             }catch(err){
@@ -71,13 +73,11 @@ function Message(props){
 
     useEffect(()=>{
         let newMessages = [...sendMes,...resMes]
-        if(newMessages.length>3){
+        if(newMessages.length>0){
             newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
-        }
-        if(newMessages.length!==0){            
-        setMessages(newMessages)
-                                                                
-        }
+        }                    
+        setMessages(newMessages)                                                                
+        
     },[resMes,sendMes])
 
 
