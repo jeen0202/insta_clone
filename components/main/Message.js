@@ -14,7 +14,8 @@ function Message(props){
     const [messages, setMessages] = useState([])
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
-    const [text, setText] = useState("")    
+    const [text, setText] = useState("")
+    const [loaded, setLoaded] =useState(false)    
 
     useEffect(()=>{
         //console.log("Effect")
@@ -36,7 +37,7 @@ function Message(props){
                 })                
                 
             }catch(err){
-                console.err("resErr",err)
+                console.error("resErr",err)
             }           
             }        
         getResMessages();
@@ -62,7 +63,7 @@ function Message(props){
                     setSendMes(sendMes);                         
                 })               
             }catch(err){
-                console.err("sendErr",err)
+                console.error("sendErr",err)
             }
             }            
             getSendMessages()        
@@ -70,7 +71,9 @@ function Message(props){
 
     useEffect(()=>{
         let newMessages = [...sendMes,...resMes]
-        newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
+        if(newMessages.length>3){
+            newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
+        }
         if(newMessages.length!==0){            
         setMessages(newMessages)
                                                                 
@@ -100,7 +103,8 @@ function Message(props){
             creation : creation
         })
     }
-    const sendMessage = ()=>{       
+    const sendMessage = ()=>{ 
+        if(text!==""){      
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         makeSendMassage(creation)
         makeResMessage(creation)
@@ -108,7 +112,7 @@ function Message(props){
             selectedUser:props.route.params.selectedUser,
             selectedUid:props.route.params.selectedUid
         })
-                                   
+    }                     
     }
     
     return (        
@@ -151,7 +155,7 @@ function Message(props){
                 <FlatList
                     numColumns={1}
                     data={messages}
-                    keyExtractor={(item, index) => {
+                    keyExtractor={(item,index) => {
                         return index.toString();
                       }}
                     renderItem={({item, index})=>(
@@ -184,12 +188,13 @@ function Message(props){
                 </List>*/}
                         
                 <Item rounded>
-                <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>
+                <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>                           
                 <Button transparent
                     onPress={()=> sendMessage()}>
                     <Text>Send</Text>
                 </Button>
                 </Item>            
+                
         </Container>
     )
 }
