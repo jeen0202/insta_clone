@@ -85,9 +85,7 @@ function Message(props){
             id : props.route.params.selectedUid,
             message : text,
             creation : creation
-        }).then(
-            console.log("make send complete")
-        )
+        })
     }
     const makeResMessage = async (creation) => {
         await firebase.firestore()
@@ -98,9 +96,7 @@ function Message(props){
             id: firebase.auth().currentUser.uid,
             message : text,
             creation : creation
-        }).then(
-            console.log('make res complete')
-        )
+        })
     }
     const sendMessage = ()=>{
         
@@ -171,11 +167,17 @@ function Message(props){
                 <Input onChangeText={(text)=> setText(text)}
                  value={text} 
                 placeholder="메시지를 입력하세요"
-                />                           
+                /> 
+                {text!==""?
                 <Button transparent
-                    onPress={()=> {sendMessage(); setText("")}}>
-                    <Text>Send</Text>
+                onPress={()=> {sendMessage(); setText("")}}>
+                <Text>Send</Text>
                 </Button>
+                :<Button transparent disabled>
+                <Text>Send</Text>
+                </Button>
+                }                          
+
                 </Item>            
                 
         </Container>

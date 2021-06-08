@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import {View,  Image,FlatList, Button, TextInput} from 'react-native'
-import {Container,Text,CardItem} from 'native-base'
+import {Container,Text,CardItem,Item} from 'native-base'
 import moment from 'moment'
 
 import firebase from 'firebase'
@@ -80,16 +80,16 @@ function Comment(props) {
                     numColumns = {1}
                     horizontal= {false}
                     data={comments}
-                    renderItem={({item}) => (
-                        <CardItem style={{flex:1/3,}}>
+                    renderItem={({item}) => (                        
+                        <CardItem style={{flex:1/3,}}>                            
                             {item.user !== undefined ? 
                             <Text style={{fontWeight:"bold",}}>
                                 {item.user.name}
                             </Text>
                             :null}
-                            <Text> {item.text}</Text>
-                            <Text note>  {`${moment(item.creation.toDate()).format('MM월DD일 HH:mm')}`}</Text>
-                        </CardItem>
+                            <Text> {item.text}</Text>                            
+                            <Text note style={{fontSize:10}}>  {`${moment(item.creation.toDate()).format('MM월DD일 HH:mm')}`}</Text>                            
+                        </CardItem>                        
                     )}
                 />                 
             <View>
