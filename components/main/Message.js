@@ -14,8 +14,7 @@ function Message(props){
     const [messages, setMessages] = useState([])
     const [sendMes, setSendMes] = useState([])
     const [resMes, setResMes] = useState([])    
-    const [text, setText] = useState("")
-    const [change, setChange] = useState(false)   
+    const [text, setText] = useState("")    
 
     useEffect(()=>{
         //console.log("Effect")
@@ -43,7 +42,7 @@ function Message(props){
         getResMessages();
         //getSendMessages();                  
         //console.log("Messages",messages)
-    },[change]) 
+    },[]) 
 
     useEffect(()=>{
         const getSendMessages = async ()=> {
@@ -67,21 +66,20 @@ function Message(props){
             }
             }            
             getSendMessages()        
-    },[change])
+    },[])
 
     useEffect(()=>{
         let newMessages = [...sendMes,...resMes]
         newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
         if(newMessages.length!==0){            
         setMessages(newMessages)
-        setChange(false)                                                             
+                                                                
         }
     },[resMes,sendMes])
 
-     
-    const sendMessage = ()=>{       
-        const creation = firebase.firestore.FieldValue.serverTimestamp()
-        firebase.firestore()
+
+    const makeSendMassage = async (creation) => {
+        await firebase.firestore()
         .collection('users')
         .doc(firebase.auth().currentUser.uid)
         .collection('sendMessages')
@@ -90,8 +88,9 @@ function Message(props){
             message : text,
             creation : creation
         })
-
-        firebase.firestore()
+    }
+    const makeResMessage = async (creation) => {
+        await firebase.firestore()
         .collection('users')
         .doc(props.route.params.selectedUid)
         .collection('resMessages')
@@ -100,7 +99,16 @@ function Message(props){
             message : text,
             creation : creation
         })
-        setChange(true)        
+    }
+    const sendMessage = ()=>{       
+        const creation = firebase.firestore.FieldValue.serverTimestamp()
+        makeSendMassage(creation)
+        makeResMessage(creation)
+        props.navigation.replace('Message',{            
+            selectedUser:props.route.params.selectedUser,
+            selectedUid:props.route.params.selectedUid
+        })
+                                   
     }
     
     return (        
