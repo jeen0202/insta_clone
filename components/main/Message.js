@@ -139,7 +139,15 @@ function Message(props){
                     </Button>
                 </Right>
             </Header>            
-                <List style={{flex:1}}>                    
+                <List style={{flex:1}}>
+                    {messages.length===0 ? 
+                    <Text note  style={
+                        {flex:1,
+                        textAlign:'center',
+                        textAlignVertical:'center',
+                        fontSize:20,}}
+                        >No Messages</Text>
+                    :                                       
                 <FlatList
                     numColumns={1}
                     data={messages}
@@ -160,7 +168,7 @@ function Message(props){
                             <Icon name='person-outline'/>
                     </ListItem>                    
                     )}
-                />                
+                />}                 
                 </List>
                 {/*<List>
                     <ListItem noBorder>                        

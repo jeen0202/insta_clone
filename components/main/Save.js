@@ -12,8 +12,7 @@ export default function Save(props, {navigation}) {
     const [buttonState, setButtonState] = useState(true)
     const uploadImage= async () =>{
         const uri = props.route.params.image;
-        const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`
-        //console.log(childPath)
+        const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`        
         setButtonState(false);
         const response = await fetch(uri)
         const blob = await response.blob();
