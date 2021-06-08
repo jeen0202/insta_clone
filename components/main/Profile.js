@@ -112,26 +112,27 @@ import insta_logo from '../../assets/insta_logo.png'
                 {props.route.params.uid !== firebase.auth().currentUser.uid ?(
                     <View>
                         {following? (
-                            <Button full info
+                            <Button full bordered dark
                                 style={styles.button} 
                                 onPress={()=> onUnfollow()}>
                             <Text>Following</Text>
                             </Button>
                         ):(
-                            <Button full info
+                            <Button full bordered dark
                             style={styles.button}                                
                                 onPress={()=> onFollow()}>
                                 <Text>Follow</Text>
                             </Button>                           
                         )}
-                        <Button full info
+                        <Button full bordered dark
                         style={styles.button}
                         onPress={()=> goMessage()}>
                             <Text>Messages</Text>
                         </Button>
                     </View>
                     ) : 
-                    <Button full info                       
+                    <Button full bordered dark
+                        style = {styles.button}                    
                         onPress={()=> onLogout()}>
                         <Text>Logout</Text>
                         </Button>}
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1/1
     },
     button : {                              
-        marginVertical:5,
+        marginVertical:5,        
     }
 
 })

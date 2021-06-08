@@ -46,7 +46,8 @@ export default function Search(props) {
                 </Button>
           </Right>
             </Header> 
-            <TextInput 
+            <TextInput
+                style={{padding:10,fontSize:15}} 
                 placeholder="Type Here..."
                 onChangeText={(search)=>fetchUsers(search)}/>
 
@@ -57,8 +58,9 @@ export default function Search(props) {
                 data={users}                
                 renderItem={({item}) => (
                     <TouchableOpacity
+                        style={{padding:5}}
                         onPress={() => props.navigation.navigate("Profile",{uid: item.id})}>
-                        <Text>{item.name}</Text>
+                        <Text style={{fontSize:15,padding:5}}>{item.name}</Text>
                     </TouchableOpacity>
                     
                 )}

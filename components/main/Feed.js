@@ -59,7 +59,7 @@ import {connect} from 'react-redux'
                 <Icon name='search' style={{color:'black'}}/>
                 </Button>
                 <Button transparent>
-                <Icon name='heart' style={{color:'black'}}/>
+                <Icon name='heart-outline' style={{color:'black'}}/>
                 </Button>
                 <Button transparent>
                 <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
@@ -102,7 +102,7 @@ import {connect} from 'react-redux'
                                     (
                                         <Button transparent                                
                                         onPress={() => onDisLikePress(item.user.uid,item.id)}>
-                                            <Icon name='heart' style={{color:'black'}}/>
+                                            <Icon name='heart' style={{color:'red'}}/>
                                         </Button>
                                     ):
                                     (

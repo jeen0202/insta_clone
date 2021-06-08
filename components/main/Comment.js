@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
-import {View,  Image,FlatList, Button, TextInput} from 'react-native'
-import {Container,Text,CardItem,Item} from 'native-base'
+import {Image,FlatList, } from 'react-native'
+import {Container,Button,Text,CardItem,Item,Input} from 'native-base'
 import moment from 'moment'
 
 import firebase from 'firebase'
@@ -92,18 +92,18 @@ function Comment(props) {
                         </CardItem>                        
                     )}
                 />                 
-            <View>
-                <TextInput
-                    placeholder='comment...'
+            <Item rounded>
+                <Input
+                    placeholder='댓글을 입력하세요...'
                     value = {text}
                     onChangeText={(text) => setText(text)}/>
                 {text!==''? 
-                    <Button
-                    onPress={() => onCommentSend()}
-                    title = "Send"/>:
-                    <Button disabled                    
-                    title = "Send"/>}                    
-            </View>                           
+                    <Button transparent
+                    onPress={() => onCommentSend()}>
+                        <Text>댓글 달기</Text>
+                    </Button>:
+                    null}                    
+            </Item>                           
         </Container>
     )
 }

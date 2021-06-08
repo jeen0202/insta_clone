@@ -26,7 +26,7 @@ export class Main extends Component {
     render() {
 
         return (
-            <Tab.Navigator initialRouteName="Feed" labeled={false}>
+            <Tab.Navigator initialRouteName="Feed" labeled={false} barStyle={{backgroundColor: 'white'}}>
                 <Tab.Screen name="Feed" component={FeedScreen} navigation={this.props.navigation}                
                 options={{                    
                     tabBarIcon : ({color, size}) => (
@@ -48,7 +48,7 @@ export class Main extends Component {
                 })}
                 options={{
                     tabBarIcon : ({color, size}) => (
-                        <MaterialCommunityIcons name ="plus-box" color = {color} size = {26}/>
+                        <MaterialCommunityIcons name ="plus-box-outline" color = {color} size = {26}/>
                     ),                    
                 }} />
                 <Tab.Screen name="Profile" component={ProfileScreen} navigation={this.props.navigation}
@@ -60,7 +60,7 @@ export class Main extends Component {
                 })}
                 options={{
                     tabBarIcon : ({color, size}) => (
-                        <MaterialCommunityIcons name ="account-circle" color = {color} size = {26}/>
+                        <MaterialCommunityIcons name ="account-circle-outline" color = {color} size = {26}/>
                     ),                    
                 }} />                
           </Tab.Navigator>

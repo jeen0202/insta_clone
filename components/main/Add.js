@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Image} from 'react-native';
-import {Content} from 'native-base'
+import { StyleSheet, View, Image} from 'react-native';
+import {Content, Button,Text} from 'native-base'
 import { Camera } from 'expo-camera';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
@@ -47,6 +47,7 @@ export default function App({navigation}) {
     
         if (!result.cancelled) {
           setImage(result.uri);
+          setIsShooted(true)
         }
       };
 
@@ -72,23 +73,38 @@ export default function App({navigation}) {
         </View> }
         {isShooted ?
         <View>
-          <Button title = "다시촬영하기" onPress={()=> setIsShooted(false)}/>
-          <Button title = "사진첩에서 불러오기" onPress={()=> pickImage()}/>
-          <Button title = "저장하기" onPress={() => navigation.navigate('Save',{image})}/>
+          <Button full transparent
+          onPress={()=> setIsShooted(false)}>
+            <Text>다시촬영하기</Text>
+          </Button>
+          <Button full transparent
+          onPress={()=> pickImage()}>
+            <Text>사진첩에서 불러오기</Text>
+          </Button>
+          <Button full transparent
+          onPress={() => navigation.navigate('Save',{image})}>
+            <Text>저장하기</Text>
+          </Button>
         </View> :
         <View>
-        <Button title = "촬영" onPress={() => takePicture()}/>  
-        <Button                     
-        title= "카메라 전환"
+        <Button full transparent
+        onPress={() => takePicture()}>
+          <Text>촬영</Text>  
+        </Button>  
+        <Button full transparent
         onPress={() => {
             setType(
             type === Camera.Constants.Type.back
                 ? Camera.Constants.Type.front
                 : Camera.Constants.Type.back
             );
-        }}>            
+        }}>
+          <Text>카메라 전환</Text>            
     </Button>    
-    <Button title = "사진첩에서 불러오기" onPress={()=> pickImage()}/>
+    <Button full transparent
+     onPress={()=> pickImage()}>
+    <Text>사진첩에서 불러오기</Text>
+    </Button>
     </View> }  
     </Content>
   );

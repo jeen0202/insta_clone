@@ -166,16 +166,14 @@ function Message(props){
                 <Item rounded>
                 <Input onChangeText={(text)=> setText(text)}
                  value={text} 
-                placeholder="메시지를 입력하세요"
+                placeholder="메시지를 입력하세요..."
                 /> 
                 {text!==""?
                 <Button transparent
                 onPress={()=> {sendMessage(); setText("")}}>
-                <Text>Send</Text>
+                <Text>메시지 전송</Text>
                 </Button>
-                :<Button transparent disabled>
-                <Text>Send</Text>
-                </Button>
+                :null
                 }                          
 
                 </Item>            

@@ -50,15 +50,16 @@ export default function Save(props, {navigation}) {
             <Content contentContainerStyle={{flex:1}}>
                 <Image source={{uri:props.route.params.image}} style={{flex:1}}/>
                 <TextInput
+                style={{padding:10}}
                 placeholder="Write a Caption . . ."
                 onChangeText={(caption) => setCaption(caption)}
                 />
                 {buttonState ?
-                <Button full info
+                <Button full transparent
                 onPress={()=> {
                     uploadImage();
                     }}>
-                <Text>Save</Text>
+                <Text>저장</Text>
                 </Button> : 
                 <Button disabled full>
                     <Text>Save</Text></Button>}
