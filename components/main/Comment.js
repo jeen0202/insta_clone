@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from 'react'
-import {View, Text, Image,FlatList, Button, TextInput} from 'react-native'
-import {Container,CardItem} from 'native-base'
-
+import {View,  Image,FlatList, Button, TextInput} from 'react-native'
+import {Container,Text,CardItem} from 'native-base'
+import moment from 'moment'
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -27,8 +27,9 @@ function Comment(props) {
                 }else{
                     comments[i].user = user;
                 }
-            }
-            setComments(comments)                      
+            }                     
+            setComments(comments)
+                                  
         }        
             if(props.route.params.postId !== postId){
                 firebase.firestore()
@@ -36,14 +37,14 @@ function Comment(props) {
                 .doc(props.route.params.uid)
                 .collection("userPosts")
                 .doc(props.route.params.postId)
-                .collection('comments')
-                .get()
-                .then((snapshot)=> {
+                .collection('comments')                
+                .onSnapshot((snapshot)=> {
                     let comments = snapshot.docs.map(doc => {
                         const data = doc.data()
                         const id = doc.id
                         return {id, ...data}
                     })
+                    if(!snapshot.metadata.hasPendingWrites)                    
                     matchUserToComment(comments);               
                 })
                 setPostId(props.route.params.postId)
@@ -62,12 +63,12 @@ function Comment(props) {
         .doc(props.route.params.postId)
         .collection('comments')
         .add({
+            creation : firebase.firestore.FieldValue.serverTimestamp(),
             creator : firebase.auth().currentUser.uid,
-            text,
+            text,            
         })
-        setText('');        
-        props.navigation.replace('Comment',{postId: props.route.params.postId, uid:props.route.params.uid, downloadURL: props.route.params.downloadURL})
-               
+        .then(
+            setText('')) 
     }     
     return (
         <Container>            
@@ -86,20 +87,21 @@ function Comment(props) {
                                 {item.user.name}
                             </Text>
                             :null}
-                            <Text>    {item.text}</Text>
+                            <Text> {item.text}</Text>
+                            <Text note>  {`${moment(item.creation.toDate()).format('MM월DD일 HH:mm')}`}</Text>
                         </CardItem>
                     )}
                 />                 
             <View>
                 <TextInput
                     placeholder='comment...'
+                    value = {text}
                     onChangeText={(text) => setText(text)}/>
                 {text!==''? 
                     <Button
                     onPress={() => onCommentSend()}
                     title = "Send"/>:
-                    <Button disabled
-                    onPress={() => onCommentSend()}
+                    <Button disabled                    
                     title = "Send"/>}                    
             </View>                           
         </Container>

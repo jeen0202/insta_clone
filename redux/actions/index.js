@@ -61,6 +61,7 @@ export function fetchUserFollowing(){
             })
     })
 }
+/*
 export function fetchUserMessages(uid){
     let resMes,sendMes,messages
     return ((dispatch) => {
@@ -97,7 +98,7 @@ export function fetchUserMessages(uid){
             messages= [...sendMes||[], ...resMes||[]]            
             messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
             }            
-            console.log("resmessages",messages)            
+            //console.log("resmessages",messages)            
             dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                  
                      
         })        
@@ -109,6 +110,7 @@ export function fetchUserMessages(uid){
         
     })
 }
+*/
 export function fetchUsersData(uid, getPosts) {
     return ((dispatch, getState) => {
         const found = getState().usersState.users.some(el => el.uid === uid)
