@@ -5,7 +5,6 @@ import firebase from 'firebase'
 require('firebase/firestore')
 import moment from 'moment'
 
-import {fetchUserMessages} from '../../redux/actions/index.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
@@ -215,5 +214,5 @@ const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     messages : store.userState.messages
 })
-const mapDispatchtoProps = (dispatch) => bindActionCreators({fetchUserMessages},dispatch)
-export default connect(mapStatetoProps,mapDispatchtoProps)(Message);
+
+export default connect(mapStatetoProps)(Message);

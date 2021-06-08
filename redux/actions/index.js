@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import {CLEAR_DATA,USER_POST_STATE_CHANGE, USER_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE, USER_MESSAGES_STATE_CHANGE} from '../constants/index'
+import {CLEAR_DATA,USER_POST_STATE_CHANGE, USER_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE} from '../constants/index'
 require('firebase/firestore')
 
 export function clearData() {
@@ -61,56 +61,6 @@ export function fetchUserFollowing(){
             })
     })
 }
-/*
-export function fetchUserMessages(uid){
-    let resMes,sendMes,messages
-    return ((dispatch) => {
-        firebase.firestore()
-        .collection("users")
-        .doc(uid)
-        .collection("sendMessages")
-        .where('id','==',firebase.auth().currentUser.uid)        
-        .get()
-        .then((snapshot) => {                            
-                resMes = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    const id = doc.id;
-                    return{id, ...data}
-                })            
-                //messages= [...sendMes||[], ...resMes||[]]            
-                //messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
-                //console.log("sendmessages",messages)            
-                //dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                                          
-        })
-        firebase.firestore()
-        .collection("users")
-        .doc(firebase.auth().currentUser.uid)
-        .collection("sendMessages")
-        .where('id','==',uid)        
-        .get()
-        .then((snapshot) => {            
-           sendMes = snapshot.docs.map(doc => {
-                const data = doc.data();
-                const id = doc.id;
-                return{id, ...data}                
-            })
-            if(sendMes!== [] && resMes !== []){
-            messages= [...sendMes||[], ...resMes||[]]            
-            messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
-            }            
-            //console.log("resmessages",messages)            
-            dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})                  
-                     
-        })        
-        //    messages= [...sendMes||[], ...resMes||[]]            
-        //    messages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})            
-        //    console.log("messages",messages)            
-        //    dispatch({type: USER_MESSAGES_STATE_CHANGE, messages})
-            
-        
-    })
-}
-*/
 export function fetchUsersData(uid, getPosts) {
     return ((dispatch, getState) => {
         const found = getState().usersState.users.some(el => el.uid === uid)
