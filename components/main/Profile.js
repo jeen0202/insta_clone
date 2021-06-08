@@ -72,6 +72,12 @@ import insta_logo from '../../assets/insta_logo.png'
     const onLogout = () => {
         firebase.auth().signOut();
     }
+    const goMessage = () => {
+        props.navigation.navigate("Message",{
+            selectedUid:props.route.params.uid,
+            selectedUser:user.name,
+        })
+    }
     if(user === null){
         return <View/>
     }
@@ -106,16 +112,23 @@ import insta_logo from '../../assets/insta_logo.png'
                 {props.route.params.uid !== firebase.auth().currentUser.uid ?(
                     <View>
                         {following? (
-                            <Button full info 
+                            <Button full info
+                                style={styles.button} 
                                 onPress={()=> onUnfollow()}>
                             <Text>Following</Text>
                             </Button>
                         ):(
-                            <Button full info                                
+                            <Button full info
+                            style={styles.button}                                
                                 onPress={()=> onFollow()}>
                                 <Text>Follow</Text>
                             </Button>                           
                         )}
+                        <Button full info
+                        style={styles.button}
+                        onPress={()=> goMessage()}>
+                            <Text>Messages</Text>
+                        </Button>
                     </View>
                     ) : 
                     <Button full info                       
@@ -163,6 +176,9 @@ const styles = StyleSheet.create({
         flex: 1,
         aspectRatio: 1/1
     },
+    button : {                              
+        marginVertical:5,
+    }
 
 })
 
