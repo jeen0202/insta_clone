@@ -26,8 +26,7 @@ function Message(props){
                 .doc(props.route.params.selectedUid)
                 .collection("sendMessages")
                 .where('id','==',firebase.auth().currentUser.uid)        
-                .get()
-                .then((snapshot) => {
+                .onSnapshot((snapshot) => {
                     let resMes = snapshot.docs.map(doc => {
                         const data = doc.data();
                         const id = doc.id;
@@ -43,8 +42,6 @@ function Message(props){
             }           
             }        
         getResMessages();
-        //getSendMessages();                  
-        //console.log("Messages",messages)
     },[]) 
 
     useEffect(()=>{
@@ -73,11 +70,9 @@ function Message(props){
     },[])
 
     useEffect(()=>{
-        let newMessages = [...sendMes,...resMes]        
-        //if(newMessages.length>0){
+        let newMessages = [...sendMes,...resMes] 
             newMessages.sort((a,b)=>{return a.creation.seconds-b.creation.seconds})
-            setMessages(newMessages)
-        //}                                                             
+            setMessages(newMessages)                                                                    
         
     },[resMes,sendMes])
 
@@ -113,20 +108,9 @@ function Message(props){
         if(text!==""){      
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         makeSendMassage(creation)
-        makeResMessage(creation)                      
-        //props.navigation.replace('Message',{            
-        //    selectedUser:props.route.params.selectedUser,
-        //    selectedUid:props.route.params.selectedUid
-        //})        
+        makeResMessage(creation) 
     }                    
     }
-   /* if(!Loaded.send || !Loaded.res){
-        return (
-            <Container style={{flex : 1, justifyContent : 'center',alignItems:'center'}}>
-                <Text>Loading...</Text>
-            </Container>
-        )
-    }else{*/
     return (        
         <Container>
             <Header style={styles.header}>
@@ -183,18 +167,6 @@ function Message(props){
                     )}
                 />                 
                 </List>
-                {/*<List>
-                    <ListItem noBorder>                        
-                            <Icon name='person-outline'/>
-                            <Text style={styles.messageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>                        
-                            <Text note>13:15</Text>
-                    </ListItem>
-                    <ListItem noBorder style={{justifyContent:'flex-end'}}>
-                            <Text note>13:16</Text>
-                            <Text style={styles.myMessageBox}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text>
-                            <Icon name='person-outline'/>
-                    </ListItem>
-                </List>*/}
                         
                 <Item rounded>
                 <Input onChangeText={(text)=> setText(text)}
