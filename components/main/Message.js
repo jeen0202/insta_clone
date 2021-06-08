@@ -55,8 +55,7 @@ function Message(props){
                 .doc(firebase.auth().currentUser.uid)
                 .collection("sendMessages")
                 .where('id','==',props.route.params.selectedUid)        
-                .get()
-                .then((snapshot) => {
+                .onSnapshot((snapshot) => {
                     let sendMes = snapshot.docs.map(doc => {
                         const data = doc.data();
                         const id = doc.id;
@@ -114,12 +113,11 @@ function Message(props){
         if(text!==""){      
         const creation = firebase.firestore.FieldValue.serverTimestamp()
         makeSendMassage(creation)
-        makeResMessage(creation)        
-        props.navigation.replace('Message',{            
-            selectedUser:props.route.params.selectedUser,
-            selectedUid:props.route.params.selectedUid
-        })
-        
+        makeResMessage(creation)                      
+        //props.navigation.replace('Message',{            
+        //    selectedUser:props.route.params.selectedUser,
+        //    selectedUid:props.route.params.selectedUid
+        //})        
     }                    
     }
    /* if(!Loaded.send || !Loaded.res){
@@ -199,9 +197,12 @@ function Message(props){
                 </List>*/}
                         
                 <Item rounded>
-                <Input onChangeText={(text)=> setText(text)} placeholder="메시지를 입력하세요"/>                           
+                <Input onChangeText={(text)=> setText(text)}
+                 value={text} 
+                placeholder="메시지를 입력하세요"
+                />                           
                 <Button transparent
-                    onPress={()=> sendMessage()}>
+                    onPress={()=> {sendMessage(); setText("")}}>
                     <Text>Send</Text>
                 </Button>
                 </Item>            
