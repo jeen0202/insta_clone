@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Image, FlatList, } from 'react-native'
+import {StyleSheet,View, Image, FlatList} from 'react-native'
 import moment from 'moment'
 import insta_logo from '../../assets/insta_logo.png'
-import { Container,Header,Card, Content, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
+import { Container,Header,Card, Thumbnail, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
 
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
+import { ScrollView } from 'react-native-gesture-handler';
 
  function Feed(props) {
     const [posts, setPosts] = useState([]);
@@ -80,6 +81,28 @@ import {connect} from 'react-redux'
                                     <Icon name="md-play"></Icon>
                                     <Text style={{fontWeight:'bold'}}>Watch All</Text>
                                 </View>
+                            </View>
+
+                            <View style={{flex:3}}>
+                                <ScrollView
+                                    horizontal={true}
+                                    showsHorizontalScrollIndicator={false}
+                                    contentContainerStyle={{
+                                        alignItems:'center',
+                                        paddingStart:5,
+                                        paddingEnd:5
+                                    }}>
+                                <Thumbnail 
+                                style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}}
+                                source={{uri:'https://firebasestorage.googleapis.com/v0/b/insta-clone-f4cda.appspot.com/o/post%2FaQUeJJNRBpSGbLe5NhjcQIXv8YR2%2F0.uoj9scksfr7?alt=media&token=459cbce9-677b-4264-9933-5a7756e9757f'}}/>
+                                <Thumbnail 
+                                style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}}
+                                source={{uri:'https://firebasestorage.googleapis.com/v0/b/insta-clone-f4cda.appspot.com/o/post%2FaQUeJJNRBpSGbLe5NhjcQIXv8YR2%2F0.uoj9scksfr7?alt=media&token=459cbce9-677b-4264-9933-5a7756e9757f'}}/>
+                                </ScrollView>
+                                {/* <FlatList
+                                horizontal={true}>
+                                
+                                </FlatList> */}
                             </View>
                         </View>
                     }
