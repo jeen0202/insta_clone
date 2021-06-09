@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View,  Image, FlatList, } from 'react-native'
+import {StyleSheet,View, Image, FlatList, } from 'react-native'
 import moment from 'moment'
 import insta_logo from '../../assets/insta_logo.png'
-import { Container,Header,Card, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
+import { Container,Header,Card, Content, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -44,7 +44,7 @@ import {connect} from 'react-redux'
     }
 
     return (
-        <Container style={styles.container}>
+        <Container style={styles.container}>            
             <Header style={styles.header}>
             <Left>
             <Image
@@ -65,12 +65,24 @@ import {connect} from 'react-redux'
                 <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
                 </Button>
           </Right>
-            </Header>
+            </Header>                  
             <View style={styles.containerGallery}>
                 <FlatList
                     numColumns={1}
                     horizontal={false}
                     data={posts}
+                    windowSize={2}
+                    ListHeaderComponent={
+                        <View style={{height:100}}>
+                            <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:7}}>
+                                <Text style={{fontWeight:'bold'}}>Stories</Text>
+                                <View style={{flexDirection:'row',alignItems:'center'}}>
+                                    <Icon name="md-play"></Icon>
+                                    <Text style={{fontWeight:'bold'}}>Watch All</Text>
+                                </View>
+                            </View>
+                        </View>
+                    }
                     renderItem={({item})=>(                        
                         <Card style={styles.containerImage}>
                             <CardItem>
@@ -131,7 +143,7 @@ import {connect} from 'react-redux'
                         </Card>
                     )}
                 />
-            </View>
+            </View>                        
         </Container>
     )
 }
