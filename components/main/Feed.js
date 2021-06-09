@@ -92,9 +92,9 @@ import { ScrollView } from 'react-native-gesture-handler';
                                         paddingStart:5,
                                         paddingEnd:5
                                     }}>
-                                <Thumbnail 
+                                <Thumbnail
                                 style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}}
-                                source={{uri:'https://firebasestorage.googleapis.com/v0/b/insta-clone-f4cda.appspot.com/o/post%2FaQUeJJNRBpSGbLe5NhjcQIXv8YR2%2F0.uoj9scksfr7?alt=media&token=459cbce9-677b-4264-9933-5a7756e9757f'}}/>
+                                source={require('../../assets/default_Profile.png')}/>
                                 <Thumbnail 
                                 style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}}
                                 source={{uri:'https://firebasestorage.googleapis.com/v0/b/insta-clone-f4cda.appspot.com/o/post%2FaQUeJJNRBpSGbLe5NhjcQIXv8YR2%2F0.uoj9scksfr7?alt=media&token=459cbce9-677b-4264-9933-5a7756e9757f'}}/>
@@ -111,7 +111,8 @@ import { ScrollView } from 'react-native-gesture-handler';
                             <CardItem>
                                 <Left>
                                     {/* <Thumbnail source={{uri: 'image URL'}}/> */}
-                                    <Icon name='person-circle-outline'/>
+                                    <Thumbnail
+                                    source={require('../../assets/default_Profile.png')}/>
                                     <Body>                                                                                               
                                         <Text>{item.user.name}</Text>       
                                         <Text note >{`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`}</Text> 

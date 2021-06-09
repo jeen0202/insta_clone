@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet,View, Image, FlatList, } from 'react-native'
-import {Container,Header,Left,Right,Text, Icon,Button} from 'native-base'
+import {Container,Header,Left,Right,Text, Icon,Button, Thumbnail} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
@@ -86,31 +86,53 @@ import insta_logo from '../../assets/insta_logo.png'
     return (
         <Container style={styles.container}>            
             <Header style={styles.header}>
-            <Left>
-            <Image
-            source={insta_logo}
-            />
+            <Left style={{flexDirection:'row', alignItems:'center'}}>
+            <Text style={{fontWeight:'bold',fontSize:17}}>{user.name}</Text>
+            <Icon name='caret-down' type='FontAwesome' style={{paddingLeft:10,fontSize:14}}/>           
             </Left>
-            <Right>
+            <Right style={{flexDirection:'row', alignItems:'center'}}>
                 <Button transparent
                     onPress={()=>{                                    
                     props.navigation.navigate('Search')
                 }}>
-                <Icon name='search' style={{color:'black'}}/>
+                <Icon name='search' style={{color:'black',paddingRight:10, fontSize:23}}/>
                 </Button>
                 <Button transparent>
-                <Icon name='heart' style={{color:'black'}}/>
+                <Icon name='user-plus' type='Feather' style={{color:'black',paddingRight:10, fontSize:23}}/>
                 </Button>
                 <Button transparent>
-                <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
+                <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
                 </Button>
           </Right>
             </Header>
-            <View style = {styles.containerInfo}>           
-                <Text>{user.name}</Text>
-                <Text>{user.email}</Text>
-                {props.route.params.uid !== firebase.auth().currentUser.uid ?(
+            <View style = {styles.containerInfo}>
+                <View style={{flexDirection:'row'}}>
                     <View>
+                        <Thumbnail source={require('../../assets/default_Profile.png')}/> 
+                    </View>
+                    <View style={{flex:3}}>                        
+                        <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                            <View style={{alignItems:'center'}}>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>15</Text>
+                                <Text style={{fontSize:12,color:'gray'}}>게시물</Text>
+                            </View>                                                
+                            <View style={{alignItems:'center'}}>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>5</Text>
+                                <Text style={{fontSize:12,color:'gray'}}>팔로워</Text>
+                            </View>  
+                            <View style={{alignItems:'center'}}>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>8</Text>
+                                <Text style={{fontSize:12,color:'gray'}}>팔로잉</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <Button bordered dark
+                            style={styles.button}>
+                                <Text>프로필 수정</Text>                                
+                            </Button>                            
+                        </View>
+                        {props.route.params.uid !== firebase.auth().currentUser.uid ?(
+                    <View style={{flexDirection:'row'}}>
                         {following? (
                             <Button full bordered dark
                                 style={styles.button} 
@@ -130,18 +152,29 @@ import insta_logo from '../../assets/insta_logo.png'
                             <Text>Messages</Text>
                         </Button>
                     </View>
-                    ) : 
+                    ) :
+                    <View style={{flexDirection:'row'}}> 
                     <Button full bordered dark
                         style = {styles.button}                    
                         onPress={()=> onLogout()}>
                         <Text>Logout</Text>
-                        </Button>}
+                        </Button>
+                    </View>}
+                        
+                    </View>
+                </View>
+                <View style={{paddingHorizontal:10, paddingVertical:10}}>
+                    <Text style={{fontWeight:'bold'}}>{user.name}</Text>
+                    <Text> React-Native로</Text>
+                    <Text> Instagram UI 따라하기!!!</Text>
+                </View>                
             </View>
             <View style={styles.containerGallery}>
                 <FlatList
                     numColumns={3}
                     horizontal={false}
                     data={userPosts}
+                    windowSize={2}
                     renderItem={({item})=>(
                         <View style={styles.containerImage}>
                         <Image style={styles.image}
@@ -166,6 +199,7 @@ const styles = StyleSheet.create({
     },
     containerInfo:{
         margin :20,
+        paddingTop:10,
     },
     containerGallery:{
         flex:1
@@ -178,7 +212,7 @@ const styles = StyleSheet.create({
         aspectRatio: 1/1
     },
     button : {                              
-        marginVertical:5,        
+        flex:1, justifyContent:'center', height:30, marginHorizontal:10, marginTop:10     
     }
 
 })
