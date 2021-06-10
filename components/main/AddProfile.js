@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image} from 'react-native';
-import {Content,Footer,FooterTab, Button,Text} from 'native-base'
+import {Content,Footer,FooterTab, Button,Text,Spinner, Container} from 'native-base'
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -9,7 +9,7 @@ require('firebase/firestore')
 require("firebase/firebase-storage")
 
 
-export default function AddProfile(props,{navigation}) {
+export default function AddProfile({navigation}) {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
@@ -17,11 +17,9 @@ export default function AddProfile(props,{navigation}) {
     const [image,setImage] = useState(null);
     const [isShooted,setIsShooted] = useState(false)
     const [mode,setMode] = useState("gallery")
-    const [user,setUser] = useState([]);
+    const [onSave,setOnSave] = useState(false)
 
-    useEffect(() => {
-        const {currentUser} = props;
-        setUser(currentUser);        
+    useEffect(() => {       
         (async () => {
             const cameraStatus = await Camera.requestPermissionsAsync();
             setHasCameraPermission(cameraStatus.status === 'granted');
@@ -53,10 +51,17 @@ export default function AddProfile(props,{navigation}) {
       };
       const uploadProfile= async () =>{
         const uri = image;
-        const childPath = `profiles/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`       
+        const childPath = `profiles/${firebase.auth().currentUser.uid}/profile`       
         const response = await fetch(uri)
         const blob = await response.blob();
         //firebase-storage에 random한 id로 data 저장
+        firebase.storage().ref().child(childPath)
+        .delete()
+        .then(()=>{
+            console.log("clear profile!!")
+        }).catch((error)=>{
+            console.error(error)
+        })
         const task = firebase.storage().ref().child(childPath).put(blob);
 
         const taskProgress = snapshot => {
@@ -78,7 +83,11 @@ export default function AddProfile(props,{navigation}) {
         collection('users').
         doc(firebase.auth().currentUser.uid)
         .update({profileURL:downloadURL})
+        .then(()=>{
+            navigation.pop(1)
+        })
 
+/*
         firebase.firestore().
         collection('posts').
         doc(firebase.auth().currentUser.uid)
@@ -88,6 +97,8 @@ export default function AddProfile(props,{navigation}) {
         }).then((function (){
             props.navigation.pop(1)
         }))
+        */
+
     }
 
     if (hasCameraPermission === null||hasGalleryPermission === null) {
@@ -98,8 +109,11 @@ export default function AddProfile(props,{navigation}) {
     }
     
     return(
-        <Content contentContainerStyle={styles.container}>            
-            {isShooted?                
+        <Container>
+        {onSave? 
+        <Spinner style={{flex:1}}/>:
+        <Content contentContainerStyle={styles.container}>                    
+            {isShooted?                                
                 <View style={styles.CameraContainer}>                
                 {image && <Image source = {{uri: image}} style={{flex:1}}/>}                
                 <View>
@@ -113,9 +127,10 @@ export default function AddProfile(props,{navigation}) {
                      <Text>다시촬영하기</Text>
                  </Button>                
                 }
-               <Button full transparent
+               <Button full transparent 
+               disabled={onSave?true:false}              
                 onPress={() => {
-                    set
+                    setOnSave(true);
                     uploadProfile()
                     }}>
                     <Text>저장하기</Text>
@@ -161,6 +176,8 @@ export default function AddProfile(props,{navigation}) {
                 </FooterTab>
             </Footer>
         </Content>
+        }
+        </Container>
     )
 }
 
