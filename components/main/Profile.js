@@ -141,7 +141,7 @@ import insta_logo from '../../assets/insta_logo.png'
             <View style = {styles.containerInfo}>
                 <View style={{flexDirection:'row'}}>
                     <View>
-                        <Thumbnail source={require('../../assets/default_Profile.png')}/> 
+                        <Thumbnail source={user.profileURL!==undefined?{url:user.profileURL}:require('../../assets/default_Profile.png')}/> 
                     </View>
                     <View style={{flex:3}}>                        
                         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
@@ -159,7 +159,7 @@ import insta_logo from '../../assets/insta_logo.png'
                             </View>
                         </View>
                         <View style={{flexDirection:'row'}}>
-                            <Button bordered dark
+                            <Button bordered dark disabled
                             style={styles.button}>
                                 <Text>프로필 수정</Text>                                
                             </Button>                            

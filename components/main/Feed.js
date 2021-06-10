@@ -109,10 +109,11 @@ import { ScrollView } from 'react-native-gesture-handler';
                     renderItem={({item})=>(                        
                         <Card style={styles.containerImage}>
                             <CardItem>
-                                <Left>
-                                    {/* <Thumbnail source={{uri: 'image URL'}}/> */}
-                                    <Thumbnail
-                                    source={require('../../assets/default_Profile.png')}/>
+                                <Left>                                    
+                                <Thumbnail                                      
+                                    source={item.user.profileURL!==undefined?
+                                        {uri:item.user.profileURL}
+                                        :require('../../assets/default_Profile.png')}/> 
                                     <Body>                                                                                               
                                         <Text>{item.user.name}</Text>       
                                         <Text note >{`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`}</Text> 
