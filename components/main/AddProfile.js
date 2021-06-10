@@ -2,20 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image} from 'react-native';
 import {Content,Footer,FooterTab, Button,Text} from 'native-base'
 import { Camera } from 'expo-camera';
-//갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
 
-export default function App({navigation}) {
+import firebase from 'firebase/app'
+require('firebase/firestore')
+require("firebase/firebase-storage")
+
+
+export default function AddProfile(props,{navigation}) {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
-
     const [camera,setCamera] = useState(null);
     const [image,setImage] = useState(null);
     const [isShooted,setIsShooted] = useState(false)
     const [mode,setMode] = useState("gallery")
+    const [user,setUser] = useState([]);
 
     useEffect(() => {
+        const {currentUser} = props;
+        setUser(currentUser);        
         (async () => {
             const cameraStatus = await Camera.requestPermissionsAsync();
             setHasCameraPermission(cameraStatus.status === 'granted');
@@ -39,14 +45,50 @@ export default function App({navigation}) {
           allowsEditing: true,
           aspect: [1, 1],
           quality: 1,
-        });
-    
-    
+        }); 
         if (!result.cancelled) {
           setImage(result.uri);
           setIsShooted(true)
         }
       };
+      const uploadProfile= async () =>{
+        const uri = image;
+        const childPath = `profiles/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`       
+        const response = await fetch(uri)
+        const blob = await response.blob();
+        //firebase-storage에 random한 id로 data 저장
+        const task = firebase.storage().ref().child(childPath).put(blob);
+
+        const taskProgress = snapshot => {
+            console.log(`transferred: ${snapshot.bytesTransferred}`)
+        }
+        const taskCompleted = () => {
+            task.snapshot.ref.getDownloadURL().then((snapshot) => {
+                saveProfileData(snapshot);
+                console.log(snapshot)
+            })
+        }
+        const taskError = snapshot => {
+            console.log(snapshot)
+        }
+        task.on("state_changed", taskProgress,taskError,taskCompleted);
+    }
+    const saveProfileData = (downloadURL) => {
+        firebase.firestore().
+        collection('users').
+        doc(firebase.auth().currentUser.uid)
+        .update({profileURL:downloadURL})
+
+        firebase.firestore().
+        collection('posts').
+        doc(firebase.auth().currentUser.uid)
+        .collection("Profile")
+        .set({
+            downloadURL
+        }).then((function (){
+            props.navigation.pop(1)
+        }))
+    }
 
     if (hasCameraPermission === null||hasGalleryPermission === null) {
         return <View />;
@@ -72,7 +114,10 @@ export default function App({navigation}) {
                  </Button>                
                 }
                <Button full transparent
-                onPress={() => {}}>
+                onPress={() => {
+                    set
+                    uploadProfile()
+                    }}>
                     <Text>저장하기</Text>
                 </Button>
                 </View>
