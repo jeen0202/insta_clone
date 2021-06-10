@@ -50,24 +50,57 @@ import insta_logo from '../../assets/insta_logo.png'
         }else{
             setFollowing(false)
         }
-    },[props.route.params.uid, props.following])
+    },[props.route.params.uid, props.following,props.currentUser])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
+    let followFlag = false;
+
+    const followCheck = () => {
+        if(followFlag){
+            return followFlag;
+        }else{
+            followFlag= true;
+            return false;
+        }
+    }
     const onFollow = () => {
+        firebase.firestore()
+        .collection("users")
+        .doc(props.route.params.uid)
+        .update({follower:firebase.firestore.FieldValue.increment(1)})
+
+        firebase.firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .update({following:firebase.firestore.FieldValue.increment(1)})
+
         firebase.firestore()
         .collection("following")
         .doc(firebase.auth().currentUser.uid)
         .collection("userFollowing")
         .doc(props.route.params.uid)
-        .set({})        
+        .set({})
+
     }
     const onUnfollow = () => {
         firebase.firestore()
+        .collection("users")
+        .doc(props.route.params.uid)
+        .update({follower:firebase.firestore.FieldValue.increment(-1)})
+
+        firebase.firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .update({following:firebase.firestore.FieldValue.increment(-1)})
+
+        firebase.firestore()
         .collection("following")
         .doc(firebase.auth().currentUser.uid)
         .collection("userFollowing")
         .doc(props.route.params.uid)
-        .delete()        
+        .delete()
+           
+
     }
     const onLogout = () => {
         firebase.auth().signOut();
@@ -113,15 +146,15 @@ import insta_logo from '../../assets/insta_logo.png'
                     <View style={{flex:3}}>                        
                         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                             <View style={{alignItems:'center'}}>
-                                <Text style={{fontSize:17,fontWeight:'bold'}}>{props.feed.length}</Text>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>{userPosts.length}</Text>
                                 <Text style={{fontSize:12,color:'gray'}}>게시물</Text>
                             </View>                                                
                             <View style={{alignItems:'center'}}>
-                                <Text style={{fontSize:17,fontWeight:'bold'}}>5</Text>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>{user.follower}</Text>
                                 <Text style={{fontSize:12,color:'gray'}}>팔로워</Text>
                             </View>  
                             <View style={{alignItems:'center'}}>
-                                <Text style={{fontSize:17,fontWeight:'bold'}}>{props.following.length}</Text>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>{user.following}</Text>
                                 <Text style={{fontSize:12,color:'gray'}}>팔로잉</Text>
                             </View>
                         </View>
@@ -136,13 +169,19 @@ import insta_logo from '../../assets/insta_logo.png'
                         {following? (
                             <Button full bordered dark
                                 style={styles.button} 
-                                onPress={()=> onUnfollow()}>
+                                onPress={()=> {
+                                    if(followCheck())
+                                        return;
+                                    onUnfollow()}}>
                             <Text>Following</Text>
                             </Button>
                         ):(
                             <Button full bordered dark
                             style={styles.button}                                
-                                onPress={()=> onFollow()}>
+                                onPress={()=> {
+                                    if(followCheck())
+                                        return;
+                                    onFollow()}}>
                                 <Text>Follow</Text>
                             </Button>                           
                         )}
