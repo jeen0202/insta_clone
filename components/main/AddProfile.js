@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image} from 'react-native';
-import {Content,Header, Button,Text} from 'native-base'
+import {Content,Footer,FooterTab, Button,Text} from 'native-base'
 import { Camera } from 'expo-camera';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
@@ -13,7 +13,7 @@ export default function App({navigation}) {
     const [camera,setCamera] = useState(null);
     const [image,setImage] = useState(null);
     const [isShooted,setIsShooted] = useState(false)
-    const [cameraOn,setCameraOn] = useState(false)
+    const [mode,setMode] = useState("gallery")
 
     useEffect(() => {
         (async () => {
@@ -56,44 +56,65 @@ export default function App({navigation}) {
     }
     
     return(
-        <Content contentContainerStyle={styles.container}>
-            <Header>
-                <Button full transparent onPress={()=> pickImage()}>
-                        <Text>갤러리</Text>
-                    </Button>
-                    <Button full transparent onPress={()=> setCameraOn(true)}>
-                        <Text>사진</Text>
-                    </Button>
-            </Header>
-            {isShooted?
-                <View style={styles.CameraContainer}>
-                {image && <Image source = {{uri: image}} style={{flex:1}}/>}
+        <Content contentContainerStyle={styles.container}>            
+            {isShooted?                
+                <View style={styles.CameraContainer}>                
+                {image && <Image source = {{uri: image}} style={{flex:1}}/>}                
                 <View>
-                <Button full transparent
-                onPress={()=> setIsShooted(false)}>
-                    <Text>다시촬영하기</Text>
-                </Button>
+                {mode==="gallery" ?
                 <Button full transparent
                 onPress={()=> pickImage()}>
-                    <Text>갤러리에서 불러오기</Text>
-                </Button>
+                    <Text>다른 사진 불러오기</Text>
+                </Button>:
                 <Button full transparent
+                 onPress={()=> setIsShooted(false)}>
+                     <Text>다시촬영하기</Text>
+                 </Button>                
+                }
+               <Button full transparent
                 onPress={() => {}}>
                     <Text>저장하기</Text>
                 </Button>
                 </View>
-                </View>                
-                :
+                </View>                               
+                :                
                 <View style={styles.CameraContainer}>
-                    {cameraOn &&  <View style={styles.CameraContainer}>
+                    {mode==="cam" &&  <View style={styles.CameraContainer}>
                     <Camera
                     ref={ref => setCamera(ref)} 
                     style={styles.fixedRatio} 
                     type={type} 
                     ratio={'16:9'}/>
+                    <Button full transparent
+                            onPress={() => takePicture()}>
+                        <Text>촬영</Text>  
+                    </Button>  
+                    <Button full transparent
+                        onPress={() => {
+                        setType(
+                        type === Camera.Constants.Type.back
+                            ? Camera.Constants.Type.front
+                            : Camera.Constants.Type.back
+                        );
+                        }}>
+                        <Text>카메라 전환</Text>            
+                    </Button>
                     </View>}                        
                 </View>
             }
+            <Footer>
+                <FooterTab>
+                    <Button full onPress={()=> pickImage()}>
+                        <Text>갤러리</Text>
+                    </Button>
+                    <Button full onPress={()=> {
+                        setIsShooted(false);
+                        setMode("cam");}}>
+                        <Text>사진</Text>
+                    </Button>
+                    {/* 내 게시글중에 선택하여 프로필사진으로 만드는 기능 추가 예정 */}
+                </FooterTab>
+            </Footer>
         </Content>
     )
 }
@@ -101,7 +122,7 @@ export default function App({navigation}) {
 const styles = StyleSheet.create({
     CameraContainer:{
         flex : 1,
-        flexDirection : 'row'        
+               
     },
     fixedRatio : {
         flex : 1,
