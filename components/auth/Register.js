@@ -25,6 +25,8 @@ export class Register extends Component {
             .set({
                 name,
                 email,
+                follower:0,
+                following:0,
             })
             //console.log(result)
         })
