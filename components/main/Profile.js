@@ -113,7 +113,7 @@ import insta_logo from '../../assets/insta_logo.png'
                     <View style={{flex:3}}>                        
                         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                             <View style={{alignItems:'center'}}>
-                                <Text style={{fontSize:17,fontWeight:'bold'}}>15</Text>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>{props.feed.length}</Text>
                                 <Text style={{fontSize:12,color:'gray'}}>게시물</Text>
                             </View>                                                
                             <View style={{alignItems:'center'}}>
@@ -121,7 +121,7 @@ import insta_logo from '../../assets/insta_logo.png'
                                 <Text style={{fontSize:12,color:'gray'}}>팔로워</Text>
                             </View>  
                             <View style={{alignItems:'center'}}>
-                                <Text style={{fontSize:17,fontWeight:'bold'}}>8</Text>
+                                <Text style={{fontSize:17,fontWeight:'bold'}}>{props.following.length}</Text>
                                 <Text style={{fontSize:12,color:'gray'}}>팔로잉</Text>
                             </View>
                         </View>
@@ -220,6 +220,7 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     posts: store.userState.posts,
+    feed : store.usersState.feed,
     following: store.userState.following
 })
 
