@@ -4,12 +4,11 @@ import {Container,Header,Left,Right,Text, Icon,Button, Thumbnail} from 'native-b
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
-import insta_logo from '../../assets/insta_logo.png'
 
  function Profile(props) {
      const [userPosts, setUserPosts] = useState([])
      const [user, setUser] = useState(null);
-     const [following, setFollowing] = useState(false)
+     const [following, setFollowing] = useState(false)     
     useEffect(()=>{
         const { currentUser, posts} = props;
         //console.log({ currentUser, posts})
@@ -111,6 +110,7 @@ import insta_logo from '../../assets/insta_logo.png'
             selectedUser:user.name,
         })
     }
+
     if(user === null){
         return <View/>
     }
@@ -141,7 +141,10 @@ import insta_logo from '../../assets/insta_logo.png'
             <View style = {styles.containerInfo}>
                 <View style={{flexDirection:'row'}}>
                     <View>
-                        <Thumbnail source={user.profileURL!==undefined?{url:user.profileURL}:require('../../assets/default_Profile.png')}/> 
+                        <Thumbnail 
+                        source={user.profileURL!==undefined?
+                        {uri:user.profileURL}
+                        :require('../../assets/default_Profile.png')}/> 
                     </View>
                     <View style={{flex:3}}>                        
                         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
@@ -159,8 +162,9 @@ import insta_logo from '../../assets/insta_logo.png'
                             </View>
                         </View>
                         <View style={{flexDirection:'row'}}>
-                            <Button bordered dark disabled
-                            style={styles.button}>
+                            <Button bordered dark
+                            style={styles.button}
+                            onPress={()=>{props.navigation.navigate("AddProfile")}}>
                                 <Text>프로필 수정</Text>                                
                             </Button>                            
                         </View>

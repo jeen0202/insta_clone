@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
 });
 
-
+/*
 <View style={styles.buttonContainer}>
           <Button
             style={styles.button}
@@ -156,3 +156,4 @@ const styles = StyleSheet.create({
             <Text style={styles.text}> Flip </Text>
           </Button>
         </View>
+*/

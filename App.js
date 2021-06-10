@@ -13,6 +13,7 @@ import AddScreen from './components/main/Add'
 import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 import MessageScreen from './components/main/Message'
+import AddProfileScreen from './components/main/AddProfile'
 //header 변역ㅇ
 import Feather from 'react-native-vector-icons/Feather'
 import { Root } from "native-base";
@@ -99,6 +100,7 @@ export class App extends Component {
         <Stack.Navigator initialRouteName="Main">
               <Stack.Screen name="Main" component={MainScreen} navigtaion={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
+              <Stack.Screen name="AddProfile" component={AddProfileScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Message" component={MessageScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
