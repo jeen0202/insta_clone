@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {TextInput, Text,Image} from 'react-native'
-import {Container,Content,Button} from 'native-base'
+import {Container,Content,Button,Spinner} from 'native-base'
 import firebase from 'firebase/app'
 require("firebase/firestore")
 require("firebase/firebase-storage")
@@ -10,6 +10,7 @@ export default function Save(props, {navigation}) {
     //text 입력을 위한 hook 사용
     const [caption, setCaption] = useState("")
     const [buttonState, setButtonState] = useState(true)
+    const [onSave, setOnSave] = useState(false)
     const uploadImage= async () =>{
         const uri = props.route.params.image;
         const childPath = `post/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`        
@@ -46,7 +47,9 @@ export default function Save(props, {navigation}) {
         }))
     }
     return (
-        <Container>            
+        <Container>
+            {onSave ? <Spinner style={{flex:1}}/>
+            :                       
             <Content contentContainerStyle={{flex:1}}>
                 <Image source={{uri:props.route.params.image}} style={{flex:1}}/>
                 <TextInput
@@ -57,6 +60,7 @@ export default function Save(props, {navigation}) {
                 {buttonState ?
                 <Button full transparent
                 onPress={()=> {
+                    setOnSave(true);
                     uploadImage();
                     }}>
                 <Text>저장</Text>
@@ -65,6 +69,7 @@ export default function Save(props, {navigation}) {
                     <Text>Save</Text></Button>}
                 
             </Content>
+            } 
         </Container>
         // <View style={{flex:1}}>
         //     <Image source={{uri:props.route.params.image}}/>
