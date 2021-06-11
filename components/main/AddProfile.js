@@ -51,17 +51,19 @@ export default function AddProfile({navigation}) {
       };
       const uploadProfile= async () =>{
         const uri = image;
-        const childPath = `profiles/${firebase.auth().currentUser.uid}/profile`       
+        const childPath = `profiles/${firebase.auth().currentUser.uid}`       
         const response = await fetch(uri)
         const blob = await response.blob();
         //firebase-storage에 random한 id로 data 저장
-        firebase.storage().ref().child(childPath)
-        .delete()
-        .then(()=>{
-            console.log("clear profile!!")
-        }).catch((error)=>{
-            console.error(error)
-        })
+        if(firebase.auth().currentUser.profileURL!==undefined){
+            firebase.storage().ref().child(childPath)
+            .delete()
+            .then(()=>{
+                console.log("clear profile!!")
+            }).catch((error)=>{
+                console.error(error)
+            })
+        }
         const task = firebase.storage().ref().child(childPath).put(blob);
 
         const taskProgress = snapshot => {
