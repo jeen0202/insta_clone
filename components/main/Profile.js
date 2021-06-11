@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Image, FlatList, } from 'react-native'
+import {StyleSheet,View, Image, FlatList, TouchableOpacity} from 'react-native'
 import {Container,Header,Left,Right,Text, Icon,Button, Thumbnail} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -219,11 +219,14 @@ import {connect} from 'react-redux'
                     data={userPosts}
                     windowSize={2}
                     renderItem={({item})=>(
-                        <View style={styles.containerImage}>
-                        <Image style={styles.image}
-                            source={{uri : item.downloadURL}}
-                        />
-                        </View>
+                        <TouchableOpacity style={styles.containerImage} 
+                        onPress={()=>{                                                            
+                            props.navigation.navigate('Comment',{postId: item.id, uid: firebase.auth().currentUser.uid, downloadURL: item.downloadURL})
+                        }}>                            
+                            <Image style={styles.image}                            
+                                source={{uri : item.downloadURL}}
+                            />                            
+                        </TouchableOpacity>
                     )}
                 />
             </View>

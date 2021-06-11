@@ -29,9 +29,8 @@ export function fetchUserPosts(){
             .collection("posts")
             .doc(firebase.auth().currentUser.uid)
             .collection("userPosts")
-            .orderBy("creation", "asc") // postdata 정렬
-            .get()
-            .then((snapshot) => {
+            .orderBy("creation", "desc") // postdata 정렬
+            .onSnapshot((snapshot) => {
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
