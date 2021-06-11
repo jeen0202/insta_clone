@@ -10,7 +10,7 @@ import {connect} from 'react-redux'
      const [user, setUser] = useState(null);
      const [following, setFollowing] = useState(false)     
     useEffect(()=>{
-        const { currentUser, posts} = props;
+        const { currentUser, posts,} = props;
         //console.log({ currentUser, posts})
 
         if(props.route.params.uid === firebase.auth().currentUser.uid){
@@ -220,8 +220,9 @@ import {connect} from 'react-redux'
                     windowSize={2}
                     renderItem={({item})=>(
                         <TouchableOpacity style={styles.containerImage} 
-                        onPress={()=>{                                                            
-                            props.navigation.navigate('Comment',{postId: item.id, uid: firebase.auth().currentUser.uid, downloadURL: item.downloadURL})
+                        onPress={()=>{
+                           // console.log([item.id,firebase.auth().currentUser.uid,item.downloadURL])                                                            
+                            props.navigation.navigate('Comment',{postId: item.id, uid: props.route.params.uid, downloadURL: item.downloadURL})
                         }}>                            
                             <Image style={styles.image}                            
                                 source={{uri : item.downloadURL}}
