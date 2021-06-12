@@ -1,6 +1,6 @@
 import React, {useState}from 'react'
 import { Image, Text, TextInput, FlatList, TouchableOpacity,StyleSheet} from 'react-native'
-import {Container,Header,Left,Right,Icon,Button} from 'native-base'
+import {Container,Header,Left,Right,Icon,Button,Thumbnail} from 'native-base'
 import insta_logo from '../../assets/insta_logo.png'
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -58,8 +58,12 @@ export default function Search(props) {
                 data={users}                
                 renderItem={({item}) => (
                     <TouchableOpacity
-                        style={{padding:5}}
+                        style={{padding:5, flexDirection:'row', alignItems:'center'}}
                         onPress={() => props.navigation.navigate("Profile",{uid: item.id})}>
+                        <Thumbnail small                                                                  
+                            source={item.profileURL!==undefined?
+                            {uri:item.profileURL}
+                            :require('../../assets/default_Profile.png')}/>                      
                         <Text style={{fontSize:15,padding:5}}>{item.name}</Text>
                     </TouchableOpacity>
                     
