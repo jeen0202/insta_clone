@@ -1,11 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {Component} from 'react';
 import 'react-native-gesture-handler'
 import {NavigationContainer } from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack'
-import {View, Text} from 'react-native'
+import {View,} from 'react-native'
 
-import LandingScreen from './components/auth/Landing'
 import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
@@ -15,8 +13,7 @@ import CommentScreen from './components/main/Comment'
 import MessageScreen from './components/main/Message'
 import AddProfileScreen from './components/main/AddProfile'
 //header 변역ㅇ
-import Feather from 'react-native-vector-icons/Feather'
-import { Root } from "native-base";
+import { Root, Spinner, Text } from "native-base";
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 //firebase 사용
@@ -76,8 +73,9 @@ export class App extends Component {
     const { loggedIn, loaded } = this.state
     if(!loaded){
       return(
-        <View style={{flex : 1, justifyContent : 'center'}}>
-          <Text>Loading...</Text>
+        <View style={{flex : 1, justifyContent : 'center', alignItems:'center'}}>
+          <Text>Now Loading...</Text>
+          <Spinner/>
         </View>
       )
     }
@@ -88,7 +86,7 @@ export class App extends Component {
           <Stack.Navigator initialRouteName="Register">
             {/* {}<Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}/> */}
             <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown:false}}/>
-            <Stack.Screen name="Login" component={LoginScreen} options={{headerShown:false}}/>
+            <Stack.Screen name="Login" component={LoginScreen} navigtaion={this.props.navigation} options={{headerShown:false}}/>
           </Stack.Navigator>
         </NavigationContainer>
         </Root>
