@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Button, TextInput, StyleSheet } from 'react-native'
-import {Text,Content,Toast} from 'native-base'
+import {Text,Content,Toast,Spinner} from 'native-base'
 import firebase from 'firebase'
 
 export class Register extends Component {
@@ -10,7 +10,8 @@ export class Register extends Component {
         this.state = {
             email : '',
             password : '',
-            name : '',            
+            name : '',
+            onSignup : false,            
         }
         this.onSignUp = this.onSignUp.bind(this)
     }
@@ -35,9 +36,18 @@ export class Register extends Component {
                 text: error.toString(),
                 buttonText: 'Okay',
             })
+            this.setState({onSignup:false})
         })
     }
     render() {
+        if(this.state.onSignup===true){
+            return (
+                <Content contentContainerStyle={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                    <Text>Conneting...</Text>
+                    <Spinner/>
+                </Content>
+            )
+        }
         return (            
             <Content contentContainerStyle={styles.container}>
             <View style = {styles.buttonBox}>
@@ -69,7 +79,9 @@ export class Register extends Component {
                         onChangeText={(password) => this.setState({ password })}
                     />
                 <Button
-                    onPress={() => this.onSignUp()}
+                    onPress={() => {
+                        this.setState({onSignup:true})
+                        this.onSignUp()}}
                     title = "회원가입"
                 />
             </View>
