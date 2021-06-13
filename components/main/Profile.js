@@ -1,11 +1,28 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Image, FlatList, TouchableOpacity} from 'react-native'
+import {StyleSheet,View, Image, FlatList, TouchableOpacity,Alert} from 'react-native'
 import {Container,Header,Left,Right,Text, Icon,Button, Thumbnail} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
 
  function Profile(props) {
+    const createThreeoButtonAlert = () =>
+    Alert.alert(
+        "프로필 사진 수정",
+        "프로필 사진을 수정하시겠습니까?",
+        [
+            {
+                text: "OK",
+                onPress: ()=>props.navigation.navigate("AddProfile")
+            },
+            {
+                text:"CANCLE",
+                style : "cancle",              
+            }           
+        ],
+        { cancelable : false}
+    );
+
      const [userPosts, setUserPosts] = useState([])
      const [user, setUser] = useState(null);
      const [following, setFollowing] = useState(false)     
@@ -140,12 +157,13 @@ import {connect} from 'react-redux'
             </Header>
             <View style = {styles.containerInfo}>
                 <View style={{flexDirection:'row'}}>
-                    <View>
+                    <TouchableOpacity
+                    onPress={()=>createThreeoButtonAlert()}>
                         <Thumbnail 
                         source={user.profileURL!==undefined?
                         {uri:user.profileURL}
                         :require('../../assets/default_Profile.png')}/> 
-                    </View>
+                    </TouchableOpacity>
                     <View style={{flex:3}}>                        
                         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                             <View style={{alignItems:'center'}}>
@@ -165,7 +183,9 @@ import {connect} from 'react-redux'
                         <View style={{flexDirection:'row'}}>
                             <Button bordered dark
                             style={styles.button}
-                            onPress={()=>{props.navigation.navigate("AddProfile")}}>
+                            onPress={()=>{
+                                // props.navigation.navigate("AddProfile")                               
+                                }}>
                                 <Text>프로필 수정</Text>                                
                             </Button>                            
                         </View>: <View></View>}
