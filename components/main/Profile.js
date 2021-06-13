@@ -161,13 +161,14 @@ import {connect} from 'react-redux'
                                 <Text style={{fontSize:12,color:'gray'}}>팔로잉</Text>
                             </View>
                         </View>
+                        {props.route.params.uid === firebase.auth().currentUser.uid ? 
                         <View style={{flexDirection:'row'}}>
                             <Button bordered dark
                             style={styles.button}
                             onPress={()=>{props.navigation.navigate("AddProfile")}}>
                                 <Text>프로필 수정</Text>                                
                             </Button>                            
-                        </View>
+                        </View>: <View></View>}
                         {props.route.params.uid !== firebase.auth().currentUser.uid ?(
                     <View style={{flexDirection:'row'}}>
                         {following? (

@@ -71,7 +71,7 @@ export default function Login(props,{navigation}){
         <Text>계정이 없으신가요?</Text>
         <Text
         style={{color:'#6495ED'}}
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => props.navigation.navigate("Register")}
         > 가입하기</Text>
     </View>
     </Content>        
