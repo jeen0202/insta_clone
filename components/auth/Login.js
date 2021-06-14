@@ -16,9 +16,9 @@ export default function Login(props,{navigation}){
         .catch((error) => {
             Toast.show({
                 text: error.toString(),
-                buttonText: 'Okay',
+                buttonText: 'Okay',                
             })
-            //console.log(error)
+            setOnLogin(false)
         })
     }
 
