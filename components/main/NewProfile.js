@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import {StyleSheet,View, Image, FlatList, TouchableOpacity,Alert} from 'react-native'
-import {Container,Header,Left,Right,Text, Icon,Button, Thumbnail} from 'native-base'
+import {Container,Header, Content,Left,Right,Text, Input,Icon,Button, Thumbnail,Form,Item,Label} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
 
 export default function NewProfile(props) {
-    const [user, setUser] = useState(null);
-        useEffect(()=>{            
-            //setUser(props.route.params.user)
-        })
+    const [user, setUser] = useState(props.route.params.user);
+    const [name, setName] = useState(user.name)
+    const [desc, setDesc] = useState(user.desc)    
     return(
         <Container>
             <Header style={{
@@ -32,7 +31,26 @@ export default function NewProfile(props) {
                     <Icon style={{color:'black'}} name='check' type='AntDesign'/>
                     </Button>
                 </Right>
-            </Header>            
+            </Header>
+                <Content contentContainerStyle={{flex:1,marginTop:10}}>
+                <Thumbnail large
+                    style={{alignSelf:'center'}}
+                    source={{uri:user.profileURL}}/>        
+                <Form>              
+                    <Item stackedLabel>
+                        <Label>이름</Label>
+                        <Input                 
+                        value={name}                                 
+                        onChangeText={(text) => setName(text)}/>
+                    </Item>
+                    <Item stackedLabel>
+                        <Label>설명</Label>
+                        <Input
+                        value={desc}
+                        onChangeText={(text) => setDesc(text)}/>
+                    </Item>
+                </Form>               
+                </Content>                      
         </Container>
     )
 }

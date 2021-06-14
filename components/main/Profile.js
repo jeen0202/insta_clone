@@ -184,7 +184,7 @@ import {connect} from 'react-redux'
                             <Button bordered dark
                             style={styles.button}
                             onPress={()=>{
-                                props.navigation.navigate("NewProfile")                               
+                                props.navigation.navigate("NewProfile",{user:currentUser})                               
                                 }}>
                                 <Text>프로필 수정</Text>                                
                             </Button>                            
@@ -229,8 +229,7 @@ import {connect} from 'react-redux'
                 </View>
                 <View style={{paddingHorizontal:10, paddingVertical:10}}>
                     <Text style={{fontWeight:'bold'}}>{user.name}</Text>
-                    <Text> React-Native로</Text>
-                    <Text> Instagram UI 따라하기!!!</Text>
+                    <Text>{user.desc}</Text>                    
                 </View>                
             </View>
             <View style={styles.containerGallery}>
