@@ -137,6 +137,10 @@ import {connect} from 'react-redux'
         <Container style={styles.container}>            
             <Header style={styles.header}>
             <Left style={{flexDirection:'row', alignItems:'center'}}>
+            <Button transparent
+            onPress={()=>props.navigation.navigate("Feed")}>
+                <Icon name="arrowleft" type="AntDesign" style={{color:'black'}}/>
+            </Button>
             <Text style={{fontWeight:'bold',fontSize:17}}>{user.name}</Text>
             <Icon name='caret-down' type='FontAwesome' style={{paddingLeft:10,fontSize:14}}/>           
             </Left>
@@ -146,10 +150,7 @@ import {connect} from 'react-redux'
                     props.navigation.navigate('Search')
                 }}>
                 <Icon name='search' style={{color:'black',paddingRight:10, fontSize:23}}/>
-                </Button>
-                <Button transparent>
-                <Icon name='user-plus' type='Feather' style={{color:'black',paddingRight:10, fontSize:23}}/>
-                </Button>
+                </Button>                
                 <Button transparent>
                 <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
                 </Button>
