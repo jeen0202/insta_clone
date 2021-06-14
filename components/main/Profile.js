@@ -184,7 +184,7 @@ import {connect} from 'react-redux'
                             <Button bordered dark
                             style={styles.button}
                             onPress={()=>{
-                                // props.navigation.navigate("AddProfile")                               
+                                props.navigation.navigate("NewProfile")                               
                                 }}>
                                 <Text>프로필 수정</Text>                                
                             </Button>                            

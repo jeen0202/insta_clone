@@ -12,6 +12,7 @@ import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 import MessageScreen from './components/main/Message'
 import AddProfileScreen from './components/main/AddProfile'
+import NewPrifileScreen from './components/main/NewProfile'
 //header 변역ㅇ
 import { Root, Spinner, Text } from "native-base";
 import * as Font from 'expo-font';
@@ -98,6 +99,7 @@ export class App extends Component {
         <Stack.Navigator initialRouteName="Main">
               <Stack.Screen name="Main" component={MainScreen} navigtaion={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
+              <Stack.Screen name="NewProfile" component={NewPrifileScreen} navigation={this.props.navigation} options ={{headerShown:false}}/>
               <Stack.Screen name="AddProfile" component={AddProfileScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
