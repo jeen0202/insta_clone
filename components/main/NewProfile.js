@@ -8,7 +8,34 @@ import {connect} from 'react-redux'
 export default function NewProfile(props) {
     const [user, setUser] = useState(props.route.params.user);
     const [name, setName] = useState(user.name)
-    const [desc, setDesc] = useState(user.desc)    
+    const [desc, setDesc] = useState(user.desc) 
+    
+    const setProfile = ()=> {
+        firebase.firestore().
+        collection('users').
+        doc(firebase.auth().currentUser.uid)
+        .update({name: name, desc:desc})
+        .then(()=>{
+            props.navigation.pop(1)
+        })
+    }
+    const addProfile = () => {
+        Alert.alert(
+            "프로필 사진 수정",
+            "프로필 사진을 수정하시겠습니까?",
+            [
+                {
+                    text: "OK",
+                    onPress: ()=>props.navigation.navigate("AddProfile")
+                },
+                {
+                    text:"CANCLE",
+                    style : "cancle",              
+                }           
+            ],
+            { cancelable : false}
+        );
+    }
     return(
         <Container>
             <Header style={{
@@ -25,26 +52,31 @@ export default function NewProfile(props) {
                 </Left>
                 <Right>
                     <Button transparent
-                        onPress={()=>{
-
-                        }}>
+                        onPress={()=>setProfile()}>
                     <Icon style={{color:'black'}} name='check' type='AntDesign'/>
                     </Button>
                 </Right>
             </Header>
-                <Content contentContainerStyle={{flex:1,marginTop:10}}>
-                <Thumbnail large
-                    style={{alignSelf:'center'}}
-                    source={{uri:user.profileURL}}/>        
+                <Content contentContainerStyle={{flex:1,justifyContent:'center',marginBottom:50}}>
+                <View>
+                    <Thumbnail large
+                        style={{alignSelf:'center'}}
+                        source={{uri:user.profileURL}}/>
+                    <Button transparent
+                        onPress={()=>addProfile()}
+                        style={{alignSelf:'center'}}>
+                        <Text style={{fontWeight:'bold'}}>프로필 사진 수정</Text>
+                    </Button>
+                </View>        
                 <Form>              
-                    <Item stackedLabel>
+                    <Item floatingLabel>
                         <Label>이름</Label>
                         <Input                 
                         value={name}                                 
                         onChangeText={(text) => setName(text)}/>
                     </Item>
-                    <Item stackedLabel>
-                        <Label>설명</Label>
+                    <Item floatingLabel>
+                        <Label>소개</Label>
                         <Input
                         value={desc}
                         onChangeText={(text) => setDesc(text)}/>
