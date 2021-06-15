@@ -8,11 +8,11 @@ export default function Login(props,{navigation}){
     const [password,setPassword] = useState('')
     const [onLogin,setOnLogin] = useState(false)
 
-    const onSignin=() =>{        
-        firebase.auth().signInWithEmailAndPassword(email,password)
-        .then((result) => {
-            //console.log(result)
-        })
+    const onSignin=() =>{
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+        .then(() => {        
+        return firebase.auth().signInWithEmailAndPassword(email,password)
+        })        
         .catch((error) => {
             Toast.show({
                 text: error.toString(),

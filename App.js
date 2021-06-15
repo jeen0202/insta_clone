@@ -13,7 +13,7 @@ import CommentScreen from './components/main/Comment'
 import MessageScreen from './components/main/Message'
 import AddProfileScreen from './components/main/AddProfile'
 import NewPrifileScreen from './components/main/NewProfile'
-//header 변역ㅇ
+//header 변역
 import { Root, Spinner, Text } from "native-base";
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -70,10 +70,7 @@ export class App extends Component {
     }))
 
   }
-  componentWillUnmount(){
 
-    firebase.auth().signOut();
-  }
   render() {
     const { loggedIn, loaded } = this.state
     if(!loaded){
