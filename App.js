@@ -70,6 +70,10 @@ export class App extends Component {
     }))
 
   }
+  componentWillUnmount(){
+
+    firebase.auth().signOut();
+  }
   render() {
     const { loggedIn, loaded } = this.state
     if(!loaded){
