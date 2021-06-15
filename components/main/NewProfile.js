@@ -72,19 +72,19 @@ export default function NewProfile(props) {
                 </View>        
                 <Form style={{marginBottom:10}}>              
                     <Item floatingLabel>
-                        <Label floatBack={true}>이름</Label>
+                        <Label floatBack={5}>이름</Label>
                         <Input                 
                         value={name}                                 
                         onChangeText={(text) => setName(text)}/>
                     </Item>
                     <Item floatingLabel>
-                        <Label floatBack={true}>웹사이트</Label>
+                        <Label floatBack={5}>웹사이트</Label>
                         <Input
                         value={home}
                         onChangeText={(text) => setHome(text)}/>
                     </Item>
                     <Item floatingLabel>
-                        <Label floatBack={true}>소개</Label>
+                        <Label floatBack={5}>소개</Label>
                         <Input
                         value={desc}
                         onChangeText={(text) => setDesc(text)}/>
