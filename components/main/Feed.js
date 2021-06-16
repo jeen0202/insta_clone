@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Image, FlatList} from 'react-native'
+import {StyleSheet,View, Image, FlatList,TouchableOpacity} from 'react-native'
 import moment from 'moment'
 import insta_logo from '../../assets/insta_logo.png'
 import { Container,Header,Card, Thumbnail, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
@@ -83,26 +83,27 @@ import { ScrollView } from 'react-native-gesture-handler';
                                 </View>
                             </View>
 
-                            <View style={{flex:3}}>
-                                <ScrollView
-                                    horizontal={true}
-                                    showsHorizontalScrollIndicator={false}
-                                    contentContainerStyle={{
-                                        alignItems:'center',
-                                        paddingStart:5,
-                                        paddingEnd:5
-                                    }}>
-                                <Thumbnail
-                                style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}}
-                                source={require('../../assets/default_Profile.png')}/>
-                                <Thumbnail 
-                                style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}}
-                                source={{uri:'https://firebasestorage.googleapis.com/v0/b/insta-clone-f4cda.appspot.com/o/post%2FaQUeJJNRBpSGbLe5NhjcQIXv8YR2%2F0.uoj9scksfr7?alt=media&token=459cbce9-677b-4264-9933-5a7756e9757f'}}/>
-                                </ScrollView>
-                                {/* <FlatList
-                                horizontal={true}>
-                                
-                                </FlatList> */}
+                            <View style={{flex:3}}>                                
+                                <FlatList
+                                contentContainerstyle={{
+                                    alignItems:'center',
+                                    paddingStart:5,
+                                    paddingEnd:5}}
+                                horizontal={true}
+                                data={props.users}                                
+                                renderItem={({item,index}) =>(
+                                    <TouchableOpacity
+                                    onPress={()=>{console.log(index)}}>
+                                    <Thumbnail
+                                    key={index}
+                                    style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}} 
+                                    source={item.profileURL!==undefined?
+                                        {uri:item.profileURL}
+                                        :require('../../assets/default_Profile.png')}/> 
+                                    </TouchableOpacity>
+                                )}                                
+                                >
+                                </FlatList>
                             </View>
                         </View>
                     }
@@ -212,6 +213,7 @@ const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     following: store.userState.following,
     feed : store.usersState.feed,
+    users : store.usersState.users,    
     usersFollowingLoaded : store.usersState.usersFollowingLoaded,
 })
 
