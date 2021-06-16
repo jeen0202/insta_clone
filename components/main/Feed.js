@@ -7,7 +7,6 @@ import { Container,Header,Card, Thumbnail, CardItem, Text, Body, Left, Right, Ic
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
-import { ScrollView } from 'react-native-gesture-handler';
 
  function Feed(props) {
     const [posts, setPosts] = useState([]);
@@ -90,16 +89,17 @@ import { ScrollView } from 'react-native-gesture-handler';
                                     paddingStart:5,
                                     paddingEnd:5}}
                                 horizontal={true}
-                                data={props.users}                                
+                                data={props.users}
+                                keyExtractor={(item,index)=> index.toString()}                                
                                 renderItem={({item,index}) =>(
                                     <TouchableOpacity
                                     onPress={()=>{console.log(index)}}>
-                                    <Thumbnail
-                                    key={index}
+                                    <Thumbnail                                    
                                     style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}} 
                                     source={item.profileURL!==undefined?
                                         {uri:item.profileURL}
-                                        :require('../../assets/default_Profile.png')}/> 
+                                        :require('../../assets/default_Profile.png')}/>
+                                    <Text style={{fontSize:10,alignSelf:'center',fontWeight:'bold'}}>{item.name}</Text> 
                                     </TouchableOpacity>
                                 )}                                
                                 >
