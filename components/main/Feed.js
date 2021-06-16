@@ -93,7 +93,9 @@ import {connect} from 'react-redux'
                                 keyExtractor={(item,index)=> index.toString()}                                
                                 renderItem={({item,index}) =>(
                                     <TouchableOpacity
-                                    onPress={()=>{console.log(index)}}>
+                                    onPress={()=>{
+                                        props.navigation.navigate('Story',{selectedIndex:index})
+                                    }}>
                                     <Thumbnail                                    
                                     style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}} 
                                     source={item.profileURL!==undefined?
@@ -132,10 +134,6 @@ import {connect} from 'react-redux'
                                     />
                             </CardItem>
                             <CardItem>
-                                {/* <Text
-                                    onPress={()=>
-                                    props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid})
-                                    }>View Comments...</Text> */}
                                     {item.currentUserLike ? 
                                     (
                                         <Button transparent                                
@@ -148,9 +146,6 @@ import {connect} from 'react-redux'
                                         onPress={() => onLikePress(item.user.uid,item.id)}>
                                             <Icon name='heart-outline' style={{color:'black'}}/>                                    
                                         </Button>
-                                        // <Button
-                                        // title="Like"
-                                        // onPress={() => onLikePress(item.user.uid,item.id)}/>
                                     )
                                 }
                                 <Button transparent

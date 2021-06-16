@@ -8,6 +8,8 @@ import {fetchUser, fetchUserPosts,fetchUserFollowing,clearData} from '../redux/a
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
 import SearchScreen from './main/Search'
+import StoryScreen from './main/Story'
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
@@ -32,13 +34,7 @@ export class Main extends Component {
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>
                     ),                    
-                }} />
-                <Tab.Screen name="Search" component={SearchScreen} navigation={this.props.navigation}
-                options={{
-                    tabBarIcon : ({color, size}) => (
-                        <MaterialCommunityIcons name ="magnify" color = {color} size = {26}/>
-                    ),                    
-                }} />
+                }} />                
                 <Tab.Screen name="AddContainer" component={EmptyScreen}
                 listeners= {({ navigation}) => ({
                     tabPress: event => {
@@ -50,7 +46,25 @@ export class Main extends Component {
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="plus-box-outline" color = {color} size = {26}/>
                     ),                    
-                }} />
+                }} /> 
+                <Tab.Screen name="Story" component={StoryScreen} navigation={this.props.navigation}                
+                listeners= {({ navigation}) => ({
+                    tabPress: event => {
+                        event.preventDefault();
+                        navigation.navigate("Story",{selectedIndex:0})
+                    }
+                })}
+                options={{
+                    tabBarIcon : ({color, size}) => (
+                        <MaterialCommunityIcons name = "instagram" color= {color} size ={26}/>
+                    ),
+                }}/>
+                <Tab.Screen name="Search" component={SearchScreen} navigation={this.props.navigation}
+                options={{
+                    tabBarIcon : ({color, size}) => (
+                        <MaterialCommunityIcons name ="magnify" color = {color} size = {26}/>
+                    ),                    
+                }} />               
                 <Tab.Screen name="Profile" component={ProfileScreen} navigation={this.props.navigation}
                 listeners= {({ navigation}) => ({
                     tabPress: event => {
@@ -62,7 +76,7 @@ export class Main extends Component {
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="account-circle-outline" color = {color} size = {26}/>
                     ),                    
-                }} />                
+                }}/>                             
           </Tab.Navigator>
 
         )
