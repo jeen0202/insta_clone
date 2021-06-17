@@ -14,7 +14,7 @@ import {connect} from 'react-redux'
     useEffect(()=>{       
         if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
             props.feed.sort(function(x,y) {
-                return x.creation - y.creation;
+                return y.creation - x.creation;
             })
             setPosts(props.feed); 
         }       
