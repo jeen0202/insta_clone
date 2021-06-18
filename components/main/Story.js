@@ -1,13 +1,13 @@
 import React,{useState,useEffect} from 'react'
 import {connect} from 'react-redux'
-import {StyleSheet,FlatList,Image,View,TouchableOpacity,Dimensions} from 'react-native'
-import moment from 'moment'
-import { Container, Content, Text } from 'native-base'
+import {StyleSheet,FlatList,Image,View,TouchableOpacity,Dimensions,Animated} from 'react-native'
+import { Container,Header, Content, Text,} from 'native-base'
 
 const {width,height} = Dimensions.get('window');
 function Story(props) {      
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [images, setImages] = useState([])
+    
     useEffect(()=>{                     
         props.feed.sort(function(x,y) {
             return y.creation - x.creation;
@@ -36,22 +36,38 @@ function Story(props) {
         setSelectedIndex(parseInt(props.route.params.selectedIndex))
         console.log(selectedIndex)   
     },[selectedIndex,props.route.params.selectedIndex])
+    
+    const toNext = () => {
+        if(selectedIndex < images.length){
+            setSelectedIndex(selectedIndex++);
+        }else{
+            props.navigation.pop(1)
+        }
+    }    
     return (
-        <Container style={{flex:1,backgroundColor:'black'}}>            
-            <FlatList              
+        <Container style={{flex:1,backgroundColor:'black'}}>
+            <Header transparent>
+                <View style={styles.progressBar}>
+                    <Animated.View style={[styles.absoluteFill],{backgroundColor: "#8BED4F", width: '50%'}}/>
+                </View>            
+            </Header>            
+            <FlatList                        
+            //initialScrollIndex={selectedIndex}                                                
             pagingEnabled={true}                    
-            showsHorizontalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}            
             //legacyImplementation={false}
             disableIntervalMomentum={true}
             numColumns={1}
-            initialNumToRender={2}
+            initialNumToRender={10}
             horizontal={false}
             keyExtractor={(item,index)=> index.toString()}
             data={images}            
             renderItem={({item,index}) => (
             <TouchableOpacity
             style={{flex:1,justifyContent:'center'}}
-            onPress={()=>{}}> 
+            onPress={()=>{
+                console.log(index)
+            }}> 
               <View style={{flex:1,width,height}}>
                 <Image 
                 style={styles.image}                
@@ -76,6 +92,21 @@ const styles = StyleSheet.create({
         resizeMode:'contain',
 
     },
+    progressBar: {
+        height: 20,
+        width: '100%',
+        backgroundColor: 'white',
+        borderColor: '#000',
+        borderWidth: 2,
+        borderRadius: 5
+    },
+    absoluteFill : {
+        position:'absolute',        
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0    
+    }
 })
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
