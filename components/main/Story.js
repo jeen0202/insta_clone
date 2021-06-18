@@ -5,10 +5,10 @@ import moment from 'moment'
 import { Container, Content, Text } from 'native-base'
 
 const {width,height} = Dimensions.get('window');
-function Story(props) {
+function Story(props) {      
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [images, setImages] = useState([])
-    useEffect(()=>{             
+    useEffect(()=>{                     
         props.feed.sort(function(x,y) {
             return y.creation - x.creation;
         })        
@@ -37,7 +37,7 @@ function Story(props) {
         console.log(selectedIndex)   
     },[selectedIndex,props.route.params.selectedIndex])
     return (
-        <Container style={{flex:1}}>            
+        <Container style={{flex:1,backgroundColor:'black'}}>            
             <FlatList              
             pagingEnabled={true}                    
             showsHorizontalScrollIndicator={false}

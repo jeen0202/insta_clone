@@ -8,6 +8,7 @@ import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
+import StoryScreen from './components/main/Story'
 import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 import MessageScreen from './components/main/Message'
@@ -105,6 +106,7 @@ export class App extends Component {
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Message" component={MessageScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
+              <Stack.Screen name="Story" component={StoryScreen} navigation = {this.props.navigation} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
       </Provider>
