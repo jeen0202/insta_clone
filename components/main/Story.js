@@ -35,11 +35,11 @@ function Story(props) {
         //console.log(images)
     },[props.feed,props.following])
     
-    const toNext = () => {                   
-        if(selectedIndex < images.length){
-            setSelectedIndex(selectedIndex+1);
+    const toNext = (index) => {                   
+        if(index< images.length-1){
+            setSelectedIndex(index+1);
             //console.log(selectedIndex);            
-            refContainer.current.scrollToIndex({animated: true, index:selectedIndex});
+            refContainer.current.scrollToIndex({animated: true, index:index+1});
         }else{
             props.navigation.pop(1)
         }
@@ -67,16 +67,17 @@ function Story(props) {
             keyExtractor={(item,index)=> index.toString()}
             data={images}            
             renderItem={({item,index}) => (
-            <TouchableWithoutFeedback
+            <TouchableWithoutFeedback            
             style={{flex:1,justifyContent:'center'}}
-            onPress={()=>toNext()}> 
-              <View style={{flex:1,width,height}}>
+            onPress={()=>toNext(index)}> 
+              <View style={{flex:1,width,height}}>                
                 <Image 
                 style={styles.image}                
                 source={{uri:item}} /> 
               </View>
             </TouchableWithoutFeedback>
-            )}/>            
+            )}            
+            />            
         </Container>
     )
 }
