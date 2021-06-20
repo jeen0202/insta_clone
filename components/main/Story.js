@@ -51,8 +51,11 @@ function Story(props) {
                     <Animated.View style={[styles.absoluteFill],{backgroundColor: "#8BED4F", width: '50%'}}/>
                 </View>            
             </Header>            
-            <FlatList                        
-            //initialScrollIndex={selectedIndex}                                                
+            <FlatList
+            getItemLayout={(data, index) => (
+                {length: height, offset: height * index, index}  
+            )}                        
+            initialScrollIndex={selectedIndex}                                           
             pagingEnabled={true}                    
             showsHorizontalScrollIndicator={false}            
             //legacyImplementation={false}
