@@ -1,12 +1,14 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useRef} from 'react'
 import {connect} from 'react-redux'
-import {StyleSheet,FlatList,Image,View,TouchableOpacity,Dimensions,Animated} from 'react-native'
+import {StyleSheet,FlatList,Image,View,TouchableWithoutFeedback,Dimensions,Animated} from 'react-native'
 import { Container,Header, Content, Text,} from 'native-base'
 
 const {width,height} = Dimensions.get('window');
 function Story(props) {      
-    const [selectedIndex, setSelectedIndex] = useState(0)
+    const [selectedIndex, setSelectedIndex] = useState(props.route.params.selectedIndex)
     const [images, setImages] = useState([])
+
+    const refContainer = useRef(null);
     
     useEffect(()=>{                     
         props.feed.sort(function(x,y) {
@@ -29,17 +31,15 @@ function Story(props) {
             setImages(images)
         }
         makeImageArray(props.feed, props.following)
-       
+        setSelectedIndex(parseInt(props.route.params.selectedIndex))
         //console.log(images)
     },[props.feed,props.following])
-    useEffect(()=>{
-        setSelectedIndex(parseInt(props.route.params.selectedIndex))
-        console.log(selectedIndex)   
-    },[selectedIndex,props.route.params.selectedIndex])
     
-    const toNext = () => {
+    const toNext = () => {                   
         if(selectedIndex < images.length){
-            setSelectedIndex(selectedIndex++);
+            setSelectedIndex(selectedIndex+1);
+            //console.log(selectedIndex);            
+            refContainer.current.scrollToIndex({animated: true, index:selectedIndex});
         }else{
             props.navigation.pop(1)
         }
@@ -52,6 +52,7 @@ function Story(props) {
                 </View>            
             </Header>            
             <FlatList
+            ref={refContainer}
             getItemLayout={(data, index) => (
                 {length: height, offset: height * index, index}  
             )}                        
@@ -66,17 +67,15 @@ function Story(props) {
             keyExtractor={(item,index)=> index.toString()}
             data={images}            
             renderItem={({item,index}) => (
-            <TouchableOpacity
+            <TouchableWithoutFeedback
             style={{flex:1,justifyContent:'center'}}
-            onPress={()=>{
-                console.log(index)
-            }}> 
+            onPress={()=>toNext()}> 
               <View style={{flex:1,width,height}}>
                 <Image 
                 style={styles.image}                
                 source={{uri:item}} /> 
               </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
             )}/>            
         </Container>
     )
