@@ -58,8 +58,7 @@ function Story(props) {
             )}                        
             initialScrollIndex={selectedIndex}                                           
             pagingEnabled={true}                    
-            showsHorizontalScrollIndicator={false}            
-            //legacyImplementation={false}
+            showsHorizontalScrollIndicator={false}
             disableIntervalMomentum={true}
             numColumns={1}
             initialNumToRender={10}
@@ -68,7 +67,7 @@ function Story(props) {
             data={images}            
             renderItem={({item,index}) => (
             <TouchableWithoutFeedback            
-            style={{flex:1,justifyContent:'center'}}
+            style={{flex:1,justifyContent:'center'}}                   
             onPress={()=>toNext(index)}> 
               <View style={{flex:1,width,height}}>                
                 <Image 
@@ -89,9 +88,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     image: {
-        flex:1,        
-        height:'100%',
-        width:'100%',
+        flex:1,
         resizeMode:'contain',
 
     },
