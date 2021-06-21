@@ -10,9 +10,10 @@ function Story(props) {
     const [users, setUsers] = useState([])
     const [images, setImages] = useState([])    
     const [seconds,setSeconds] = useState(3)
+    const [milliSeconds,setMilliSeconds] = useState(300)
+    const [progress,setProgress] = useState(0)
 
-    const refContainer = useRef(null);
-    
+    const refContainer = useRef(null);    
     useEffect(()=>{                     
         props.feed.sort(function(x,y) {
             return y.creation - x.creation;
@@ -39,22 +40,39 @@ function Story(props) {
         makeArrays(props.feed, props.following)        
         setSelectedIndex(parseInt(props.route.params.selectedIndex))        
     },[props.feed,props.following])
-    
+  
+/*
     useEffect(() => {
         const countdown = setInterval(() => {
             if(seconds > 0) {
+                
                 setSeconds(seconds -1);
-            }else{                
-                toNext(selectedIndex);                
+            }else{                             
+                //toNext(selectedIndex);                
             }
         },1000);
+
         return ()=>clearInterval(countdown);
     },[seconds])
+*/
+    useEffect(()=>{
+        const countdown = setInterval(() => {
+            if(milliSeconds > 0) {
+                setMilliSeconds(milliSeconds-1)
+                setProgress(progress+0.02)                
+            }else{ 
+               toNext(selectedIndex);                                
+            }
+        },10);
+        return ()=>clearInterval(countdown)   
+    },[milliSeconds])
+
     const toNext = (index) => {                   
         if(index< images.length-1){
             setSelectedIndex(index+1);
-            setSeconds(3);
-            //console.log(selectedIndex);            
+            //setSeconds(3);
+            setMilliSeconds(300);
+            setProgress(0);                       
             refContainer.current.scrollToIndex({animated: true, index:index+1});
         }else{
             props.navigation.pop(1)
@@ -64,7 +82,7 @@ function Story(props) {
         <Container style={{flex:1}}>
             <Header transparent style={{ marginTop:20,flexDirection:'column'}}>
                 <View>
-                    <ProgressBar progress={0.4} color={'white'} />               
+                    <ProgressBar progress={progress} color={'gray'} />               
                 </View>
                 <View style={{flex:1,flexDirection:'row'}}>
                 {users[selectedIndex]!==undefined ?
