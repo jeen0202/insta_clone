@@ -40,3 +40,4 @@ npm install native-base --save : Open Source UI Package
 expo install expo-font : native-base 사용을 위해 추가
 npm install moment --save : Firebase TimeStamp 변환을 위해
 에러 발생시 --legacy-peer-deps option 추가
+npm install --save react-native-paper : Progress bar 추가를 위해

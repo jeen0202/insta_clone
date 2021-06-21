@@ -1,7 +1,8 @@
 import React,{useState,useEffect,useRef} from 'react'
 import {connect} from 'react-redux'
 import {StyleSheet,FlatList,Image,View,TouchableWithoutFeedback,Dimensions} from 'react-native'
-import { Container,Header,Left,Right, Content,Button, Text,Icon, Thumbnail,} from 'native-base'
+import { Container,Header,Left,Right,Button, Text,Icon, Thumbnail} from 'native-base'
+import {ProgressBar} from 'react-native-paper'
 
 const {width,height} = Dimensions.get('window');
 function Story(props) {      
@@ -61,8 +62,11 @@ function Story(props) {
     }    
     return (
         <Container style={{flex:1}}>
-            <Header transparent>
-                <View style={{flex:1, marginTop:20,flexDirection:'row'}}>
+            <Header transparent style={{ marginTop:20,flexDirection:'column'}}>
+                <View>
+                    <ProgressBar progress={0.4} color={'white'} />               
+                </View>
+                <View style={{flex:1,flexDirection:'row'}}>
                 {users[selectedIndex]!==undefined ?
                 <Left style={{justifyContent:'space-around',flexDirection:'row',alignItems:'center'}}>
                     <Thumbnail small                                      
