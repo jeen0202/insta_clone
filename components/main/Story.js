@@ -61,9 +61,10 @@ function Story(props) {
     }    
     return (
         <Container style={{flex:1}}>
-            <Header transparent style={{marginTop:20,flexDirection:'row'}}>
+            <Header transparent>
+                <View style={{flex:1, marginTop:20,flexDirection:'row'}}>
                 {users[selectedIndex]!==undefined ?
-                <Left style={{justifyContent:'space-evenly',flexDirection:'row',alignItems:'center'}}>
+                <Left style={{justifyContent:'space-around',flexDirection:'row',alignItems:'center'}}>
                     <Thumbnail small                                      
                     source={users[selectedIndex].profileURL!==undefined?
                     {uri:users[selectedIndex].profileURL}
@@ -76,6 +77,7 @@ function Story(props) {
                 <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
                 </Button>
                 </Right> 
+                </View>
                 </Header>             
                 {/*<View style={styles.progressBar}>
                 <Thumbnail source={{uri:users.profileURL!==undefined?users.profileURL:require('../../assets/default_Profile.png')}}/>  
