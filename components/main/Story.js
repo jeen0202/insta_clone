@@ -1,12 +1,14 @@
 import React,{useState,useEffect,useRef} from 'react'
 import {connect} from 'react-redux'
 import {StyleSheet,FlatList,Image,View,TouchableWithoutFeedback,Dimensions,Animated} from 'react-native'
-import { Container,Header, Content, Text,} from 'native-base'
+import { Container,Header, Content, Text, Thumbnail,} from 'native-base'
 
 const {width,height} = Dimensions.get('window');
 function Story(props) {      
     const [selectedIndex, setSelectedIndex] = useState(props.route.params.selectedIndex)
-    const [images, setImages] = useState([])
+    const [users, setUsers] = useState([])
+    const [images, setImages] = useState([])    
+    const [seconds,setSeconds] = useState(3)
 
     const refContainer = useRef(null);
     
@@ -19,25 +21,40 @@ function Story(props) {
         //`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`     
         const makeImageArray= (feed,following) => {
             let images = []
+            let users = []                     
             for(let i=0;i<following.length;i++){
                 for(let j=0;j<feed.length;j++){
                     if(feed[j].user.uid === following[i]){
                         //console.log(feed[j].user.uid,feed[j].creation.toDate());
-                        images[i]=feed[j].downloadURL;                                              
+                        images[i]=feed[j].downloadURL;
+                        users[i]=feed[j].user;                                                                   
                         break;
                     }                             
                 }                
             }
-            setImages(images)
+            //console.log(users);
+            setUsers(users)
+            setImages(images)            
         }
         makeImageArray(props.feed, props.following)
         setSelectedIndex(parseInt(props.route.params.selectedIndex))
         //console.log(images)
     },[props.feed,props.following])
     
+    useEffect(() => {
+        const countdown = setInterval(() => {
+            if(seconds > 0) {
+                setSeconds(seconds -1);
+            }else{                
+                toNext(selectedIndex);                
+            }
+        },1000);
+        return ()=>clearInterval(countdown);
+    },[seconds])
     const toNext = (index) => {                   
         if(index< images.length-1){
             setSelectedIndex(index+1);
+            setSeconds(3);
             //console.log(selectedIndex);            
             refContainer.current.scrollToIndex({animated: true, index:index+1});
         }else{
@@ -46,15 +63,17 @@ function Story(props) {
     }    
     return (
         <Container style={{flex:1,backgroundColor:'black'}}>
-            <Header transparent>
-                <View style={styles.progressBar}>
-                    <Animated.View style={[styles.absoluteFill],{backgroundColor: "#8BED4F", width: '50%'}}/>
-                </View>            
-            </Header>            
+            <Header>                          
+                {/*<View style={styles.progressBar}>
+                <Thumbnail source={{uri:users.profileURL!==undefined?users.profileURL:require('../../assets/default_Profile.png')}}/>  
+                    <Text>{seconds <10 ? `0${seconds}` : seconds}</Text>
+                   <Animated.View style={[styles.absoluteFill],{backgroundColor: "#8BED4F", width: '50%'}}/>
+                    </View>  */}          
+            </Header>          
             <FlatList
             ref={refContainer}
             getItemLayout={(data, index) => (
-                {length: height, offset: height * index, index}  
+                {length: width, offset: width * index, index}  
             )}                        
             initialScrollIndex={selectedIndex}                                           
             pagingEnabled={true}                    
@@ -62,7 +81,7 @@ function Story(props) {
             disableIntervalMomentum={true}
             numColumns={1}
             initialNumToRender={10}
-            horizontal={false}
+            horizontal={true}
             keyExtractor={(item,index)=> index.toString()}
             data={images}            
             renderItem={({item,index}) => (
@@ -88,7 +107,7 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     image: {
-        flex:1,
+        flex:1,        
         resizeMode:'contain',
 
     },
