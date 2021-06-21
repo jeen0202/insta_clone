@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useRef} from 'react'
 import {connect} from 'react-redux'
-import {StyleSheet,FlatList,Image,View,TouchableWithoutFeedback,Dimensions,Animated} from 'react-native'
-import { Container,Header, Content, Text, Thumbnail,} from 'native-base'
+import {StyleSheet,FlatList,Image,View,TouchableWithoutFeedback,Dimensions} from 'react-native'
+import { Container,Header,Left,Right, Content,Button, Text,Icon, Thumbnail,} from 'native-base'
 
 const {width,height} = Dimensions.get('window');
 function Story(props) {      
@@ -19,26 +19,24 @@ function Story(props) {
         //console.log(props.feed)
         //console.log(props.following)   
         //`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`     
-        const makeImageArray= (feed,following) => {
+        const makeArrays= (feed,following) => {
             let images = []
-            let users = []                     
+            let users = []                                
             for(let i=0;i<following.length;i++){
                 for(let j=0;j<feed.length;j++){
                     if(feed[j].user.uid === following[i]){
-                        //console.log(feed[j].user.uid,feed[j].creation.toDate());
-                        images[i]=feed[j].downloadURL;
-                        users[i]=feed[j].user;                                                                   
+                        users[i]=feed[j].user;
+                        images[i]=feed[j].downloadURL;                                                                                                                  
                         break;
                     }                             
                 }                
             }
-            //console.log(users);
             setUsers(users)
             setImages(images)            
         }
-        makeImageArray(props.feed, props.following)
-        setSelectedIndex(parseInt(props.route.params.selectedIndex))
-        //console.log(images)
+
+        makeArrays(props.feed, props.following)        
+        setSelectedIndex(parseInt(props.route.params.selectedIndex))        
     },[props.feed,props.following])
     
     useEffect(() => {
@@ -62,14 +60,29 @@ function Story(props) {
         }
     }    
     return (
-        <Container style={{flex:1,backgroundColor:'black'}}>
-            <Header>                          
+        <Container style={{flex:1}}>
+            <Header transparent style={{marginTop:20,flexDirection:'row'}}>
+                {users[selectedIndex]!==undefined ?
+                <Left style={{justifyContent:'space-evenly',flexDirection:'row',alignItems:'center'}}>
+                    <Thumbnail small                                      
+                    source={users[selectedIndex].profileURL!==undefined?
+                    {uri:users[selectedIndex].profileURL}
+                    :require('../../assets/default_Profile.png')}/>
+                    <Text>{users[selectedIndex].name}</Text>
+                </Left> 
+                : null}
+                <Right>
+                <Button transparent>
+                <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
+                </Button>
+                </Right> 
+                </Header>             
                 {/*<View style={styles.progressBar}>
                 <Thumbnail source={{uri:users.profileURL!==undefined?users.profileURL:require('../../assets/default_Profile.png')}}/>  
                     <Text>{seconds <10 ? `0${seconds}` : seconds}</Text>
                    <Animated.View style={[styles.absoluteFill],{backgroundColor: "#8BED4F", width: '50%'}}/>
                     </View>  */}          
-            </Header>          
+                    
             <FlatList
             ref={refContainer}
             getItemLayout={(data, index) => (
@@ -83,7 +96,7 @@ function Story(props) {
             initialNumToRender={10}
             horizontal={true}
             keyExtractor={(item,index)=> index.toString()}
-            data={images}            
+            data={images}                 
             renderItem={({item,index}) => (
             <TouchableWithoutFeedback            
             style={{flex:1,justifyContent:'center'}}                   
