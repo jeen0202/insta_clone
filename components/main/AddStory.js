@@ -57,9 +57,18 @@ export default function App({navigation}) {
           setIsShooted(true)
         }
       };
-
+    const savePostData = (downloadURL) => {
+        firebase.firestore().collection('posts').doc(firebase.auth().currentUser.uid)
+        .collection("userStories")
+        .add({
+            downloadURL,            
+            creation : firebase.firestore.FieldValue.serverTimestamp()
+        }).then((function (){
+            navigation.navigate("Feed")
+        }))
+    }
     const uploadImage= async () =>{
-      const uri = props.route.params.image;
+      const uri = image;
       const childPath = `story/${firebase.auth().currentUser.uid}/${Math.random().toString(36)}`        
       const response = await fetch(uri)
       const blob = await response.blob();
@@ -72,8 +81,8 @@ export default function App({navigation}) {
       }
       const taskCompleted = () => {
           task.snapshot.ref.getDownloadURL().then((snapshot) => {
-              savePostData(snapshot);
-              console.log(snapshot)
+              console.log("Upload Success...\nWrite DB...")
+              savePostData(snapshot);              
           })
       }
       const taskError = snapshot => {
@@ -112,8 +121,8 @@ export default function App({navigation}) {
             </Button>          
             <Button  transparent
             onPress={() => {
-              setOnSave(true);
-              console.log("good")
+              uploadImage()
+              setOnSave(true);              
             }}>
             <Icon name="arrow-collapse-down" type="MaterialCommunityIcons" 
             style={{fontSize:30, color:'white',marginLeft:"50%"}}/>
