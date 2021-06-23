@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image,Dimensions} from 'react-native';
-import {Content, Button,Text,Icon} from 'native-base'
+import {Content, Button,Text,Icon,Spinner} from 'native-base'
 import { Camera } from 'expo-camera';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
@@ -20,6 +20,7 @@ export default function App({navigation}) {
     const [camera,setCamera] = useState(null);
     const [image,setImage] = useState(null);
     const [isShooted,setIsShooted] = useState(false)
+    const [onSave, setOnSave] = useState(false)
 
     useEffect(() => {
     (async () => {
@@ -89,10 +90,16 @@ export default function App({navigation}) {
     }
   return (
     <Content contentContainerStyle={styles.container}>
-        {isShooted?
+        {onSave ?
+        <View style={{flex:1}}>
+        <Text>Uploading...</Text>
+        <Spinner/>
+      </View>
+        :
+        isShooted?
         <View style={styles.CameraContainer}>
         {image && <Image source = {{uri: image}} style={{flex:1}}/>}
-        </View> 
+        </View>         
         :
         <View style={styles.CameraContainer}>
         <Camera
@@ -112,7 +119,10 @@ export default function App({navigation}) {
             <Text>사진첩에서 불러오기</Text>
           </Button>
           <Button full transparent
-          onPress={() => console.log("good")
+          onPress={() => {
+            setOnSave(true);
+            console.log("good")
+          }
           //navigation.navigate('SaveStory',{image})
         }>
             <Text>저장하기</Text>
