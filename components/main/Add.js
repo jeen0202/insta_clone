@@ -58,8 +58,7 @@ export default function App({navigation}) {
     return <Text>No access to camera</Text>;
     }
   return (
-    <Content contentContainerStyle={styles.container}>
-      <Text>Add</Text>
+    <Content contentContainerStyle={styles.container}>      
         {isShooted?
         <View style={styles.CameraContainer}>
         {image && <Image source = {{uri: image}} style={{flex:1,aspectRatio:1}}/>}
@@ -70,7 +69,7 @@ export default function App({navigation}) {
         ref={ref => setCamera(ref)} 
         style={styles.fixedRatio} 
         type={type} 
-        ratio={'4:5'}/>
+        ratio={'1:1'}/>
         </View> }
         {isShooted ?
         <View>

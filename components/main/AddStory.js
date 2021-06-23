@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image} from 'react-native';
-import {Content, Button,Text} from 'native-base'
+import { StyleSheet, View, Image,Dimensions} from 'react-native';
+import {Content, Button,Text,Icon} from 'native-base'
 import { Camera } from 'expo-camera';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
@@ -9,6 +9,9 @@ import firebase from 'firebase/app'
 require("firebase/firestore")
 require("firebase/firebase-storage")
 
+const {width,height} = Dimensions.get('window');
+// const height = Math.round((width * 9) / 16);
+const screenRatio = height / width
 export default function App({navigation}) {
     
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -88,7 +91,7 @@ export default function App({navigation}) {
     <Content contentContainerStyle={styles.container}>
         {isShooted?
         <View style={styles.CameraContainer}>
-        {image && <Image source = {{uri: image}} style={{flex:1,aspectRatio:9/16}}/>}
+        {image && <Image source = {{uri: image}} style={{flex:1}}/>}
         </View> 
         :
         <View style={styles.CameraContainer}>
@@ -96,7 +99,7 @@ export default function App({navigation}) {
         ref={ref => setCamera(ref)} 
         style={styles.fixedRatio} 
         type={type} 
-        ratio={'9:16'}/>
+        ratio={'16:9'}/>
         </View> }
         {isShooted ?
         <View>
@@ -115,25 +118,25 @@ export default function App({navigation}) {
             <Text>저장하기</Text>
           </Button>
         </View> :
-        <View>
-        <Button full transparent
-        onPress={() => takePicture()}>
-          <Text>촬영</Text>  
-        </Button>  
-        <Button full transparent
-        onPress={() => {
-            setType(
-            type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            );
-        }}>
-          <Text>카메라 전환</Text>            
-    </Button>    
-    <Button full transparent
-     onPress={()=> pickImage()}>
-    <Text>사진첩에서 불러오기</Text>
-    </Button>
+        <View style={{position: 'absolute',flexDirection:'row',bottom:30}}>
+          <Button transparent style={{marginHorizontal:30}}
+            onPress={()=> pickImage()}>
+          <Icon name="photo" type="FontAwesome" style={{fontSize:40}}/>
+          </Button>          
+          <Button transparent style={{marginHorizontal:30}}
+          onPress={() => takePicture()}>
+            <Icon name="camera" type="Feather" style={{fontSize:40}}/> 
+          </Button>  
+          <Button transparent style={{marginHorizontal:30}}
+          onPress={() => {
+              setType(
+              type === Camera.Constants.Type.back
+                  ? Camera.Constants.Type.front
+                  : Camera.Constants.Type.back
+              );
+          }}>
+            <Icon name="ios-camera-reverse-outline" type="Ionicons" style={{fontSize:40}}/>            
+          </Button>
     </View> }  
     </Content>
   );
@@ -146,7 +149,8 @@ const styles = StyleSheet.create({
     },
     fixedRatio : {
         flex : 1,
-        //aspectRatio : 1
+        width:'100%',
+        height:height,             
     },
   container: {
     flex: 1,
