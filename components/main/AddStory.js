@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image,Dimensions} from 'react-native';
-import {Content, Button,Text,Icon,Spinner} from 'native-base'
+import {Container,Content, Button,Text,Icon,Spinner} from 'native-base'
 import { Camera } from 'expo-camera';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
@@ -89,66 +89,72 @@ export default function App({navigation}) {
     return <Text>No access to camera</Text>;
     }
   return (
-    <Content contentContainerStyle={styles.container}>
-        {onSave ?
-        <View style={{flex:1}}>
-        <Text>Uploading...</Text>
-        <Spinner/>
-      </View>
+    <Container>
+      {onSave ?
+        //Upload시작시
+        <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+          <Text style={{fontWeight:'bold'}}>Uploading...</Text>
+          <Spinner/>
+        </View>
+      :
+        //기본 Layout
+        <Content contentContainerStyle={styles.container}>
+        {isShooted?
+          //이미지 선택 이후
+          <Container style={{flex:1}}>
+            <View style={styles.CameraContainer}>
+            {image && <Image source = {{uri: image}} style={{flex:1}}/>}
+            </View>
+            <View style={{position: 'absolute',flexDirection:'row',top:0}}>
+            <Button transparent
+            onPress={()=> setIsShooted(false)}>
+              <Icon name="x" type="Feather" style={{fontSize:30,color:'white'}}/>
+            </Button>          
+            <Button  transparent
+            onPress={() => {
+              setOnSave(true);
+              console.log("good")
+            }}>
+            <Icon name="arrow-collapse-down" type="MaterialCommunityIcons" 
+            style={{fontSize:30, color:'white',marginLeft:"50%"}}/>
+            </Button>
+            </View>
+          </Container>         
         :
-        isShooted?
-        <View style={styles.CameraContainer}>
-        {image && <Image source = {{uri: image}} style={{flex:1}}/>}
-        </View>         
-        :
-        <View style={styles.CameraContainer}>
-        <Camera
-        ref={ref => setCamera(ref)} 
-        style={styles.fixedRatio} 
-        type={type} 
-        ratio={'16:9'}/>
-        </View> }
-        {isShooted ?
-        <View>
-          <Button full transparent
-          onPress={()=> setIsShooted(false)}>
-            <Text>다시촬영하기</Text>
-          </Button>
-          <Button full transparent
-          onPress={()=> pickImage()}>
-            <Text>사진첩에서 불러오기</Text>
-          </Button>
-          <Button full transparent
-          onPress={() => {
-            setOnSave(true);
-            console.log("good")
-          }
-          //navigation.navigate('SaveStory',{image})
-        }>
-            <Text>저장하기</Text>
-          </Button>
-        </View> :
-        <View style={{position: 'absolute',flexDirection:'row',bottom:30}}>
-          <Button transparent style={{marginHorizontal:30}}
-            onPress={()=> pickImage()}>
-          <Icon name="photo" type="FontAwesome" style={{fontSize:40}}/>
-          </Button>          
-          <Button transparent style={{marginHorizontal:30}}
-          onPress={() => takePicture()}>
-            <Icon name="camera" type="Feather" style={{fontSize:40}}/> 
-          </Button>  
-          <Button transparent style={{marginHorizontal:30}}
-          onPress={() => {
-              setType(
-              type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-          }}>
-            <Icon name="ios-camera-reverse-outline" type="Ionicons" style={{fontSize:40}}/>            
-          </Button>
-    </View> }  
-    </Content>
+          //기본 Layout
+          <Container>
+            <View style={styles.CameraContainer}>
+              <Camera
+              ref={ref => setCamera(ref)} 
+              style={styles.fixedRatio} 
+              type={type} 
+              ratio={'16:9'}/>
+            </View>
+            <View style={{position: 'absolute',flexDirection:'row',bottom:30}}>
+              <Button transparent style={{marginRight:30}}
+                onPress={()=> pickImage()}>
+              <Icon name="photo" type="FontAwesome" style={{fontSize:30,color:'white'}}/>
+              </Button>          
+              <Button rounded style={{marginHorizontal:70,backgroundColor:'white'}}
+              onPress={() => takePicture()}>
+                <Icon name="camera" type="Feather" style={{fontSize:40,color:'black'}}/> 
+              </Button>  
+              <Button transparent style={{marginLeft:30}}
+              onPress={() => {
+                  setType(
+                  type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  );
+              }}>
+                <Icon name="ios-camera-reverse-outline" type="Ionicons" style={{fontSize:40,color:'white'}}/>            
+              </Button>
+            </View>
+          </Container>
+        }
+      </Content>
+      }
+    </Container>
   );
 }
 
