@@ -88,7 +88,7 @@ export default function App({navigation}) {
     <Content contentContainerStyle={styles.container}>
         {isShooted?
         <View style={styles.CameraContainer}>
-        {image && <Image source = {{uri: image}} style={{flex:1}}/>}
+        {image && <Image source = {{uri: image}} style={{flex:1,aspectRatio:9/16}}/>}
         </View> 
         :
         <View style={styles.CameraContainer}>
@@ -96,7 +96,7 @@ export default function App({navigation}) {
         ref={ref => setCamera(ref)} 
         style={styles.fixedRatio} 
         type={type} 
-        ratio={'16:9'}/>
+        ratio={'9:16'}/>
         </View> }
         {isShooted ?
         <View>
@@ -109,7 +109,9 @@ export default function App({navigation}) {
             <Text>사진첩에서 불러오기</Text>
           </Button>
           <Button full transparent
-          onPress={() => navigation.navigate('SaveStory',{image})}>
+          onPress={() => console.log("good")
+          //navigation.navigate('SaveStory',{image})
+        }>
             <Text>저장하기</Text>
           </Button>
         </View> :

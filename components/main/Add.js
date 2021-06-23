@@ -59,9 +59,10 @@ export default function App({navigation}) {
     }
   return (
     <Content contentContainerStyle={styles.container}>
+      <Text>Add</Text>
         {isShooted?
         <View style={styles.CameraContainer}>
-        {image && <Image source = {{uri: image}} style={{flex:1}}/>}
+        {image && <Image source = {{uri: image}} style={{flex:1,aspectRatio:1}}/>}
         </View> 
         :
         <View style={styles.CameraContainer}>
@@ -69,7 +70,7 @@ export default function App({navigation}) {
         ref={ref => setCamera(ref)} 
         style={styles.fixedRatio} 
         type={type} 
-        ratio={'16:9'}/>
+        ratio={'4:5'}/>
         </View> }
         {isShooted ?
         <View>
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     },
     fixedRatio : {
         flex : 1,
-        //aspectRatio : 1
+        aspectRatio : 1
     },
   container: {
     flex: 1,

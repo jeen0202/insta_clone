@@ -8,6 +8,7 @@ import RegisterScreen from './components/auth/Register'
 import LoginScreen from './components/auth/Login'
 import MainScreen from './components/Main'
 import AddScreen from './components/main/Add'
+import AddStoryScreen from './components/main/AddStory'
 import StoryScreen from './components/main/Story'
 import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
@@ -101,6 +102,7 @@ export class App extends Component {
         <Stack.Navigator initialRouteName="Main">
               <Stack.Screen name="Main" component={MainScreen} navigtaion={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Add" component={AddScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
+              <Stack.Screen name="AddStory" component={AddStoryScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="NewProfile" component={NewPrifileScreen} navigation={this.props.navigation} options ={{headerShown:false}}/>
               <Stack.Screen name="AddProfile" component={AddProfileScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
