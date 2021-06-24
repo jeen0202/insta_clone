@@ -81,7 +81,7 @@ import {connect} from 'react-redux'
                                     <Text style={{fontWeight:'bold'}}>Watch All</Text>
                                 </View>
                             </View>
-
+                            {props.stories.length>0?
                             <View style={{flex:3}}>                                
                                 <FlatList
                                 contentContainerstyle={{
@@ -89,24 +89,30 @@ import {connect} from 'react-redux'
                                     paddingStart:5,
                                     paddingEnd:5}}
                                 horizontal={true}
-                                data={props.users}
+                                data={props.stories}
+                                extraData={props.stories}
                                 keyExtractor={(item,index)=> index.toString()}                                
-                                renderItem={({item,index}) =>(
+                                renderItem={({item,index}) =>(                                    
                                     <TouchableOpacity
                                     onPress={()=>{
                                         props.navigation.navigate('Story',{selectedIndex:index})
                                     }}>
                                     <Thumbnail                                    
                                     style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}} 
-                                    source={item.profileURL!==undefined?
-                                        {uri:item.profileURL}
+                                    source={item.user.profileURL!==undefined?
+                                        {uri:item.user.profileURL}
                                         :require('../../assets/default_Profile.png')}/>
-                                    <Text style={{fontSize:10,alignSelf:'center',fontWeight:'bold'}}>{item.name}</Text> 
+                                    <Text style={{fontSize:10,alignSelf:'center',fontWeight:'bold'}}>{item.user.name}</Text> 
                                     </TouchableOpacity>
                                 )}                                
                                 >
                                 </FlatList>
                             </View>
+                            :
+                            <View style={{flex:1,alignItems:'center',justifyContent:"center"}}>
+                            <Text note>No story....</Text>
+                            </View>
+                            }
                         </View>
                     }
                     renderItem={({item})=>(                        
@@ -208,6 +214,7 @@ const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     following: store.userState.following,
     feed : store.usersState.feed,
+    stories : store.usersState.stories,
     users : store.usersState.users,    
     usersFollowingLoaded : store.usersState.usersFollowingLoaded,
 })
