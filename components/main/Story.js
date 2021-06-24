@@ -17,29 +17,31 @@ function Story(props) {
     useEffect(()=>{                     
         props.feed.sort(function(x,y) {
             return y.creation - x.creation;
-        })        
-        //console.log(props.feed)
-        //console.log(props.following)   
-        //`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`     
-        const makeArrays= (feed,following) => {
+        })
+        props.stories.sort(function(x,y) {
+            return y.creation - x.creation;
+        })       
+        //console.log(props.stories)
+        const makeArrays= (stories,following) => {
             let images = []
             let users = []                                
             for(let i=0;i<following.length;i++){
-                for(let j=0;j<feed.length;j++){
-                    if(feed[j].user.uid === following[i]){
-                        users[i]=feed[j].user;
-                        images[i]=feed[j].downloadURL;                                                                                                                  
+                for(let j=0;j<stories.length;j++){
+                    if(stories[j].user.uid === following[i]){
+                        users[i]=stories[j].user;
+                        images[i]=stories[j].downloadURL;                                                                                                                  
                         break;
                     }                             
                 }                
             }
+            console.log({users,images})
             setUsers(users)
             setImages(images)            
         }
 
-        makeArrays(props.feed, props.following)        
+        makeArrays(props.stories, props.following)        
         setSelectedIndex(parseInt(props.route.params.selectedIndex))        
-    },[props.feed,props.following])
+    },[props.stories,props.following])
   
 /*
     useEffect(() => {
@@ -169,7 +171,8 @@ const styles = StyleSheet.create({
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
     following: store.userState.following,
-    feed : store.usersState.feed,        
+    feed : store.usersState.feed,
+    stories : store.usersState.stories,        
     usersFollowingLoaded : store.usersState.usersFollowingLoaded,
 })
 
