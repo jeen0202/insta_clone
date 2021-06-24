@@ -15,13 +15,10 @@ function Story(props) {
 
     const refContainer = useRef(null);    
     useEffect(()=>{                     
-        props.feed.sort(function(x,y) {
-            return y.creation - x.creation;
-        })
         props.stories.sort(function(x,y) {
             return y.creation - x.creation;
-        })       
-        //console.log(props.stories)
+        })      
+        
         const makeArrays= (stories,following) => {
             let images = []
             let users = []                                
@@ -33,30 +30,15 @@ function Story(props) {
                         break;
                     }                             
                 }                
-            }
-            console.log({users,images})
+            }            
             setUsers(users)
             setImages(images)            
         }
 
         makeArrays(props.stories, props.following)        
         setSelectedIndex(parseInt(props.route.params.selectedIndex))        
-    },[props.stories,props.following])
-  
-/*
-    useEffect(() => {
-        const countdown = setInterval(() => {
-            if(seconds > 0) {
-                
-                setSeconds(seconds -1);
-            }else{                             
-                //toNext(selectedIndex);                
-            }
-        },1000);
+    },[props.stories,props.following])  
 
-        return ()=>clearInterval(countdown);
-    },[seconds])
-*/
     useEffect(()=>{
         const countdown = setInterval(() => {
             if(milliSeconds > 0) {
@@ -80,7 +62,10 @@ function Story(props) {
         }else{
             props.navigation.navigate("Feed")
         }
-    }    
+    }
+    if(images.length<1)
+    //예외처리 필요
+        return <View/>    
     return (
         <Container style={{flex:1}}>
             <Header transparent style={{ marginTop:20,flexDirection:'column'}}>
@@ -103,13 +88,7 @@ function Story(props) {
                 </Button>
                 </Right> 
                 </View>
-                </Header>             
-                {/*<View style={styles.progressBar}>
-                <Thumbnail source={{uri:users.profileURL!==undefined?users.profileURL:require('../../assets/default_Profile.png')}}/>  
-                    <Text>{seconds <10 ? `0${seconds}` : seconds}</Text>
-                   <Animated.View style={[styles.absoluteFill],{backgroundColor: "#8BED4F", width: '50%'}}/>
-                    </View>  */}          
-                    
+            </Header>
             <FlatList
             ref={refContainer}
             getItemLayout={(data, index) => (
@@ -129,13 +108,12 @@ function Story(props) {
             <TouchableWithoutFeedback            
             style={{flex:1,justifyContent:'center'}}                   
             onPress={()=>toNext(index)}> 
-              <View style={{flex:1,width,height}}>                
-                <Image 
-                style={styles.image}                
-                source={{uri:item}} /> 
-              </View>
-            </TouchableWithoutFeedback>
-            )}            
+                <View style={{flex:1,width,height}}>                
+                    <Image 
+                    style={styles.image}                
+                    source={{uri:item}} /> 
+                </View>
+            </TouchableWithoutFeedback>)}            
             />            
         </Container>
     )

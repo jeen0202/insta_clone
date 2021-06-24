@@ -122,18 +122,19 @@ export function fetchUsersFollowingStories(uid){
             .doc(uid)
             .collection("userStories")
             .orderBy("creation", "asc")
-            .get()
-            .then((snapshot) => {                
+            .onSnapshot((snapshot) => {
+                if(!snapshot.empty){                
                 const uid = snapshot.docs[0].ref.path.split('/')[1]
                 const user = getState().usersState.users.find(el => el.uid === uid)
                 let stories = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
-                    return{id, ...data, user}                    
+                    return{id, ...data, user}                
                 })            
-                //console.log(stories)                
-                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})
+                console.log(stories)                          
+                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})            
                //console.log(getState())
+            }
             })
     })
 }
