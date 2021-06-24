@@ -1,5 +1,5 @@
 import firebase from 'firebase'
-import {CLEAR_DATA,USER_POST_STATE_CHANGE, USER_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE} from '../constants/index'
+import {CLEAR_DATA,USER_POST_STATE_CHANGE, USER_STATE_CHANGE, USERS_POSTS_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE, USERS_DATA_STATE_CHANGE, USERS_LIKES_STATE_CHANGE,USERS_STORIES_STATE_CHANGE} from '../constants/index'
 require('firebase/firestore')
 
 export function clearData() {
@@ -79,10 +79,13 @@ export function fetchUsersData(uid, getPosts) {
             })
             if(getPosts){
                 dispatch(fetchUsersFollowingPosts(uid));
+                dispatch(fetchUsersFollowingStories(uid));
             }            
         }
     })
 }
+//story data 설정
+
 //synchronous임에 유의
 export function fetchUsersFollowingPosts(uid){
     return ((dispatch, getState) => {
@@ -93,7 +96,6 @@ export function fetchUsersFollowingPosts(uid){
             .orderBy("creation", "asc")
             .get()
             .then((snapshot) => {
-
                 //const uid = snapshot.query.EP.path.segments[1];
                 const uid = snapshot.docs[0].ref.path.split('/')[1]                
                 //console.log({snapshot, uid});
@@ -109,6 +111,29 @@ export function fetchUsersFollowingPosts(uid){
                }    
                 dispatch({type: USERS_POSTS_STATE_CHANGE, posts,uid})
                // console.log(getState())
+            })
+    })
+}
+
+export function fetchUsersFollowingStories(uid){
+    return ((dispatch, getState) => {
+        firebase.firestore()
+            .collection("posts")
+            .doc(uid)
+            .collection("userStories")
+            .orderBy("creation", "asc")
+            .get()
+            .then((snapshot) => {                
+                const uid = snapshot.docs[0].ref.path.split('/')[1]
+                const user = getState().usersState.users.find(el => el.uid === uid)
+                let stories = snapshot.docs.map(doc => {
+                    const data = doc.data();
+                    const id = doc.id;
+                    return{id, ...data, user}                    
+                })            
+                //console.log(stories)                
+                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})
+               //console.log(getState())
             })
     })
 }
@@ -134,3 +159,4 @@ export function fetchUsersFollowingLikes(uid, postId){
             })
     })
 }
+
