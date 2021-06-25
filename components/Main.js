@@ -35,7 +35,7 @@ export class Main extends Component {
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>
                     ),                    
                 }} />                
-                <Tab.Screen name="AddContainer" component={AddScreen} navigation={this.props.navigation}
+                <Tab.Screen name="PhotoContainer" component={EmptyScreen} navigation={this.props.navigation}
                 listeners= {({ navigation}) => ({
                     tabPress: event => {                        
                         event.preventDefault();

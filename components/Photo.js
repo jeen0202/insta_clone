@@ -14,10 +14,10 @@ const EmptyScreen = () => {
 }
 function Photo(props) {
     return (
-        <Tab.Navigator initialRouteName="AddFeed" labeled={false} barStyle={{backgroundColor: 'white'}}>
+        <Tab.Navigator initialRouteName="AddFeed" labeled={true} barStyle={{backgroundColor: 'white'}}>
             <Tab.Screen name="AddFeed" component={AddFeedScreen} navigation={props.navigation}
             options={{
-                tabBarLabel : "Feed"
+                tabBarLabel : "Feed"                                     
             }}/>
             <Tab.Screen name="AddStory" component={AddStoryScreen} navigation={props.navigation}
             options={{
@@ -30,5 +30,4 @@ function Photo(props) {
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
 })
-
 export default connect(mapStatetoProps,null)(Photo);
