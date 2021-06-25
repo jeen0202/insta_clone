@@ -8,6 +8,7 @@ import {fetchUser, fetchUserPosts,fetchUserFollowing,clearData} from '../redux/a
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
 import SearchScreen from './main/Search'
+import AddScreen from './Photo'
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
@@ -34,11 +35,11 @@ export class Main extends Component {
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>
                     ),                    
                 }} />                
-                <Tab.Screen name="AddContainer" component={EmptyScreen} navigation={this.props.navigation}
+                <Tab.Screen name="AddContainer" component={AddScreen} navigation={this.props.navigation}
                 listeners= {({ navigation}) => ({
                     tabPress: event => {                        
                         event.preventDefault();
-                        navigation.navigate("AddStory")
+                        navigation.navigate("Photo")
                     }
                 })}
                 options={{
