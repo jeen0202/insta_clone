@@ -14,10 +14,12 @@ const EmptyScreen = () => {
 }
 function Photo(props) {
     return (
-        <Tab.Navigator initialRouteName="AddFeed" labeled={true} barStyle={{backgroundColor: 'white'}}>
+        <Tab.Navigator initialRouteName="AddFeed" labeled={true}  barStyle={{backgroundColor: 'black'}}
+        screenOptions={{
+        tabBarColor:'white'            
+        }}>
             <Tab.Screen name="AddFeed" component={AddFeedScreen} navigation={props.navigation}
-            options={{
-                tabBarLabel : "Feed"                                     
+            options={{                                                                   
             }}/>
             <Tab.Screen name="AddStory" component={AddStoryScreen} navigation={props.navigation}
             options={{
