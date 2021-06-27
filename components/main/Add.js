@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image} from 'react-native';
 import {Content, Button,Text} from 'native-base'
 import { Camera } from 'expo-camera';
+import { useIsFocused } from '@react-navigation/native';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
 
@@ -10,6 +11,7 @@ export default function App({navigation}) {
     const [hasCameraPermission, setHasCameraPermission] = useState(null);
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [type, setType] = useState(Camera.Constants.Type.back);
+    const isFocused = useIsFocused();
     //카메라 접근
     const [camera,setCamera] = useState(null);
     const [image,setImage] = useState(null);
@@ -65,11 +67,12 @@ export default function App({navigation}) {
         </View> 
         :
         <View style={styles.CameraContainer}>
-        <Camera
+        { isFocused && <Camera
         ref={ref => setCamera(ref)} 
         style={styles.fixedRatio} 
         type={type} 
         ratio={'1:1'}/>
+        }
         </View> }
         {isShooted ?
         <View>

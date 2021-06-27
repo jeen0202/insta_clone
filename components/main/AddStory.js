@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image,Dimensions} from 'react-native';
 import {Container,Content, Button,Text,Icon,Spinner} from 'native-base'
 import { Camera } from 'expo-camera';
+import { useIsFocused } from '@react-navigation/native';
 //갤러리에서 사진을 불러오기 위한 package
 import * as ImagePicker from 'expo-image-picker';
 //firebase 저장을 위한
@@ -21,7 +22,8 @@ export default function App({navigation}) {
     const [image,setImage] = useState(null);
     const [isShooted,setIsShooted] = useState(false)
     const [onSave, setOnSave] = useState(false)
-
+    const isFocused = useIsFocused();
+    
     useEffect(() => {
     (async () => {
         const cameraStatus = await Camera.requestPermissionsAsync();
@@ -133,11 +135,12 @@ export default function App({navigation}) {
           //기본 Layout
           <Container>
             <View style={styles.CameraContainer}>
-              <Camera
+              { isFocused &&<Camera
               ref={ref => setCamera(ref)} 
               style={styles.fixedRatio} 
               type={type} 
               ratio={'16:9'}/>
+              }
             </View>
             <View style={{position: 'absolute',flexDirection:'row',bottom:30}}>
               <Button transparent style={{marginRight:30}}
