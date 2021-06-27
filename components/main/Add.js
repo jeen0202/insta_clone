@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Image} from 'react-native';
-import {Content, Button,Text} from 'native-base'
+import {Content, Button,Text,Icon} from 'native-base'
 import { Camera } from 'expo-camera';
 import { useIsFocused } from '@react-navigation/native';
 //갤러리에서 사진을 불러오기 위한 package
@@ -75,40 +75,38 @@ export default function App({navigation}) {
         }
         </View> }
         {isShooted ?
-        <View>
-          <Button full transparent
-          onPress={()=> setIsShooted(false)}>
-            <Text>다시촬영하기</Text>
-          </Button>
-          <Button full transparent
-          onPress={()=> pickImage()}>
-            <Text>사진첩에서 불러오기</Text>
-          </Button>
-          <Button full transparent
-          onPress={() => navigation.navigate('Save',{image})}>
-            <Text>저장하기</Text>
-          </Button>
-        </View> :
-        <View>
-        <Button full transparent
-        onPress={() => takePicture()}>
-          <Text>촬영</Text>  
-        </Button>  
-        <Button full transparent
-        onPress={() => {
-            setType(
-            type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            );
-        }}>
-          <Text>카메라 전환</Text>            
-    </Button>    
-    <Button full transparent
-     onPress={()=> pickImage()}>
-    <Text>사진첩에서 불러오기</Text>
-    </Button>
-    </View> }  
+        <View style={{position: 'absolute',flexDirection:'row',top:0}}>
+        <Button transparent
+        onPress={()=> setIsShooted(false)}>
+          <Icon name="x" type="Feather" style={{fontSize:30,color:'white'}}/>
+        </Button>          
+        <Button  transparent
+        onPress={() => navigation.navigate('Save',{image})}>
+        <Icon name="arrow-collapse-down" type="MaterialCommunityIcons" 
+        style={{fontSize:30, color:'white',marginLeft:"55%"}}/>
+        </Button>
+        </View>
+        :
+        <View style={{position: 'absolute',flexDirection:'row',bottom:30}}>
+              <Button transparent style={{marginRight:30}}
+                onPress={()=> pickImage()}>
+              <Icon name="photo" type="FontAwesome" style={{fontSize:30,color:'white'}}/>
+              </Button>          
+              <Button rounded style={{marginHorizontal:70,backgroundColor:'white'}}
+              onPress={() => takePicture()}>
+                <Icon name="camera" type="Feather" style={{fontSize:40,color:'black'}}/> 
+              </Button>  
+              <Button transparent style={{marginLeft:30}}
+              onPress={() => {
+                  setType(
+                  type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  );
+              }}>
+                <Icon name="ios-camera-reverse-outline" type="Ionicons" style={{fontSize:40,color:'white'}}/>            
+              </Button>
+            </View> }  
     </Content>
   );
 }
@@ -124,6 +122,7 @@ const styles = StyleSheet.create({
     },
   container: {
     flex: 1,
+    backgroundColor:'black'
   },
   camera: {
     flex: 1,

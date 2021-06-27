@@ -127,7 +127,7 @@ export default function App({navigation}) {
               setOnSave(true);              
             }}>
             <Icon name="arrow-collapse-down" type="MaterialCommunityIcons" 
-            style={{fontSize:30, color:'white',marginLeft:"50%"}}/>
+            style={{fontSize:30, color:'white',marginLeft:"55%"}}/>
             </Button>
             </View>
           </Container>         
