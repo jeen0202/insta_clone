@@ -142,12 +142,12 @@ export default function App({navigation}) {
               ratio={'16:9'}/>
               }
             </View>
-            <View style={{position: 'absolute',flexDirection:'row',bottom:30}}>
+            <View style={{position: 'absolute',flexDirection:'row',bottom:10}}>
               <Button transparent style={{marginRight:30}}
                 onPress={()=> pickImage()}>
-              <Icon name="photo" type="FontAwesome" style={{fontSize:30,color:'white'}}/>
+              <Icon name="photo" type="FontAwesome" style={{fontSize:20,color:'white'}}/>
               </Button>          
-              <Button rounded style={{marginHorizontal:70,backgroundColor:'white'}}
+              <Button rounded style={{marginHorizontal:85,backgroundColor:'white',bottom:20}}
               onPress={() => takePicture()}>
                 <Icon name="camera" type="Feather" style={{fontSize:40,color:'black'}}/> 
               </Button>  
@@ -159,7 +159,7 @@ export default function App({navigation}) {
                       : Camera.Constants.Type.back
                   );
               }}>
-                <Icon name="ios-camera-reverse-outline" type="Ionicons" style={{fontSize:40,color:'white'}}/>            
+                <Icon name="ios-camera-reverse-outline" type="Ionicons" style={{fontSize:30,color:'white'}}/>            
               </Button>
             </View>
           </Container>
