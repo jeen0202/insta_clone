@@ -22,7 +22,21 @@ import {connect} from 'react-redux'
         ],
         { cancelable : false}
     );
-
+    const createTwoButtonAlert = (id) => Alert.alert(
+        "피드 삭제",
+        "해당 피드를 삭제하시겠습니까?",
+        [
+            {
+                text: "피드 삭제",
+                onPress : () => DeleteFeed(id)
+            },
+            {
+                text: "취소",
+                style : "cancle",
+            }
+        ],
+        {cancelable: false}
+    )
      const [userPosts, setUserPosts] = useState([])
      const [user, setUser] = useState(null);
      const [following, setFollowing] = useState(false)     
@@ -66,7 +80,7 @@ import {connect} from 'react-redux'
         }else{
             setFollowing(false)
         }
-    },[props.route.params.uid, props.following,props.currentUser])
+    },[props.route.params.uid, props.feed,props.following,props.currentUser])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
     let followFlag = false;
@@ -127,7 +141,14 @@ import {connect} from 'react-redux'
             selectedUser:user.name,
         })
     }
-
+    const DeleteFeed = (id) => {
+        firebase.firestore()
+        .collection('posts')
+        .doc(props.route.params.uid)
+        .collection("userPosts")
+        .doc(id)
+        .delete()
+    }
     if(user === null){
         return <View/>
     }
@@ -241,10 +262,13 @@ import {connect} from 'react-redux'
                     windowSize={2}
                     renderItem={({item})=>(
                         <TouchableOpacity style={styles.containerImage} 
-                        onPress={()=>{
-                           // console.log([item.id,firebase.auth().currentUser.uid,item.downloadURL])                                                            
+                        onPress={()=>{                                                                                      
                             props.navigation.navigate('Comment',{postId: item.id, uid: props.route.params.uid, downloadURL: item.downloadURL})
-                        }}>                            
+                        }}
+                        onLongPress={()=>{
+                            console.log(item.id)
+                            createTwoButtonAlert(item.id)
+                            }}>                            
                             <Image style={styles.image}                            
                                 source={{uri : item.downloadURL}}
                             />                            
