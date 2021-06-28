@@ -22,13 +22,13 @@ import {connect} from 'react-redux'
         ],
         { cancelable : false}
     );
-    const createTwoButtonAlert = (id) => Alert.alert(
+    const createTwoButtonAlert = (id,downloadURL) => Alert.alert(
         "피드 삭제",
         "해당 피드를 삭제하시겠습니까?",
         [
             {
                 text: "피드 삭제",
-                onPress : () => DeleteFeed(id)
+                onPress : () => DeleteFeed(id,downloadURL)
             },
             {
                 text: "취소",
@@ -141,13 +141,18 @@ import {connect} from 'react-redux'
             selectedUser:user.name,
         })
     }
-    const DeleteFeed = (id) => {
+    const DeleteFeed = (id,downloadURL) => {
+        DeleteStorage(downloadURL);
         firebase.firestore()
         .collection('posts')
         .doc(props.route.params.uid)
         .collection("userPosts")
         .doc(id)
         .delete()
+    }
+    const DeleteStorage = async (uri) => {
+        firebase.storage()
+        .refFromURL(uri).delete()
     }
     if(user === null){
         return <View/>
@@ -267,7 +272,7 @@ import {connect} from 'react-redux'
                         }}
                         onLongPress={()=>{
                             console.log(item.id)
-                            createTwoButtonAlert(item.id)
+                            createTwoButtonAlert(item.id,item.downloadURL)
                             }}>                            
                             <Image style={styles.image}                            
                                 source={{uri : item.downloadURL}}
