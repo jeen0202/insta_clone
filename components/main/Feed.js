@@ -76,10 +76,11 @@ import {connect} from 'react-redux'
                         <View style={{height:100}}>
                             <View style={{flex:1,flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:7}}>
                                 <Text style={{fontWeight:'bold'}}>Stories</Text>
-                                <View style={{flexDirection:'row',alignItems:'center'}}>
+                                <TouchableOpacity style={{flexDirection:'row',alignItems:'center'}}
+                                onPress={()=>props.navigation.navigate('Story',{selectedIndex:0})}>
                                     <Icon name="md-play"></Icon>
                                     <Text style={{fontWeight:'bold'}}>Watch All</Text>
-                                </View>
+                                </TouchableOpacity>
                             </View>
                             {props.stories.length>0?
                             <View style={{flex:3}}>                                

@@ -46,19 +46,7 @@ export class Main extends Component {
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="plus-box-outline" color = {color} size = {26}/>
                     ),                    
-                }} /> 
-                <Tab.Screen name="StoryContainer" component={EmptyScreen}             
-                listeners= {({ navigation}) => ({
-                    tabPress: event => {
-                        event.preventDefault();                                                                   
-                        navigation.navigate("Story",{selectedIndex:0})
-                    }
-                })}
-                options={{                    
-                    tabBarIcon : ({color, size}) => (
-                        <MaterialCommunityIcons name = "instagram" color= {color} size ={26}/>
-                    ),
-                }}/>
+                }} />                 
                 <Tab.Screen name="Search" component={SearchScreen} navigation={this.props.navigation}
                 options={{
                     tabBarIcon : ({color, size}) => (
