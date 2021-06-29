@@ -130,10 +130,9 @@ export function fetchUsersFollowingStories(uid){
                     const data = doc.data();
                     const id = doc.id;
                     return{id, ...data, user}                
-                })            
-                console.log(stories)                          
-                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})            
-               //console.log(getState())
+                })                                   
+                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})           
+               
             }
             })
     })
