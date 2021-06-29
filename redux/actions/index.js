@@ -61,8 +61,7 @@ export function fetchUserFollowing(){
 }
 export function fetchUsersData(uid, getPosts) {
     return ((dispatch, getState) => {
-        const found = getState().usersState.users.some(el => el.uid === uid)
-
+        const found = getState().usersState.users.some(el => el.uid === uid)        
         if(!found){
             firebase.firestore()
             .collection("users")
@@ -97,8 +96,7 @@ export function fetchUsersFollowingPosts(uid){
             .get()
             .then((snapshot) => {
                 //const uid = snapshot.query.EP.path.segments[1];
-                const uid = snapshot.docs[0].ref.path.split('/')[1]                
-                //console.log({snapshot, uid});
+                const uid = snapshot.docs[0].ref.path.split('/')[1]
                 const user = getState().usersState.users.find(el => el.uid === uid)
                 let posts = snapshot.docs.map(doc => {
                     const data = doc.data();
@@ -124,15 +122,23 @@ export function fetchUsersFollowingStories(uid){
             .orderBy("creation", "asc")
             .onSnapshot((snapshot) => {
                 if(!snapshot.empty){                
-                const uid = snapshot.docs[0].ref.path.split('/')[1]
-                const user = getState().usersState.users.find(el => el.uid === uid)
+                const uid = snapshot.docs[0].ref.path.split('/')[1]                
+                const user = getState().usersState.users.find(el => el.uid === uid)                               
                 let stories = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
                     return{id, ...data, user}                
-                })                                   
-                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})           
-               
+                })
+                let result = []
+                for(let i =0; i<getState().userState.following.length;i++){
+                   result[i]= stories.filter(story => story.uid === getState().userState.following[i].uid)                                                        
+                }
+                console.log('result1',result)                                   
+                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})
+                // for(var i=0;i<stories.length;i++){ //배열 출력                                                           
+                // console.log(stories[i].user.uid)
+                // }
+                
             }
             })
     })
