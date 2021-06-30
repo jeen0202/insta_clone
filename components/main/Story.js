@@ -19,25 +19,22 @@ function Story(props) {
             return y.creation - x.creation;
         })      
         
-        const makeArrays= (stories,following) => {
+        const makeArrays= (stories) => {
             let images = []
             let users = []                                        
             for(let i=0;i<stories.length;i++){
-                for(let j=0;j<following.length;j++){
-                    if(stories[i].user.uid === following[j]){
-                        users[i]=stories[i].user;
-                        images[i]=stories[i].downloadURL;                                                                                                                  
-                        break;
+                users[i]=stories[i][0];
+                for(let j=0;j<stories[i][1].length;j++){                                            
+                        images[i][j]=stories[i][j].downloadURL;
                     }                             
-                }                
-            }            
+                }      
             setUsers(users)
             setImages(images)            
         }
 
-        makeArrays(props.stories, props.following)        
+        makeArrays(props.stories)        
         setSelectedIndex(parseInt(props.route.params.selectedIndex))        
-    },[props.stories,props.following])  
+    },[props.stories])  
 
     useEffect(()=>{
         const countdown = setInterval(() => {
