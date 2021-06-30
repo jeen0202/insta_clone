@@ -127,17 +127,11 @@ export function fetchUsersFollowingStories(uid){
                 let stories = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const id = doc.id;
-                    return{id, ...data, user}                
+                    return{id, ...data}                
                 })
-                let result = []
-                for(let i =0; i<getState().userState.following.length;i++){
-                   result[i]= stories.filter(story => story.uid === getState().userState.following[i].uid)                                                        
-                }
-                console.log('result1',result)                                   
-                dispatch({type: USERS_STORIES_STATE_CHANGE, stories,uid})
-                // for(var i=0;i<stories.length;i++){ //배열 출력                                                           
-                // console.log(stories[i].user.uid)
-                // }
+                let result = [user,stories]
+                dispatch({type: USERS_STORIES_STATE_CHANGE, result,uid})
+                console.log(getState()) 
                 
             }
             })

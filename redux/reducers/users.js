@@ -31,7 +31,7 @@ export const users = (state = initState, action) => {
         case USERS_STORIES_STATE_CHANGE:
             return{
                 ...state,
-                stories : [...state.stories, ...action.stories]
+                stories : [...state.stories, action.result]
             }
             case CLEAR_DATA:
                 return initState         
