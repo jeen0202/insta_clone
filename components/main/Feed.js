@@ -16,6 +16,9 @@ import {connect} from 'react-redux'
             props.feed.sort(function(x,y) {
                 return y.creation - x.creation;
             })
+            props.stories.sort(function(x,y){
+                return y.creation - x.creation
+            })
             setPosts(props.feed); 
         }       
         //console.log(posts)

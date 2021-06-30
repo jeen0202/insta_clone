@@ -16,7 +16,7 @@ function Story(props) {
     const refContainer = useRef(null);    
     useEffect(()=>{                     
         props.stories.sort(function(x,y) {
-            return x.creation - y.creation;
+            return y.creation - x.creation;
         })      
         
         const makeArrays= (stories,following) => {
