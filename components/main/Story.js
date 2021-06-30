@@ -16,17 +16,17 @@ function Story(props) {
     const refContainer = useRef(null);    
     useEffect(()=>{                     
         props.stories.sort(function(x,y) {
-            return y.creation - x.creation;
+            return x.creation - y.creation;
         })      
         
         const makeArrays= (stories,following) => {
             let images = []
-            let users = []                                
-            for(let i=0;i<following.length;i++){
-                for(let j=0;j<stories.length;j++){
-                    if(stories[j].user.uid === following[i]){
-                        users[i]=stories[j].user;
-                        images[i]=stories[j].downloadURL;                                                                                                                  
+            let users = []                                        
+            for(let i=0;i<stories.length;i++){
+                for(let j=0;j<following.length;j++){
+                    if(stories[i].user.uid === following[j]){
+                        users[i]=stories[i].user;
+                        images[i]=stories[i].downloadURL;                                                                                                                  
                         break;
                     }                             
                 }                
