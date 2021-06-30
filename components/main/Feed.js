@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {StyleSheet,View, Image, FlatList,TouchableOpacity} from 'react-native'
 import moment from 'moment'
 import insta_logo from '../../assets/insta_logo.png'
-import { Container,Header,Card, Thumbnail, CardItem, Text, Body, Left, Right, Icon,Button } from 'native-base';
+import { Container,Header,Card, Thumbnail, CardItem, Text, Body, Left, Right, Icon,Button} from 'native-base';
 
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -10,19 +10,26 @@ import {connect} from 'react-redux'
 
  function Feed(props) {
     const [posts, setPosts] = useState([]);
+    const [stories, setStories] = useState([]);
 
     useEffect(()=>{       
         if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
             props.feed.sort(function(x,y) {
                 return y.creation - x.creation;
             })
-            props.stories.sort(function(x,y){
-                return y.creation - x.creation
-            })
+            // props.stories.sort(function(x,y){
+            //     return y.creation - x.creation
+            // })
             setPosts(props.feed); 
+
         }       
-        //console.log(posts)
-    },[props.usersFollowingLoaded, props.feed])
+        //console.log(posts)        
+    },[props.usersFollowingLoaded])
+    useEffect(()=> {
+        if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
+           setStories(props.stories); 
+        }      
+    },[props.stories])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
 
     const onLikePress = (uid,postId) => {
@@ -45,7 +52,6 @@ import {connect} from 'react-redux'
             .doc(firebase.auth().currentUser.uid)
             .delete()
     }
-
     return (
         <Container style={styles.container}>            
             <Header style={styles.header}>
@@ -85,30 +91,32 @@ import {connect} from 'react-redux'
                                     <Text style={{fontWeight:'bold'}}>Watch All</Text>
                                 </TouchableOpacity>
                             </View>
-                            {props.stories.length>0?
-                            <View style={{flex:3}}>                                
+                            {props.stories.length>0?                            
+                            <View style={{flex:3}}>                                                                
                                 <FlatList
                                 contentContainerstyle={{
                                     alignItems:'center',
                                     paddingStart:5,
                                     paddingEnd:5}}
                                 horizontal={true}
-                                data={props.stories}
-                                extraData={props.stories}
+                                data={stories}                               
                                 keyExtractor={(item,index)=> index.toString()}                                
                                 renderItem={({item,index}) =>(
-                                    item.user!==undefined?                                    
+                                    item.length>0?                                    
                                     <TouchableOpacity
                                     onPress={()=>{
-                                        props.navigation.navigate('Story',{selectedIndex:index})
+                                        console.log(index)
+                                       // props.navigation.navigate('Story',{selectedIndex:index})
                                     }}>
                                     <Thumbnail                                    
                                     style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}} 
-                                    source={item.user.profileURL!==undefined?
-                                        {uri:item.user.profileURL}
-                                        :require('../../assets/default_Profile.png')}/>
-                                    <Text style={{fontSize:10,alignSelf:'center',fontWeight:'bold'}}>{item.user.name}</Text> 
-                                    </TouchableOpacity>:null
+                                    source={
+                                        item[0].profileURL!==undefined?
+                                        {uri:item[0].profileURL}:
+                                        require('../../assets/default_Profile.png')
+                                        }/>
+                                    <Text style={{fontSize:10,alignSelf:'center',fontWeight:'bold'}}>{item[0].name}</Text>                                                                      
+                                    </TouchableOpacity>:<Text>{index}</Text>
                                 )}                                
                                 >
                                 </FlatList>

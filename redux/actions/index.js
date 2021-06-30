@@ -129,10 +129,11 @@ export function fetchUsersFollowingStories(uid){
                     const id = doc.id;
                     return{id, ...data}                
                 })
-                let result = [user,stories]
+                let result = [user,stories]                
                 dispatch({type: USERS_STORIES_STATE_CHANGE, result,uid})
-                console.log(getState()) 
-                
+                // for(let i =0;i<getState().usersState.stories.length;i++){                    
+                // console.log(`story ${i} \n`,getState().usersState.stories[i][0].email)                     
+                // }
             }
             })
     })
