@@ -93,7 +93,8 @@ import {connect} from 'react-redux'
                                 data={props.stories}
                                 extraData={props.stories}
                                 keyExtractor={(item,index)=> index.toString()}                                
-                                renderItem={({item,index}) =>(                                    
+                                renderItem={({item,index}) =>(
+                                    item.user!==undefined?                                    
                                     <TouchableOpacity
                                     onPress={()=>{
                                         props.navigation.navigate('Story',{selectedIndex:index})
@@ -104,7 +105,7 @@ import {connect} from 'react-redux'
                                         {uri:item.user.profileURL}
                                         :require('../../assets/default_Profile.png')}/>
                                     <Text style={{fontSize:10,alignSelf:'center',fontWeight:'bold'}}>{item.user.name}</Text> 
-                                    </TouchableOpacity>
+                                    </TouchableOpacity>:null
                                 )}                                
                                 >
                                 </FlatList>

@@ -9,10 +9,12 @@ export default function Login(props,{navigation}){
     const [onLogin,setOnLogin] = useState(false)
 
     const onSignin=() =>{
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
-        .then(() => {        
-        return firebase.auth().signInWithEmailAndPassword(email,password)
-        })        
+        // 자동 로그아웃 기능
+        // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+        // .then(() => {        
+        // return firebase.auth().signInWithEmailAndPassword(email,password)
+        // }) 
+        firebase.auth().signInWithEmailAndPassword(email,password)       
         .catch((error) => {
             Toast.show({
                 text: error.toString(),

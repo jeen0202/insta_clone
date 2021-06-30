@@ -66,7 +66,7 @@ export default function App({navigation}) {
             downloadURL,            
             creation : firebase.firestore.FieldValue.serverTimestamp()
         }).then((function (){
-            navigation.navigate("Feed")
+            navigation.navigate("Main")
         }))
     }
     const uploadImage= async () =>{
