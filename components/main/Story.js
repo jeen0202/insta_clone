@@ -7,27 +7,27 @@ import {ProgressBar} from 'react-native-paper'
 const {width,height} = Dimensions.get('window');
 function Story(props) {      
     const [selectedIndex, setSelectedIndex] = useState(props.route.params.selectedIndex)
+    const [selectedPic, setSelectedPic] = useState(0)
     const [users, setUsers] = useState([])
     const [images, setImages] = useState([])    
-    const [seconds,setSeconds] = useState(3)
+    const [stories, setStories] = useState([])
     const [milliSeconds,setMilliSeconds] = useState(200)
     const [progress,setProgress] = useState(0)
 
     const refContainer = useRef(null);    
-    useEffect(()=>{                     
-        props.stories.sort(function(x,y) {
-            return y.creation - x.creation;
-        })      
-        
+    useEffect(()=>{
+         for(let i =0;i<props.stories.length;i++){                     
+         props.stories[i][1].sort(function(x,y) {            
+             return y.creation - x.creation;
+         })      
+         }
         const makeArrays= (stories) => {
             let images = []
             let users = []                                        
             for(let i=0;i<stories.length;i++){
                 users[i]=stories[i][0];
-                for(let j=0;j<stories[i][1].length;j++){                                            
-                        images[i][j]=stories[i][j].downloadURL;
-                    }                             
-                }      
+                images[i]=stories[i][1]; 
+            }
             setUsers(users)
             setImages(images)            
         }
@@ -49,6 +49,13 @@ function Story(props) {
         return ()=>clearInterval(countdown)   
     },[milliSeconds])
 
+    const toNextPic = () => {
+        if(selectedPic < images[selectedIndex].length-1){
+            setSelectedPic(selectedPic+1)            
+        }else{
+            toNext(selectedIndex)
+        }
+    }
     const toNext = (index) => {                   
         if(index< images.length-1){
             setProgress(0); 
@@ -108,7 +115,7 @@ function Story(props) {
                 <View style={{flex:1,width,height}}>                
                     <Image 
                     style={styles.image}                
-                    source={{uri:item}} /> 
+                    source={{uri:item[0].downloadURL}} /> 
                 </View>
             </TouchableWithoutFeedback>)}            
             />            

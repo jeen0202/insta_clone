@@ -105,8 +105,10 @@ import {connect} from 'react-redux'
                                     item.length>0?                                    
                                     <TouchableOpacity
                                     onPress={()=>{
-                                        console.log(index)
-                                       // props.navigation.navigate('Story',{selectedIndex:index})
+                                    //    for(let i=0;i<stories[index][1].length;i++){
+                                    //        console.log(stories[index][1][i])
+                                    //   }
+                                    props.navigation.navigate('Story',{selectedIndex:index})
                                     }}>
                                     <Thumbnail                                    
                                     style={{marginHorizontal: 5, borderColor:'pink',borderWidth:2}} 
