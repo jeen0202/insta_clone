@@ -9,9 +9,8 @@ function Story(props) {
     const [selectedIndex, setSelectedIndex] = useState(props.route.params.selectedIndex)
     const [selectedPic, setSelectedPic] = useState(0)
     const [users, setUsers] = useState([])
-    const [images, setImages] = useState([])    
-    const [stories, setStories] = useState([])
-    const [milliSeconds,setMilliSeconds] = useState(200)
+    const [images, setImages] = useState([])
+    const [milliSeconds,setMilliSeconds] = useState(0)
     const [progress,setProgress] = useState(0)
 
     const refContainer = useRef(null);    
@@ -37,31 +36,32 @@ function Story(props) {
     },[props.stories])  
 
     useEffect(()=>{
-        const countdown = setInterval(() => {
-            if(milliSeconds > 0) {
-                setMilliSeconds(milliSeconds-1)
-                if(milliSeconds<195)
-                setProgress(progress+0.011)                
-            }else{ 
+        let count = props.stories[selectedIndex][1].length
+        let maxtime = 200*count
+        const countdown = setInterval(() => {            
+            setMilliSeconds(milliSeconds+1)
+            if(milliSeconds>0 && milliSeconds%200 ===0){
+                console.log(milliSeconds,count);
+                //setSelectedPic(selectedPic+1);                 
+            }
+            if(milliSeconds>5)
+                setProgress(progress+(0.011/count))                
+            if(milliSeconds === maxtime) {
                toNext(selectedIndex);                                
             }
         },10);
         return ()=>clearInterval(countdown)   
     },[milliSeconds])
 
-    const toNextPic = () => {
-        if(selectedPic < images[selectedIndex].length-1){
-            setSelectedPic(selectedPic+1)            
-        }else{
-            toNext(selectedIndex)
-        }
+    const toNextPic = (index) => {
+        setSelectedPic(index+1);        
     }
     const toNext = (index) => {                   
         if(index< images.length-1){
             setProgress(0); 
             setSelectedIndex(index+1);
             //setSeconds(3);
-            setMilliSeconds(200);                                  
+            setMilliSeconds(0);                                  
             refContainer.current.scrollToIndex({animated: true, index:index+1});
         }else{
             props.navigation.navigate("Feed")
@@ -107,15 +107,16 @@ function Story(props) {
             horizontal={true}
             scrollEnabled={false}
             keyExtractor={(item,index)=> index.toString()}
-            data={images}                 
+            data={images}                            
             renderItem={({item,index}) => (
             <TouchableWithoutFeedback            
             style={{flex:1,justifyContent:'center'}}                   
-            onPress={()=>toNext(index)}> 
+            onPress={()=>{
+                toNext(index)}}> 
                 <View style={{flex:1,width,height}}>                
                     <Image 
                     style={styles.image}                
-                    source={{uri:item[0].downloadURL}} /> 
+                    source={{uri:item[selectedPic].downloadURL}} /> 
                 </View>
             </TouchableWithoutFeedback>)}            
             />            
