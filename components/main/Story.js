@@ -41,19 +41,19 @@ function Story(props) {
         let maxtime = 200*count
         const countdown = setInterval(() => {            
             setMilliSeconds(milliSeconds+1)
-            if(milliSeconds === maxtime) {
-                setProgress(0);
-                setSelectedPic(0);
-                setMilliSeconds(0);                  
-                toNext(selectedIndex);                                                
-            }else if(milliSeconds>0 && milliSeconds%200 ===0){                
-                toNextPic(selectedPic)               
-            }
             if(milliSeconds>5)
-                setProgress(progress+(0.011/count))
+                setProgress(progress+(0.011/count))            
+            if(milliSeconds>0 && milliSeconds%200 ===0){
+                console.log(selectedIndex,progress)
+                if(milliSeconds!==maxtime)                
+                    toNextPic(selectedPic)
+                else{                    
+                    toNext(selectedIndex)                   
+                }               
+            } 
         },10);
         return ()=>clearInterval(countdown)   
-    },[milliSeconds,selectedIndex])
+    },[milliSeconds])
 
     const toNextPic = (index) => {
         setSelectedPic(index+1);
