@@ -122,6 +122,9 @@ function Story(props) {
                         <TouchableWithoutFeedback            
                         style={{flex:1,justifyContent:'center'}}                   
                         onPress={()=>{
+                            if(index<props.stories[selectedIndex][1].length-1)
+                            toNextPic(selectedPic)
+                            else
                             toNext(selectedIndex)}}>
                         <View style={{flex:1,width,height}}>                
                         <Image                    
