@@ -13,7 +13,8 @@ function Story(props) {
     const [milliSeconds,setMilliSeconds] = useState(0)
     const [progress,setProgress] = useState(0)
 
-    const refContainer = useRef(null);    
+    const refContainer = useRef(null);
+    const imageRef = useRef(null);    
     useEffect(()=>{
          for(let i =0;i<props.stories.length;i++){                     
          props.stories[i][1].sort(function(x,y) {            
@@ -40,28 +41,30 @@ function Story(props) {
         let maxtime = 200*count
         const countdown = setInterval(() => {            
             setMilliSeconds(milliSeconds+1)
-            if(milliSeconds>0 && milliSeconds%200 ===0){
-                console.log(milliSeconds,count);
-                //setSelectedPic(selectedPic+1);                 
+            if(milliSeconds === maxtime) {
+                setProgress(0);
+                setSelectedPic(0);
+                setMilliSeconds(0);                  
+                toNext(selectedIndex);                                                
+            }else if(milliSeconds>0 && milliSeconds%200 ===0){                
+                toNextPic(selectedPic)               
             }
             if(milliSeconds>5)
-                setProgress(progress+(0.011/count))                
-            if(milliSeconds === maxtime) {
-               toNext(selectedIndex);                                
-            }
+                setProgress(progress+(0.011/count))
         },10);
         return ()=>clearInterval(countdown)   
-    },[milliSeconds])
+    },[milliSeconds,selectedIndex])
 
     const toNextPic = (index) => {
-        setSelectedPic(index+1);        
+        setSelectedPic(index+1);
+        imageRef.current.scrollToIndex({animated: false, index:index+1})        
     }
-    const toNext = (index) => {                   
-        if(index< images.length-1){
-            setProgress(0); 
-            setSelectedIndex(index+1);
-            //setSeconds(3);
-            setMilliSeconds(0);                                  
+    const toNext = (index) => {
+        setProgress(0);
+        setSelectedPic(0);
+        setMilliSeconds(0);                   
+        if(index< images.length-1){ 
+            setSelectedIndex(index+1);                                                      
             refContainer.current.scrollToIndex({animated: true, index:index+1});
         }else{
             props.navigation.navigate("Feed")
@@ -108,17 +111,26 @@ function Story(props) {
             scrollEnabled={false}
             keyExtractor={(item,index)=> index.toString()}
             data={images}                            
-            renderItem={({item,index}) => (
-            <TouchableWithoutFeedback            
-            style={{flex:1,justifyContent:'center'}}                   
-            onPress={()=>{
-                toNext(index)}}> 
-                <View style={{flex:1,width,height}}>                
-                    <Image 
-                    style={styles.image}                
-                    source={{uri:item[selectedPic].downloadURL}} /> 
-                </View>
-            </TouchableWithoutFeedback>)}            
+            renderItem={({item,index}) => (            
+                    <FlatList
+                    ref={imageRef}
+                    data={item}
+                    numColumns={1}
+                    scrollEnabled={false}
+                    keyExtractor={(item,index)=> index.toString()}
+                    renderItem={({item,index}) => (
+                        <TouchableWithoutFeedback            
+                        style={{flex:1,justifyContent:'center'}}                   
+                        onPress={()=>{
+                            toNext(selectedIndex)}}>
+                        <View style={{flex:1,width,height}}>                
+                        <Image                    
+                            style={styles.image}                
+                            source={{uri:item.downloadURL}} /> 
+                        </View>
+                        </TouchableWithoutFeedback>)}
+                    />                
+            )}            
             />            
         </Container>
     )
