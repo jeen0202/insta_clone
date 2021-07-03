@@ -1,13 +1,12 @@
-import React, { Component,useState } from 'react'
-import {View, TextInput,StyleSheet, Button, } from 'react-native'
+import React, {useState} from 'react'
+import {View, StyleSheet, Button, } from 'react-native'
 import {Text, Content,Toast,Input, Spinner} from 'native-base'
 import firebase from 'firebase'
 
 export default function Login(props,{navigation}){
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
-    const [onLogin,setOnLogin] = useState(false)
-
+    const [onLogin,setOnLogin] = useState(false)    
     const onSignin=() =>{
         // 자동 로그아웃 기능
         // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
@@ -39,29 +38,19 @@ export default function Login(props,{navigation}){
             <Text
             style={
                 {fontSize:30,fontWeight:'bold',textAlign:'center'}}
-                >Instagram</Text>
-            {/* <TextInput
-                style={styles.inputText}
-                placeholder="이메일 주소"
-                onChangeText={(email) => setEmail({ email })}
-            /> */}
+                >Instagram</Text>            
             <Input
+                autoCapitalize='none'                             
                 style={styles.inputText}
                 placeholder="이메일 주소"
                 value={email}
                 onChangeText={(text) => setEmail(text)}/>
-                <Input
+            <Input                
                 style={styles.inputText}
                 placeholder="비밀번호"
                 secureTextEntry={true}
                 value={password}
-                onChangeText={(text) => setPassword(text)}/>
-            {/* <TextInput
-            style={styles.inputText}
-                placeholder="비밀번호"
-                secureTextEntry={true} //보안기능
-                onChangeText={(password) => setPassword({ password })}
-            /> */}
+                onChangeText={(text) => setPassword(text)}/>            
             <Button
                 onPress={() => {
                     setOnLogin(true)
@@ -79,69 +68,6 @@ export default function Login(props,{navigation}){
     </Content>        
     )
 }
-// class Login extends Component {
-//     constructor(props){
-//         super(props);
-
-//         this.state = {
-//             email : '',
-//             password : '',                      
-//         }
-//         this.onSignUp = this.onSignin.bind(this)
-//     }
-//     //firebase를 사용한 Login
-//     onSignin(){
-//         const {email, password} = this.state;
-//         firebase.auth().signInWithEmailAndPassword(email,password)
-//         .then((result) => {
-//             //console.log(result)
-//         })
-//         .catch((error) => {
-//             Toast.show({
-//                 text: error.toString(),
-//                 buttonText: 'Okay',
-//             })
-//             //console.log(error)
-//         })
-//     }
-//     render() {
-//         return (
-//             <Content contentContainerStyle={styles.container}>
-//                 <View style={styles.loginForm}>
-//                     <Text
-//                     style={
-//                         {fontSize:30,fontWeight:'bold',textAlign:'center'}}
-//                         >Instagram</Text>
-//                     <TextInput
-//                         style={styles.inputText}
-//                         placeholder="이메일 주소"
-//                         onChangeText={(email) => this.setState({ email })}
-//                     />
-//                     <TextInput
-//                     style={styles.inputText}
-//                         placeholder="비밀번호"
-//                         secureTextEntry={true} //보안기능
-//                         onChangeText={(password) => this.setState({ password })}
-//                     />
-//                     <Button
-//                         onPress={() => this.onSignUp()}
-//                         title = "로그인"/>
-                         
-                   
-                        
-                    
-//                 </View>
-//                 <View style={styles.registerBox}>
-//                 <Text>계정이 없으신가요?</Text>
-//                 <Text
-//                 style={{color:'#6495ED'}}
-//                 onPress={() => this.props.navigation.navigate("Register")}
-//                 > 가입하기</Text>
-//             </View>
-//             </Content>
-//         )
-//     }
-// }
 
 const styles = StyleSheet.create({
     container:{ 
@@ -195,4 +121,3 @@ const styles = StyleSheet.create({
                     
     } 
 })
-// export default Login
