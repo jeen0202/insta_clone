@@ -45,8 +45,9 @@ function Story(props) {
                 setProgress(progress+(0.011/count))            
             if(milliSeconds>0 && milliSeconds%200 ===0){
                 console.log(selectedIndex,progress)
-                if(milliSeconds!==maxtime)                
+                if(selectedPic!==count-1){                    
                     toNextPic(selectedPic)
+                }
                 else{                    
                     toNext(selectedIndex)                   
                 }               
@@ -56,6 +57,9 @@ function Story(props) {
     },[milliSeconds])
 
     const toNextPic = (index) => {
+        let interval = 1/(props.stories[selectedIndex][1].length)
+        setProgress(interval*(index+1))
+        setMilliSeconds(0)        
         setSelectedPic(index+1);
         imageRef.current.scrollToIndex({animated: false, index:index+1})        
     }
@@ -122,8 +126,9 @@ function Story(props) {
                         <TouchableWithoutFeedback            
                         style={{flex:1,justifyContent:'center'}}                   
                         onPress={()=>{
-                            if(index<props.stories[selectedIndex][1].length-1)
-                            toNextPic(selectedPic)
+                            if(index<props.stories[selectedIndex][1].length-1){                                                                                              
+                                toNextPic(selectedPic)
+                            }
                             else
                             toNext(selectedIndex)}}>
                         <View style={{flex:1,width,height}}>                
