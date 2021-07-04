@@ -13,6 +13,7 @@ import StoryScreen from './components/main/Story'
 import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
 import MessageScreen from './components/main/Message'
+import SearchScreen from './components/main/Search'
 import AddProfileScreen from './components/main/AddProfile'
 import NewPrifileScreen from './components/main/NewProfile'
 import PhotoScreen from './components/Photo'
@@ -110,7 +111,8 @@ export class App extends Component {
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Message" component={MessageScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Story" component={StoryScreen} navigation = {this.props.navigation} options={{headerShown: false}}/>
-              <Stack.Screen name="Photo" component={PhotoScreen} navigation = {this.props.navigation} options={{headerShown: false}}/> 
+              <Stack.Screen name="Photo" component={PhotoScreen} navigation = {this.props.navigation} options={{headerShown: false}}/>
+              <Stack.Screen name="Search" component={SearchScreen} navigation={this.props.navigation} options={{headerShown: false}}/>
         </Stack.Navigator>
       </NavigationContainer>
       </Provider>

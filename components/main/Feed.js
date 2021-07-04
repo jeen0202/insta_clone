@@ -55,25 +55,36 @@ import {connect} from 'react-redux'
     return (
         <Container style={styles.container}>            
             <Header style={styles.header}>
-            <Left>
-            <Image
-            source={insta_logo}
-            />
-            </Left>
-            <Right>
-                <Button transparent
-                    onPress={()=>{                                    
-                    props.navigation.navigate('Search')
-                }}>
-                <Icon name='search' style={{color:'black'}}/>
-                </Button>
-                <Button transparent>
-                <Icon name='heart-outline' style={{color:'black'}}/>
-                </Button>
-                <Button transparent>
-                <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
-                </Button>
-          </Right>
+                <Left>
+                    <Image
+                    source={insta_logo}
+                    />
+                </Left>
+                <Right style={{flexDirection:'row', alignItems:'center'}}>
+                    <Button transparent
+                        onPress={()=>{                                    
+                        props.navigation.navigate('Search')
+                    }}>
+                    <Icon name='search' style={{color:'black',paddingRight:10, fontSize:23}}/>
+                    </Button>                
+                    <Button transparent>
+                    <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
+                    </Button>
+                </Right>
+                {/* <Right>
+                    <Button transparent
+                        onPress={()=>{                                    
+                        props.navigation.navigate('Search')
+                    }}>
+                    <Icon name='search' style={{color:'black'}}/>
+                    </Button>
+                    <Button transparent>
+                    <Icon name='heart-outline' style={{color:'black'}}/>
+                    </Button>
+                    <Button transparent>
+                    <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
+                    </Button>
+                </Right> */}
             </Header>                  
             <View style={styles.containerGallery}>
                 <FlatList

@@ -37,21 +37,19 @@ function Story(props) {
     },[props.stories])  
 
     useEffect(()=>{
-        let count = props.stories[selectedIndex][1].length
-        let maxtime = 200*count
-        const countdown = setInterval(() => {            
-            setMilliSeconds(milliSeconds+1)
+        let count = props.stories[selectedIndex][1].length        
+        const countdown = setInterval(() => {
+            setMilliSeconds(milliSeconds+1) 
             if(milliSeconds>5)
                 setProgress(progress+(0.011/count))            
-            if(milliSeconds>0 && milliSeconds%200 ===0){
-                console.log(selectedIndex,progress)
+            if(milliSeconds>0 && milliSeconds%200 ===0){                
                 if(selectedPic!==count-1){                    
                     toNextPic(selectedPic)
                 }
                 else{                    
                     toNext(selectedIndex)                   
                 }               
-            } 
+            }            
         },10);
         return ()=>clearInterval(countdown)   
     },[milliSeconds])

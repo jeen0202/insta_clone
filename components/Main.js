@@ -7,8 +7,6 @@ import {fetchUser, fetchUserPosts,fetchUserFollowing,clearData} from '../redux/a
 
 import FeedScreen from './main/Feed'
 import ProfileScreen from './main/Profile'
-import SearchScreen from './main/Search'
-import AddScreen from './Photo'
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 //bottom tab 사용
@@ -46,13 +44,14 @@ export class Main extends Component {
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="plus-box-outline" color = {color} size = {26}/>
                     ),                    
-                }} />                 
+                }} />
+                {/*하단바의 검색                      
                 <Tab.Screen name="Search" component={SearchScreen} navigation={this.props.navigation}
                 options={{
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="magnify" color = {color} size = {26}/>
                     ),                    
-                }} />               
+                }} />                */}
                 <Tab.Screen name="Profile" component={ProfileScreen} navigation={this.props.navigation}
                 listeners= {({ navigation}) => ({
                     tabPress: event => {

@@ -31,20 +31,17 @@ export default function Search(props) {
             source={insta_logo}
             />
             </Left>
-            <Right>
+            <Right style={{flexDirection:'row', alignItems:'center'}}>
                 <Button transparent
                     onPress={()=>{                                    
                     props.navigation.navigate('Search')
                 }}>
-                <Icon name='search' style={{color:'black'}}/>
-                </Button>
+                <Icon name='search' style={{color:'black',paddingRight:10, fontSize:23}}/>
+                </Button>                
                 <Button transparent>
-                <Icon name='heart' style={{color:'black'}}/>
+                <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
                 </Button>
-                <Button transparent>
-                <Icon name='ellipsis-horizontal-outline' style={{color:'black'}}/>
-                </Button>
-          </Right>
+            </Right>
             </Header> 
             <TextInput
                 style={{padding:10,fontSize:15}} 
