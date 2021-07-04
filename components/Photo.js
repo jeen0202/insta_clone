@@ -1,15 +1,12 @@
-import React,{Component} from 'react'
+import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 
 import AddFeedScreen from './main/Add'
 import AddStoryScreen from './main/AddStory'
 
 const Tab = createMaterialBottomTabNavigator();
-const EmptyScreen = () => {
-    return null
-}
+
 function Photo(props) {
     return (
         <Tab.Navigator initialRouteName="AddFeed" labeled={true} barStyle={{backgroundColor: 'black'}}

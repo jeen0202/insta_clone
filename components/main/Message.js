@@ -16,8 +16,7 @@ function Message(props){
     const [text, setText] = useState("")
       
     
-    useEffect(()=>{
-        //console.log("Effect")
+    useEffect(()=>{        
         const getResMessages = async () =>{
             try{
                 await firebase.firestore()

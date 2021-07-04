@@ -88,19 +88,6 @@ export default function AddProfile({navigation}) {
         .then(()=>{
             navigation.pop(1)
         })
-
-/*
-        firebase.firestore().
-        collection('posts').
-        doc(firebase.auth().currentUser.uid)
-        .collection("Profile")
-        .set({
-            downloadURL
-        }).then((function (){
-            props.navigation.pop(1)
-        }))
-        */
-
     }
 
     if (hasCameraPermission === null||hasGalleryPermission === null) {

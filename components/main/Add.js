@@ -143,19 +143,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-/*
-<View style={styles.buttonContainer}>
-          <Button
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </Button>
-        </View>
-*/

@@ -148,11 +148,3 @@ const styles = StyleSheet.create({
 })
 
 export default Register
-//alignItems : 'stretch',            
-//maxWidth:300,
-//justifyContent: 'center',
-//alignItems : 'stretch',
-//backgroundColor: 'white',
-//flexDirection:'row',
-//maxWidth : 300,
-//paddingHorizontal:10,

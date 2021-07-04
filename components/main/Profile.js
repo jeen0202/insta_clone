@@ -41,8 +41,7 @@ import {connect} from 'react-redux'
      const [user, setUser] = useState(null);
      const [following, setFollowing] = useState(false)     
     useEffect(()=>{
-        const { currentUser, posts,} = props;
-        //console.log({ currentUser, posts})
+        const { currentUser, posts,} = props;       
 
         if(props.route.params.uid === firebase.auth().currentUser.uid){
             setUser(currentUser)
@@ -157,8 +156,7 @@ import {connect} from 'react-redux'
     if(user === null){
         return <View/>
     }
-     const {currentUser, posts} = props
-    // console.log({currentUser, posts})
+     
     return (
         <Container style={styles.container}>            
             <Header style={styles.header}>

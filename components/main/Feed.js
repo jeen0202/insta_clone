@@ -71,7 +71,9 @@ import {connect} from 'react-redux'
                     <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
                     </Button>
                 </Right>
-                {/* <Right>
+                {/*
+                기존 우상단 아이콘 
+                <Right>
                     <Button transparent
                         onPress={()=>{                                    
                         props.navigation.navigate('Search')
@@ -116,9 +118,6 @@ import {connect} from 'react-redux'
                                     item.length>0?                                    
                                     <TouchableOpacity
                                     onPress={()=>{
-                                    //    for(let i=0;i<stories[index][1].length;i++){
-                                    //        console.log(stories[index][1][i])
-                                    //   }
                                     props.navigation.navigate('Story',{selectedIndex:index})
                                     }}>
                                     <Thumbnail                                    

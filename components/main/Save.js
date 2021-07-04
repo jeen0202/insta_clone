@@ -5,8 +5,7 @@ import firebase from 'firebase/app'
 require("firebase/firestore")
 require("firebase/firebase-storage")
 
-export default function Save(props, {navigation}) {
-    // console.log(props.route.params.image)
+export default function Save(props) {
     //text 입력을 위한 hook 사용
     const [caption, setCaption] = useState("")
     const [buttonState, setButtonState] = useState(true)

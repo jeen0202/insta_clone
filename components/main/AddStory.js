@@ -50,9 +50,7 @@ export default function App({navigation}) {
           allowsEditing: true,
           aspect: [3, 4],
           quality: 1,
-        });
-    
-       // console.log(result);
+        });  
     
         if (!result.cancelled) {
           setImage(result.uri);

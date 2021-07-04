@@ -89,8 +89,7 @@ export class App extends Component {
       return (
         <Root>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Register">
-            {/* {}<Stack.Screen name="Landing" component={LandingScreen} options={{headerShown:false}}/> */}
+          <Stack.Navigator initialRouteName="Register">            
             <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown:false}}/>
             <Stack.Screen name="Login" component={LoginScreen} navigtaion={this.props.navigation} options={{headerShown:false}}/>
           </Stack.Navigator>
