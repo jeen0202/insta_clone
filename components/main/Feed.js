@@ -149,9 +149,12 @@ import {connect} from 'react-redux'
                         </View>
                     }
                     renderItem={({item})=>(                        
-                        <Card style={styles.containerImage}>
-                            <CardItem>
-                                <Left>                                    
+                        <Card style={styles.containerImage}>                            
+                            <CardItem>                                
+                                <Left>
+                                <TouchableOpacity
+                                    style={{flexDirection:'row'}}
+                                    onPress={() => props.navigation.navigate("Profile",{uid: item.user.uid})}>                                      
                                 <Thumbnail                                      
                                     source={item.user.profileURL!==undefined?
                                         {uri:item.user.profileURL}
@@ -159,14 +162,15 @@ import {connect} from 'react-redux'
                                     <Body>                                                                                               
                                         <Text>{item.user.name}</Text>       
                                         <Text note >{`${moment(item.creation.toDate()).format('YY년MM월DD일 HH:mm')}`}</Text> 
-                                    </Body>                                                               
+                                    </Body>
+                                </TouchableOpacity>                                                               
                                 </Left>
                                 <Right>
                                     <Button transparent>
                                         <Icon name="ellipsis-horizontal-outline" style={{color:'black'}}/>
                                     </Button>
-                                </Right>
-                            </CardItem>
+                                </Right>                                
+                            </CardItem>                            
                             <CardItem cardBody>
                                     <Image style={styles.image}                            
                                         source={{uri : item.downloadURL}}

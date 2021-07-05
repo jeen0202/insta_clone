@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Image, FlatList, TouchableOpacity,Alert} from 'react-native'
+import {StyleSheet,View, Image, FlatList, TouchableOpacity,Alert,TouchableWithoutFeedback} from 'react-native'
 import {Container,Header,Left,Right,Text, Icon,Button, Thumbnail} from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
@@ -182,6 +182,7 @@ import {connect} from 'react-redux'
             </Header>
             <View style = {styles.containerInfo}>
                 <View style={{flexDirection:'row'}}>
+                {props.route.params.uid === firebase.auth().currentUser.uid ?                
                     <TouchableOpacity
                     onPress={()=>createThreeoButtonAlert()}>
                         <Thumbnail 
@@ -189,6 +190,12 @@ import {connect} from 'react-redux'
                         {uri:user.profileURL}
                         :require('../../assets/default_Profile.png')}/> 
                     </TouchableOpacity>
+                    :
+                    <Thumbnail 
+                        source={user.profileURL!==undefined?
+                        {uri:user.profileURL}
+                        :require('../../assets/default_Profile.png')}/> 
+                    }
                     <View style={{flex:3}}>                        
                         <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                             <View style={{alignItems:'center'}}>
@@ -264,18 +271,18 @@ import {connect} from 'react-redux'
                     data={userPosts}
                     windowSize={2}
                     renderItem={({item})=>(
-                        <TouchableOpacity style={styles.containerImage} 
+                        <TouchableWithoutFeedback style={styles.containerImage} 
                         onPress={()=>{                                                                                      
                             props.navigation.navigate('Comment',{postId: item.id, uid: props.route.params.uid, downloadURL: item.downloadURL})
                         }}
                         onLongPress={()=>{
-                            console.log(item.id)
+                            props.route.params.uid === firebase.auth().currentUser.uid ?                            
                             createTwoButtonAlert(item.id,item.downloadURL)
-                            }}>                            
+                            :null}}>                            
                             <Image style={styles.image}                            
                                 source={{uri : item.downloadURL}}
                             />                            
-                        </TouchableOpacity>
+                        </TouchableWithoutFeedback>
                     )}
                 />
             </View>
