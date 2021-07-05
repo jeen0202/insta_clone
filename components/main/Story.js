@@ -16,11 +16,6 @@ function Story(props) {
     const refContainer = useRef(null);
     const imageRef = useRef(null);    
     useEffect(()=>{
-         for(let i =0;i<props.stories.length;i++){                     
-         props.stories[i][1].sort(function(x,y) {            
-             return y.creation - x.creation;
-         })      
-         }
         const makeArrays= (stories) => {
             let images = []
             let users = []                                        
@@ -31,8 +26,15 @@ function Story(props) {
             setUsers(users)
             setImages(images)            
         }
-
-        makeArrays(props.stories)        
+        for(let i =0;i<props.stories.length;i++){                     
+            props.stories[i][1].sort(function(x,y) {            
+                return y.creation - x.creation;
+            })      
+        }
+       props.stories.sort(function(x,y){
+           return y[1][0].creation - x[1][0].creation
+       })
+        makeArrays(props.stories)            
         setSelectedIndex(parseInt(props.route.params.selectedIndex))        
     },[props.stories])  
 
@@ -113,26 +115,26 @@ function Story(props) {
             scrollEnabled={false}
             keyExtractor={(item,index)=> index.toString()}
             data={images}                            
-            renderItem={({item,index}) => (            
+            renderItem={({item,index}) => (                                
                     <FlatList
                     ref={imageRef}
-                    data={item}
+                    data={images[selectedIndex]}                    
                     numColumns={1}
+                    initialNumToRender={10}
                     scrollEnabled={false}
                     keyExtractor={(item,index)=> index.toString()}
                     renderItem={({item,index}) => (
                         <TouchableWithoutFeedback            
                         style={{flex:1,justifyContent:'center'}}                   
-                        onPress={()=>{
-                            if(index<props.stories[selectedIndex][1].length-1){                                                                                              
+                        onPress={()=>{                                                                                  
+                            if(selectedPic<images[selectedIndex].length-1){                                                                                              
                                 toNextPic(selectedPic)
-                            }
-                            else
+                            }else
                             toNext(selectedIndex)}}>
-                        <View style={{flex:1,width,height}}>                
-                        <Image                    
-                            style={styles.image}                
-                            source={{uri:item.downloadURL}} /> 
+                        <View style={{flex:1,width,height}}>                                      
+                            <Image                    
+                                style={styles.image}                
+                                source={{uri:images[selectedIndex][selectedPic].downloadURL}} /> 
                         </View>
                         </TouchableWithoutFeedback>)}
                     />                

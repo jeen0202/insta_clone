@@ -20,14 +20,22 @@ import {connect} from 'react-redux'
             // props.stories.sort(function(x,y){
             //     return y.creation - x.creation
             // })
-            setPosts(props.feed); 
-
+            setPosts(props.feed);
         }       
         //console.log(posts)        
     },[props.usersFollowingLoaded])
     useEffect(()=> {
-        if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
-           setStories(props.stories); 
+       if(props.usersFollowingLoaded == props.following.length && props.following.length !== 0){
+            for(let i =0;i<props.stories.length;i++){                     
+                props.stories[i][1].sort(function(x,y) {            
+                    return y.creation - x.creation;
+                })      
+            }
+           props.stories.sort(function(x,y){
+               return y[1][0].creation - x[1][0].creation
+           })
+    
+            setStories(props.stories); 
         }      
     },[props.stories])
     //useEffect에 parameter를 줘서 해당 parameter가 변할떄만 작동
