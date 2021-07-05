@@ -28,6 +28,12 @@ export class Main extends Component {
         return (
             <Tab.Navigator initialRouteName="Feed" labeled={false} barStyle={{backgroundColor: 'white'}}>
                 <Tab.Screen name="Feed" component={FeedScreen} navigation={this.props.navigation}                
+                listeners= {({ navigation}) => ({
+                    tabPress: event => {                        
+                        event.preventDefault();
+                        navigation.navigate("Feed")
+                    }
+                })}
                 options={{                    
                     tabBarIcon : ({color, size}) => (
                         <MaterialCommunityIcons name ="home" color = {color} size = {26}/>

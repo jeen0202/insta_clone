@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {StyleSheet,View, Image, FlatList,TouchableOpacity} from 'react-native'
+import {StyleSheet,View, Image, FlatList,TouchableOpacity,TouchableWithoutFeedback} from 'react-native'
 import moment from 'moment'
 import insta_logo from '../../assets/insta_logo.png'
 import { Container,Header,Card, Thumbnail, CardItem, Text, Body, Left, Right, Icon,Button} from 'native-base';
@@ -172,9 +172,13 @@ import {connect} from 'react-redux'
                                 </Right>                                
                             </CardItem>                            
                             <CardItem cardBody>
-                                    <Image style={styles.image}                            
-                                        source={{uri : item.downloadURL}}
-                                    />
+                                <TouchableWithoutFeedback style={{flex:1}}
+                                    onPress={()=>{                                    
+                                        props.navigation.navigate('Comment',{postId: item.id, uid: item.user.uid, downloadURL: item.downloadURL})
+                                    }}>                                
+                                    <Image style={styles.image}                                                                    
+                                        source={{uri : item.downloadURL}}/>
+                                        </TouchableWithoutFeedback>
                             </CardItem>
                             <CardItem>
                                     {item.currentUserLike ? 
