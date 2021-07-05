@@ -4,7 +4,7 @@
     "slug": "myInsta",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/instagram.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,8 +22,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#FFFFFF",        
+      },
+      "package": "com.xo.myinsta"
     },
     "web": {
       "favicon": "./assets/favicon.png"
