@@ -4,13 +4,14 @@ import { Container,Header,Right,Left,Icon,Text,Button,Card, CardItem, Thumbnail 
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 function MessageLobby(props) {
-    const [Messages, setMessages] = useState([])
-    useEffect(()=>{
-        //console.log(props.following)
+    const [messages, setMessages] = useState([])
+    const [users, setUsers] = useState([])     
+    useEffect(()=>{        
         const getResMessages = async () =>{
-            try{
+            try{            
                 await firebase.firestore()
                 .collection("users")
                 .doc(firebase.auth().currentUser.uid)
@@ -21,25 +22,45 @@ function MessageLobby(props) {
                         const data = doc.data();
                         const id = doc.id;
                         return{id, ...data}
-                    })                    
-                    if(!snapshot.metadata.hasPendingWrites){
-                        setMessages(resMes)
-                            // resMes.forEach(item => {
-                            //     props.following.forEach(data =>{
-                            //         if(data===item.id)
-                            //         console.log(item)
-                            //     })                    
-                                
-                            // });
+                    })              
+                    if(!snapshot.metadata.hasPendingWrites){ 
+                        resMes.filter((item, i) =>{
+                            return(
+                                resMes.findIndex((item2,j)=>{
+                                    return item.id === item2.id;
+                                }) === i
+                            )
+                        })      
+                        setMessages(resMes)                       
                     }                  
-                })                
-                
-            }catch(err){
-                console.error("resErr",err)
-            }           
+                })}catch(err){
+                    console.error("sendErr",err)
+                }                      
             }
             getResMessages();
+            console.log(users)
+    },[])
+    useEffect(()=>{
+        const getUsers = async (id) => {
+            try{                        
+            await firebase.firestore()
+            .collection("users")
+            .doc(id)
+            .onSnapshot((snapshot) => {
+                if(snapshot.exists){
+                    let user = snapshot.data();
+                    user.id = snapshot.id;                                               
+                    setUsers(users => [...users,user])
+                                          
+                }
+            })  }catch(err){
+                console.error("sendErr",err)
+            }                         
+    }
+    messages.forEach((element)=>{
+        getUsers(element.id)
     })
+    },[messages])    
     return (
         <Container style={styles.container}>
             <Header style={styles.header}>
@@ -63,33 +84,43 @@ function MessageLobby(props) {
                 </Button>
           </Right>
             </Header>
-            <View style={{flex:1}}>
+            <View style={{flex:1}}>            
             <FlatList
             numColumns={1}
             horizontal={false}
-            data={Messages}            
+            data={messages}
+            
+            extraData={users}                       
             keyExtractor={(item,index) => index.toString()}
+            ListEmptyComponent={                                           
+                <Text note style={{flex:1,fontSize:20,textAlign:'center', marginTop:'80%'}}
+                    >No Messages</Text>
+            }
             renderItem={({item,index})=>(
-                <Card style={{flexDirection:'row'}}>
+                <Card>
+                    <TouchableWithoutFeedback
+                    style={{flexDirection:'row'}}
+                    onPress={()=>props.navigation.navigate('Message',{selectedUser: users[index].name, selectedUid: item.id})}>
                     <CardItem>
                         <Thumbnail small
-                        source={require('../../assets/default_Profile.png')}/>
+                        source={users[index].profileURL !== undefined?{uri:users[index].profileURL}
+                            :require('../../assets/default_Profile.png')}/>
                     </CardItem>
                     <CardItem style={{flexDirection:'column',alignItems:'flex-start'}}>
-                    <Text>{item.id}</Text>                              
+                    <Text>{users[index].name}</Text>                              
                     <Text note>{item.message}</Text>
-                    </CardItem> 
+                    </CardItem>
+                    </TouchableWithoutFeedback> 
                 </Card>   
             )}>            
-            </FlatList> 
+            </FlatList>            
             </View>          
         </Container>
     )
 }
 const mapStatetoProps = (store) => ({
     currentUser : store.userState.currentUser,
-    posts: store.userState.posts,
-    feed : store.usersState.feed,
+    users : store.usersState.users,
     following: store.userState.following
 })
 

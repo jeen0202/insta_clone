@@ -136,8 +136,7 @@ function Message(props){
                 <List style={{flex:1}}>                                            
                 <FlatList
                     numColumns={1}
-                    data={messages}
-                    extraData={messages}                    
+                    data={messages}                                       
                     keyExtractor={(item, index) => {
                         return index.toString();
                     }}
