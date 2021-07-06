@@ -41,15 +41,16 @@ function MessageLobby(props) {
             console.log(users)
     },[])
     useEffect(()=>{
-        const getUsers = async (id) => {
+        const getUsers = async (item) => {
             try{                        
             await firebase.firestore()
             .collection("users")
-            .doc(id)
+            .doc(item.id)
             .onSnapshot((snapshot) => {
                 if(snapshot.exists){
                     let user = snapshot.data();
-                    user.id = snapshot.id;                                               
+                    user.id = snapshot.id;
+                    user.message = item.message                                                                  
                     setUsers(users => [...users,user])
                                           
                 }
@@ -58,7 +59,7 @@ function MessageLobby(props) {
             }                         
     }
     messages.forEach((element)=>{
-        getUsers(element.id)
+        getUsers(element)
     })
     },[messages])    
     return (
@@ -88,26 +89,25 @@ function MessageLobby(props) {
             <FlatList
             numColumns={1}
             horizontal={false}
-            data={messages}
-            
-            extraData={users}                       
+            data={users} 
+            extraData={messages}          
             keyExtractor={(item,index) => index.toString()}
             ListEmptyComponent={                                           
                 <Text note style={{flex:1,fontSize:20,textAlign:'center', marginTop:'80%'}}
                     >No Messages</Text>
             }
             renderItem={({item,index})=>(
-                <Card>
+                <Card transparent>
                     <TouchableWithoutFeedback
                     style={{flexDirection:'row'}}
-                    onPress={()=>props.navigation.navigate('Message',{selectedUser: users[index].name, selectedUid: item.id})}>
+                    onPress={()=>props.navigation.navigate('Message',{selectedUser: item.name, selectedUid: item.id})}>
                     <CardItem>
                         <Thumbnail small
-                        source={users[index].profileURL !== undefined?{uri:users[index].profileURL}
+                        source={item.profileURL !== undefined?{uri:item.profileURL}
                             :require('../../assets/default_Profile.png')}/>
                     </CardItem>
                     <CardItem style={{flexDirection:'column',alignItems:'flex-start'}}>
-                    <Text>{users[index].name}</Text>                              
+                    <Text>{item.name}</Text>                              
                     <Text note>{item.message}</Text>
                     </CardItem>
                     </TouchableWithoutFeedback> 
