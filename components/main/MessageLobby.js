@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from 'react'
-import { StyleSheet,FlatList,View } from 'react-native'
-import { Container,Header,Right,Left,Icon,Text,Button,Card, CardItem, Thumbnail } from 'native-base'
+import { StyleSheet,FlatList,View, Platform } from 'react-native'
+import { Container,Header,Right,Left,Icon,Text,Input,Button,Card, CardItem,Item, Thumbnail } from 'native-base'
 import firebase from 'firebase'
 require('firebase/firestore')
 import {connect} from 'react-redux'
@@ -37,8 +37,7 @@ function MessageLobby(props) {
                     console.error("sendErr",err)
                 }                      
             }
-            getResMessages();
-            console.log(users)
+            getResMessages();            
     },[])
     useEffect(()=>{
         const getUsers = async (item) => {
@@ -85,13 +84,22 @@ function MessageLobby(props) {
                 </Button>
           </Right>
             </Header>
-            <View style={{flex:1}}>            
+            <View>
+            <Header searchBar rounded style={{backgroundColor:'white'}}>
+                <Item style={{backgroundColor:'#F3F3F3'}}>
+                    <Icon name="ios-search" />
+                    <Input placeholder="Search" />                    
+                </Item>
+                <Button transparent>
+                    <Text>Search</Text>
+                </Button>
+                </Header>            
             <FlatList
             numColumns={1}
             horizontal={false}
             data={users} 
             extraData={messages}          
-            keyExtractor={(item,index) => index.toString()}
+            keyExtractor={(item,index) => index.toString()}            
             ListEmptyComponent={                                           
                 <Text note style={{flex:1,fontSize:20,textAlign:'center', marginTop:'80%'}}
                     >No Messages</Text>
