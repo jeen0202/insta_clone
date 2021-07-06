@@ -1,12 +1,47 @@
-import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Container,Header,Right,Left,Icon,Text,Button } from 'native-base'
+import React,{useEffect,useState} from 'react'
+import { StyleSheet,FlatList,View } from 'react-native'
+import { Container,Header,Right,Left,Icon,Text,Button,Card, CardItem, Thumbnail } from 'native-base'
+import firebase from 'firebase'
+require('firebase/firestore')
 import {connect} from 'react-redux'
 
 function MessageLobby(props) {
-
+    const [Messages, setMessages] = useState([])
+    useEffect(()=>{
+        //console.log(props.following)
+        const getResMessages = async () =>{
+            try{
+                await firebase.firestore()
+                .collection("users")
+                .doc(firebase.auth().currentUser.uid)
+                .collection("resMessages")
+                .orderBy("creation","desc")                      
+                .onSnapshot((snapshot) => {
+                    let resMes = snapshot.docs.map(doc => {
+                        const data = doc.data();
+                        const id = doc.id;
+                        return{id, ...data}
+                    })                    
+                    if(!snapshot.metadata.hasPendingWrites){
+                        setMessages(resMes)
+                            // resMes.forEach(item => {
+                            //     props.following.forEach(data =>{
+                            //         if(data===item.id)
+                            //         console.log(item)
+                            //     })                    
+                                
+                            // });
+                    }                  
+                })                
+                
+            }catch(err){
+                console.error("resErr",err)
+            }           
+            }
+            getResMessages();
+    })
     return (
-        <Container>
+        <Container style={styles.container}>
             <Header style={styles.header}>
             <Left style={{flexDirection:'row', alignItems:'center'}}>
             <Button transparent
@@ -28,7 +63,26 @@ function MessageLobby(props) {
                 </Button>
           </Right>
             </Header>
-            <Text>Message Lobby!</Text>
+            <View style={{flex:1}}>
+            <FlatList
+            numColumns={1}
+            horizontal={false}
+            data={Messages}            
+            keyExtractor={(item,index) => index.toString()}
+            renderItem={({item,index})=>(
+                <Card style={{flexDirection:'row'}}>
+                    <CardItem>
+                        <Thumbnail small
+                        source={require('../../assets/default_Profile.png')}/>
+                    </CardItem>
+                    <CardItem style={{flexDirection:'column',alignItems:'flex-start'}}>
+                    <Text>{item.id}</Text>                              
+                    <Text note>{item.message}</Text>
+                    </CardItem> 
+                </Card>   
+            )}>            
+            </FlatList> 
+            </View>          
         </Container>
     )
 }
