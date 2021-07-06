@@ -12,6 +12,7 @@ import AddStoryScreen from './components/main/AddStory'
 import StoryScreen from './components/main/Story'
 import SaveScreen from './components/main/Save'
 import CommentScreen from './components/main/Comment'
+import MessageLobby from './components/main/MessageLobby';
 import MessageScreen from './components/main/Message'
 import SearchScreen from './components/main/Search'
 import AddProfileScreen from './components/main/AddProfile'
@@ -28,6 +29,7 @@ import {Provider} from 'react-redux'
 import {createStore, applyMiddleware} from 'redux'
 import rootReducer from './redux/reducers'
 import thunk from 'redux-thunk'
+
 const store = createStore(rootReducer, applyMiddleware(thunk))
 //firbase console에서 config 복붙
 const firebaseConfig = {
@@ -108,6 +110,7 @@ export class App extends Component {
               <Stack.Screen name="AddProfile" component={AddProfileScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Save" component={SaveScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Comment" component={CommentScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
+              <Stack.Screen name="MessageLobby" component={MessageLobby} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Message" component={MessageScreen} navigation={this.props.navigation} options={{headerShown:false}}/>
               <Stack.Screen name="Story" component={StoryScreen} navigation = {this.props.navigation} options={{headerShown: false}}/>
               <Stack.Screen name="Photo" component={PhotoScreen} navigation = {this.props.navigation} options={{headerShown: false}}/>

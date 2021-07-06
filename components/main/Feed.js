@@ -74,6 +74,12 @@ import {connect} from 'react-redux'
                         props.navigation.navigate('Search')
                     }}>
                     <Icon name='search' style={{color:'black',paddingRight:10, fontSize:23}}/>
+                    </Button>
+                    <Button transparent
+                        onPress={()=>{                                                                    
+                            props.navigation.navigate('MessageLobby')                                    
+                        }}>
+                        <Icon name = 'paper-plane-outline' type="Ionicons" style={{color:'black'}}/>
                     </Button>                
                     <Button transparent>
                     <Icon name='dots-vertical' type='MaterialCommunityIcons' style={{color:'black', fontSize:23}}/>
