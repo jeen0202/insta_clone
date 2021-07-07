@@ -8,7 +8,8 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 function MessageLobby(props) {
     const [messages, setMessages] = useState([])
-    const [users, setUsers] = useState([])     
+    const [users, setUsers] = useState([])
+    const [search, setSearch] = useState("")     
     useEffect(()=>{        
         const getResMessages = async () =>{
             try{            
@@ -51,7 +52,7 @@ function MessageLobby(props) {
                     user.id = snapshot.id;
                     user.message = item.message                                                                  
                     setUsers(users => [...users,user])
-                                          
+                    setSearch(users => [...users,user])                      
                 }
             })  }catch(err){
                 console.error("sendErr",err)
@@ -60,7 +61,16 @@ function MessageLobby(props) {
     messages.forEach((element)=>{
         getUsers(element)
     })
-    },[messages])    
+    },[messages]) 
+    
+    const fetchUser = (search) =>{        
+        let result = users.filter ((el) => {
+            return (search.toString().toLowerCase() <=el.name.toString().toLowerCase()  && el.name.toString().toLowerCase() <= (search.toString().toLowerCase()+"\uF7FF"))          
+        });
+        setSearch(result)
+                
+    }
+    
     return (
         <Container style={styles.container}>
             <Header style={styles.header}>
@@ -88,7 +98,9 @@ function MessageLobby(props) {
             <Header searchBar rounded style={{backgroundColor:'white'}}>
                 <Item style={{backgroundColor:'#F3F3F3'}}>
                     <Icon name="ios-search" />
-                    <Input placeholder="Search" />                    
+                    <Input placeholder="Search" 
+                    autoCapitalize="none"
+                    onChangeText={(search) => fetchUser(search)}/>                    
                 </Item>
                 <Button transparent>
                     <Text>Search</Text>
@@ -97,8 +109,8 @@ function MessageLobby(props) {
             <FlatList
             numColumns={1}
             horizontal={false}
-            data={users} 
-            extraData={messages}          
+            data={search} 
+            extraData={users}          
             keyExtractor={(item,index) => index.toString()}            
             ListEmptyComponent={                                           
                 <Text note style={{flex:1,fontSize:20,textAlign:'center', marginTop:'80%'}}
