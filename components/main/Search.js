@@ -28,7 +28,11 @@ export default function Search(props) {
     return (
         <Container>
             <Header style={styles.header}>
-            <Left>
+            <Left style={{flexDirection:'row',alignItems:'center'}}>
+            <Button transparent
+            onPress={()=>props.navigation.navigate("Feed")}>
+                <Icon name="arrowleft" type="AntDesign" style={{color:'black'}}/>
+            </Button>
             <Image
             source={insta_logo}
             />
